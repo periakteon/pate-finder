@@ -1,8 +1,7 @@
-import React from "react";
-
-type Props = {};
-
-const login = (props: Props) => {
+const Login = () => {
+  
+  // TODO: Make login operation. use /api/login
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="border-solid border-2 border-sky-500 w-56 backdrop-blur-sm bg-white/30 flex justify-center">
@@ -12,4 +11,4 @@ const login = (props: Props) => {
   );
 };
 
-export default login;
+export default Login;

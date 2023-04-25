@@ -1,15 +1,9 @@
 import { useState } from "react";
 import Link from "next/link";
 
-type RegisterProps = {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  termsAccepted: boolean;
-};
+const Register = () => {
+  //TODO: Make register operation. use /api/register
 
-const RegisterForm = (props: RegisterProps) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -23,20 +17,6 @@ const RegisterForm = (props: RegisterProps) => {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [showConfirmPasswordError, setShowConfirmPasswordError] =
     useState(false);
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(formData);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = event.target;
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
@@ -69,15 +49,19 @@ const RegisterForm = (props: RegisterProps) => {
     return { showCheckboxError, setShowCheckboxError, handleCheckboxChange };
   };
 
-  const { showCheckboxError, setShowCheckboxError, handleCheckboxChange } =
-    useCheckboxValidation();
+  const { showCheckboxError, handleCheckboxChange } = useCheckboxValidation();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8">
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              console.log(formData);
+            }}
+          >
             <h2 className="text-4xl font-bold mb-10 flex justify-center">
               Kayıt Ol
             </h2>
@@ -88,7 +72,12 @@ const RegisterForm = (props: RegisterProps) => {
                 id="username"
                 name="username"
                 value={formData.username}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    username: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
@@ -117,7 +106,12 @@ const RegisterForm = (props: RegisterProps) => {
                 id="email"
                 name="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    email: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
@@ -144,7 +138,12 @@ const RegisterForm = (props: RegisterProps) => {
                 id="password"
                 name="password"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    password: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
@@ -175,7 +174,12 @@ const RegisterForm = (props: RegisterProps) => {
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    confirmPassword: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
@@ -197,7 +201,8 @@ const RegisterForm = (props: RegisterProps) => {
               <div className="text-rose-500 mb-6">Parola boş bırakılamaz.</div>
             )}
 
-            <div className={`relative ${showCheckboxError ? "mb-2" : "mb-7"}`}>
+            <div className="relative h-24">
+              {/* TODO: Use modal for terms and conditions, and width expansion on unclick, and disable button */}
               <Link href="#">
                 <label
                   htmlFor="termsAccepted"
@@ -208,9 +213,13 @@ const RegisterForm = (props: RegisterProps) => {
                     id="termsAccepted"
                     name="termsAccepted"
                     checked={formData.termsAccepted}
-                    onChange={(event) => {
-                      handleChange(event);
-                      handleCheckboxChange(event);
+                    onChange={(e) => {
+                      setFormData((prevFormData) => ({
+                        ...prevFormData,
+                        termsAccepted: e.target.checked,
+                      }));
+
+                      handleCheckboxChange(e);
                     }}
                     className="mr-2 leading-t accent-rose-500"
                   />
@@ -225,7 +234,6 @@ const RegisterForm = (props: RegisterProps) => {
                 </div>
               )}
             </div>
-
             <div>
               <button
                 type="submit"
@@ -241,4 +249,4 @@ const RegisterForm = (props: RegisterProps) => {
   );
 };
 
-export default RegisterForm;
+export default Register;
