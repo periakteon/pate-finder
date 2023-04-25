@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Register = () => {
   //TODO: Make register operation. use /api/register
@@ -53,6 +54,13 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+      <Image
+        src="/logo/png/logo-no-background.png"
+        width={125}
+        height={125}
+        alt="logo"
+        className="flex self-start"
+      />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8">
@@ -85,11 +93,10 @@ const Register = () => {
               />
               <label
                 htmlFor="username"
-                className={`absolute transition-all ${
-                  formData.username.length === 0 && !formData.username
+                className={`absolute transition-all ${formData.username.length === 0 && !formData.username
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Kullanıcı Adı
               </label>
@@ -119,11 +126,10 @@ const Register = () => {
               />
               <label
                 htmlFor="email"
-                className={`absolute transition-all ${
-                  formData.email.length === 0 && !formData.email
+                className={`absolute transition-all ${formData.email.length === 0 && !formData.email
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Email
               </label>
@@ -151,11 +157,10 @@ const Register = () => {
               />
               <label
                 htmlFor="password"
-                className={`absolute transition-all ${
-                  formData.password.length === 0 && !formData.password
+                className={`absolute transition-all ${formData.password.length === 0 && !formData.password
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Parola
               </label>
@@ -165,9 +170,8 @@ const Register = () => {
             )}
 
             <div
-              className={`relative ${
-                showConfirmPasswordError ? "mb-2" : "mb-7"
-              }`}
+              className={`relative ${showConfirmPasswordError ? "mb-2" : "mb-7"
+                }`}
             >
               <input
                 type="password"
@@ -187,12 +191,11 @@ const Register = () => {
               />
               <label
                 htmlFor="confirmPassword"
-                className={`absolute transition-all ${
-                  formData.confirmPassword.length === 0 &&
-                  !formData.confirmPassword
+                className={`absolute transition-all ${formData.confirmPassword.length === 0 &&
+                    !formData.confirmPassword
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Parola
               </label>
