@@ -11,7 +11,7 @@ Schema
 | id | INT | Primary key, unique identifier for a pet |
 | owner_first_name | VARCHAR(255) | First name of the owner |
 | owner_last_name | VARCHAR(255) | Last name of the owner |
-| owner_email | VARCHAR(255) | Email address of the owner |
+| owner_email | VARCHAR(255) | Email address of the owner, Must be unique |
 | hash | VARCHAR(255) | Password for the pet owner's account |
 | name | VARCHAR(255) | Name of the pet |
 | breed | VARCHAR(255) | Breed of the pet |
@@ -48,6 +48,8 @@ Schema
 | pet_id | INT | Primary key, ID of the pet the comment is on |
 | text | VARCHAR(255) | Text of the comment |
 | createdAt | TIMESTAMP | Timestamp for the creation of the comment record |
+| FOREIGN KEY | pet_id | Reference to the pet that created the post |
+| FOREIGN KEY | post_id | Reference to the post |
 
 ### Like Table
 
@@ -57,6 +59,8 @@ Schema
 | pet_id | INT | Primary key, ID of the pet |
 | post_id | INT | Primary key, ID of the post |
 | createdAt | TIMESTAMP | Timestamp for the creation of the comment record |
+| FOREIGN KEY | pet_id | Reference to the pet that created the post |
+| FOREIGN KEY | post_id | Reference to the post |
 
 ### Following Table
 
@@ -65,4 +69,4 @@ Schema
 | id | INT | Primary key, unique identifier of the following |
 | pet_id | INT | ID of the user who is following another pet or user |
 | follows_pet_id | INT | ID of the pet or user follows other pet |
-| PRIMARY KEY | user_id, follows_pet_id | Primary key, unique combination of three IDs |
+| PRIMARY KEY | pet_id, follows_pet_id | Primary key, unique combination of three IDs |
