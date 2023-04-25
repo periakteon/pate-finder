@@ -209,50 +209,48 @@ const Pet = mongoose.model("Pet", petSchema);
 ### Pet Collection/Schema:
 
 ```js
-
 const postSchema = new mongoose.Schema({
   // owner of the post
   ownerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   postImage: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
-    required: true
+    required: true,
   },
   relatedPet: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Pet',
-    required: true
+    ref: "Pet",
+    required: true,
   },
   comments: {
     type: Array,
-    default: []
+    default: [],
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
 });
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model("Post", postSchema);
 ```
 
-***
+---
 
 ### Comment Collection/Schema:
 
 ```js
-
 const commentSchema = new mongoose.Schema({
   text: {
     type: String,
@@ -260,7 +258,7 @@ const commentSchema = new mongoose.Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
   },
   created_at: {
     type: Date,
@@ -268,12 +266,12 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-
+const Comment = mongoose.model("Comment", commentSchema);
 ```
 
-***
-***
+---
+
+---
 
 # DB Structures for SQL
 
@@ -298,7 +296,8 @@ CREATE TABLE IF NOT EXISTS user (
 );
 
 ```
-***
+
+---
 
 ### User Followers Table:
 
@@ -314,7 +313,7 @@ CREATE TABLE IF NOT EXISTS user_follower (
 
 ```
 
-***
+---
 
 ### User Following Table:
 
@@ -330,7 +329,7 @@ CREATE TABLE IF NOT EXISTS user_following (
 
 ```
 
-***
+---
 
 ### User Owned Pets Table:
 

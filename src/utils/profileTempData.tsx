@@ -18,7 +18,8 @@ const profileTempData = {
   petBehaviorIssues: "Yok",
   petSpecialNeeds: "Yok",
   profilePicture: "/images/saki.jpg",
-  petAbout: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+  petAbout:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
   petLocation: "Ankara",
 };
 export default profileTempData;
