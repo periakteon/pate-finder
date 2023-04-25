@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import profileTempData from "@/utils/profileTempData";
 import Image from "next/image";
@@ -15,11 +16,21 @@ const Profile = () => {
   };
 
   return (
+
     <div className="min-h-screen bg-gradient-to-br from-black to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+      <Image
+        src="/logo/png/logo-no-background-pink.png"
+        width={125}
+        height={125}
+        alt="logo"
+        className="flex self-start pt-4"
+
+      />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div className="backdrop-blur-sm bg-white/80 rounded-md p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="backdrop-blur-sm bg-white/80 rounded-xl p-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-start flex-col ">
+
             <div
               className="relative rounded-full overflow-hidden"
               onMouseOver={handleMouseOver}
@@ -30,12 +41,12 @@ const Profile = () => {
                 width={175}
                 height={175}
                 alt="profile picture"
-                className={` filter ${addPicture ? "opacity-50" : ""}`}
+                className={` filter ${addPicture ? 'opacity-50' : ''}`}
               />
               {addPicture && (
                 <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <button className="bg-white rounded-full text-purple-500 px-4 py-2">
-                    Add
+                  <button className="bg-white rounded-full text-sm text-purple-500 px-4 py-2">
+                    Fotoğraf Ekle
                   </button>
                 </div>
               )}
@@ -67,6 +78,7 @@ const Profile = () => {
               title="Özel ihtiyaçları"
               content={profileTempData.petSpecialNeeds}
             />
+
           </div>
           <div className="flex items-start flex-col ">
             <ProfileSection title="Türü" content={profileTempData.petBreed} />
@@ -75,12 +87,17 @@ const Profile = () => {
               title="Ağırlığı"
               content={profileTempData.petWeight}
             />
-            <ProfileSection title="Cinsi" content={profileTempData.petType} />
+            <ProfileSection
+              title="Cinsi"
+              content={profileTempData.petType}
+            />
             <ProfileSection
               title="Kısırlaştırıldı mı?"
               content={profileTempData.petSpayed}
             />
             <ProfileSection
+
+
               title="Aşıları tam mı?"
               content={profileTempData.petVaccinated}
             />
@@ -100,10 +117,16 @@ const Profile = () => {
               title="İlaçları"
               content={profileTempData.petMedications}
             />
+
+
+
           </div>
         </div>
+
       </div>
     </div>
+
   );
 };
 export default Profile;
+
