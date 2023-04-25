@@ -1,139 +1,274 @@
 # DB Structures for MongoDB
 
-### User Schema:
+### User Collection/Schema:
 
 ```js
-
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: function () {
+      return new mongoose.Types.ObjectId();
+    },
+    unique: true,
+  },
+  profilePicture: {
+    type: String,
+    required: true,
+  },
+  following: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
+  followers: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    default: [],
+  },
+  ownedPets: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Pet",
+      },
+    ],
+    default: [],
+  },
+  bio: {
+    type: String,
+    default: "",
+  },
+  comments: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    default: [],
+  },
+  posts: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+      },
+    ],
+    default: [],
   },
   phone: {
-    type: String
-  },
-  address1: {
-    type: String
-  },
-  address2: {
-    type: String
+    type: String,
   },
   city: {
-    type: String
-  },
-  state: {
-    type: String
-  },
-  zipCode: {
-    type: String
+    type: String,
   },
   country: {
-    type: String
+    type: String,
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const User = mongoose.model('User', userSchema);
-
+const User = mongoose.model("User", userSchema);
 ```
-***
 
-### Pet Schema:
+---
+
+### Pet Collection/Schema:
 
 ```js
-
 const petSchema = new mongoose.Schema({
+  ownerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   petName: {
     type: String,
-    required: true
+    required: true,
+  },
+  petPicture: {
+    type: String,
+    required: true,
   },
   petBio: {
     type: String,
-    required: true
+    required: true,
   },
   petType: {
     type: String,
-    required: true
+    required: true,
   },
   petBreed: {
     type: String,
-    required: true
+    required: true,
   },
   petAge: {
     type: Number,
-    required: true
+    required: true,
   },
   petWeight: {
     type: Number,
-    required: true
+    required: true,
   },
   petGender: {
     type: String,
-    required: true
+    required: true,
   },
   petColor: {
     type: String,
-    required: true
+    required: true,
   },
   petSpayed: {
     type: Boolean,
-    default: false
+    default: false,
   },
   petVaccinated: {
     type: Boolean,
-    default: false
+    default: false,
   },
   petMicrochipped: {
     type: Boolean,
-    default: false
+    default: false,
   },
   petDietaryRestrictions: {
-    type: String,
-    default: ""
+    type: [String],
+    default: [],
   },
   petAllergies: {
-    type: String,
-    default: ""
+    type: [String],
+    default: [],
   },
   petMedications: {
-    type: String,
-    default: ""
+    type: [String],
+    default: [],
   },
   petBehaviorIssues: {
-    type: String,
-    default: ""
+    type: [String],
+    default: [],
   },
   petSpecialNeeds: {
-    type: String,
-    default: ""
+    type: [String],
+    default: [],
   },
-  petNotes: {
+  petHistory: {
     type: String,
-    default: ""
+    default: "",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Pet = mongoose.model("Pet", petSchema);
+```
+
+---
+
+### Pet Collection/Schema:
+
+```js
+
+const postSchema = new mongoose.Schema({
+  // owner of the post
+  ownerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  postImage: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  relatedPet: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Pet',
+    required: true
+  },
+  comments: {
+    type: Array,
+    default: []
   },
   createdAt: {
     type: Date,
     default: Date.now
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
 });
 
-const Pet = mongoose.model('Pet', petSchema);
+const Post = mongoose.model('Post', postSchema);
+```
+
+***
+
+### Comment Collection/Schema:
+
+```js
+
+const commentSchema = new mongoose.Schema({
+  text: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Comment = mongoose.model('Comment', commentSchema);
 
 ```
 
@@ -146,25 +281,100 @@ const Pet = mongoose.model('Pet', petSchema);
 
 ```sql
 
-CREATE TABLE users (
-  userId INT PRIMARY KEY AUTO_INCREMENT,
-  firstName VARCHAR(50) NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS user (
+  user_id CHAR(24) NOT NULL UNIQUE PRIMARY KEY,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(50) NOT NULL,
+  profile_picture VARCHAR(200) NOT NULL,
+  bio TEXT DEFAULT "",
   phone VARCHAR(20),
-  address1 VARCHAR(100),
-  address2 VARCHAR(100),
   city VARCHAR(50),
-  state VARCHAR(50),
-  zipCode VARCHAR(20),
   country VARCHAR(50),
-  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+```
+***
+
+### User Followers Table:
+
+```sql
+
+CREATE TABLE IF NOT EXISTS user_follower (
+  user_id CHAR(24) NOT NULL,
+  follower_id CHAR(24) NOT NULL,
+  PRIMARY KEY (user_id, follower_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (follower_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
 ```
 
 ***
+
+### User Following Table:
+
+```sql
+
+CREATE TABLE IF NOT EXISTS user_following (
+  user_id CHAR(24) NOT NULL,
+  following_id CHAR(24) NOT NULL,
+  PRIMARY KEY (user_id, following_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (following_id) REFERENCES user(user_id) ON DELETE CASCADE
+);
+
+```
+
+***
+
+### User Owned Pets Table:
+
+```sql
+
+CREATE TABLE IF NOT EXISTS user_owned_pet (
+  user_id CHAR(24) NOT NULL,
+  pet_id CHAR(24) NOT NULL,
+  PRIMARY KEY (user_id, pet_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (pet_id) REFERENCES pet(pet_id) ON DELETE CASCADE
+);
+
+```
+
+### User's Comments Table:
+
+```sql
+
+CREATE TABLE IF NOT EXISTS user_comment (
+  user_id CHAR(24) NOT NULL,
+  comment_id CHAR(24) NOT NULL,
+  PRIMARY KEY (user_id, comment_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (comment_id) REFERENCES comment(comment_id) ON DELETE CASCADE
+);
+
+```
+
+### User's Posts Table:
+
+```sql
+
+CREATE TABLE IF NOT EXISTS user_post (
+  user_id CHAR(24) NOT NULL,
+  post_id CHAR(24) NOT NULL,
+  PRIMARY KEY (user_id, post_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
+  FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE CASCADE
+);
+
+```
+
+---
 
 ### Pet Table:
 
@@ -194,9 +404,11 @@ CREATE TABLE pets (
 
 ```
 
-***
-***
-***
+---
+
+---
+
+---
 
 # Queries and Mutations
 
@@ -250,7 +462,7 @@ SELECT * FROM pets WHERE userId = 1;
 
 ```
 
-***
+---
 
 ### SQL Mutations
 
@@ -322,68 +534,55 @@ DELETE FROM pets WHERE petId = 1;
 
 ```
 
-***
-***
+---
+
+---
 
 ### MongoDB Queries
 
 Fetch all users:
 
 ```js
-
 User.find({});
-
 ```
 
 Fetch a single user:
 
 ```js
-
-User.findById('5f9c1b9b9c9c9c9c9c9c9c9c');
-
+User.findById("5f9c1b9b9c9c9c9c9c9c9c9c");
 ```
 
 Fetch a user by email:
 
 ```js
-
-User.findOne({ email: 'masum@masum.com' });
-
+User.findOne({ email: "masum@masum.com" });
 ```
 
 Fetch all pets:
 
 ```js
-
 Pet.find({});
-
 ```
 
 Fetch a single pet:
 
 ```js
-
-Pet.findById('5f9c1b9b9c9c9c9c9c9c9c9c');
-
+Pet.findById("5f9c1b9b9c9c9c9c9c9c9c9c");
 ```
 
 Fetch all pets for a user:
 
 ```js
-
-Pet.find({ userId: '5f9c1b9b9c9c9c9c9c9c9c9c' });
-
+Pet.find({ userId: "5f9c1b9b9c9c9c9c9c9c9c9c" });
 ```
 
 Feth all pets for a user by pet type:
 
 ```js
-
-Pet.find({ userId: '5f9c1b9b9c9c9c9c9c9c9c9c', petType: 'Dog' });
-
+Pet.find({ userId: "5f9c1b9b9c9c9c9c9c9c9c9c", petType: "Dog" });
 ```
 
-***
+---
 
 ### MongoDB Mutations
 
@@ -412,7 +611,6 @@ newUser.save();
 Create a new pet:
 
 ```js
-
 const createPet = async (req, res) => {
   try {
     const newPet = await Pet.create({
@@ -439,58 +637,53 @@ const createPet = async (req, res) => {
     res.status(500).json({ error: `Could not create pet: ${error.message}` });
   }
 };
-
 ```
 
 Update a user:
 
 ```js
-
-User.findByIdAndUpdate('5f9c1b9b9c9c9c9c9c9c9c9c', {
-  firstName: 'Jane',
-  lastName: 'Doe'
+User.findByIdAndUpdate("5f9c1b9b9c9c9c9c9c9c9c9c", {
+  firstName: "Jane",
+  lastName: "Doe",
 });
-
 ```
 
 Update a pet:
 
 ```js
-
-Pet.findByIdAndUpdate(petId, {
-  petName: 'Max',
-  petBio: 'A friendly and playful dog',
-  petType: 'Dog',
-  petBreed: 'Labrador Retriever',
-  petAge: 2,
-  petWeight: 30,
-  petGender: 'Male',
-  petColor: 'Golden',
-  petSpayed: true,
-  petVaccinated: true,
-  petMicrochipped: true,
-  petDietaryRestrictions: 'None',
-  petAllergies: 'None',
-  petMedications: 'None',
-  petBehaviorIssues: 'None',
-  petSpecialNeeds: 'None',
-  petNotes: 'Loves playing fetch and going for walks'
-}, { new: true });
-
+Pet.findByIdAndUpdate(
+  petId,
+  {
+    petName: "Max",
+    petBio: "A friendly and playful dog",
+    petType: "Dog",
+    petBreed: "Labrador Retriever",
+    petAge: 2,
+    petWeight: 30,
+    petGender: "Male",
+    petColor: "Golden",
+    petSpayed: true,
+    petVaccinated: true,
+    petMicrochipped: true,
+    petDietaryRestrictions: "None",
+    petAllergies: "None",
+    petMedications: "None",
+    petBehaviorIssues: "None",
+    petSpecialNeeds: "None",
+    petNotes: "Loves playing fetch and going for walks",
+  },
+  { new: true },
+);
 ```
 
 Delete a user:
 
 ```js
-
-User.findByIdAndDelete('5f9c1b9b9c9c9c9c9c9c9c9c');
-
+User.findByIdAndDelete("5f9c1b9b9c9c9c9c9c9c9c9c");
 ```
 
 Delete a pet:
 
 ```js
-
-Pet.findByIdAndDelete('5f9c1b9b9c9c9c9c9c9c9c9c');
-
+Pet.findByIdAndDelete("5f9c1b9b9c9c9c9c9c9c9c9c");
 ```
