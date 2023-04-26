@@ -19,22 +19,24 @@ export default async function handler(
   // TODO: check if hash is the same with the provided email
   // TODO: for each api validate with ZOD!!!!
 
-  await prisma.pet.findFirst({
-    where: {
-      owner_email: "" // req.body'den alinacak
-    },
-    select: {
-      name: true,
-      bio: true,
-      profile_picture: true,
-      posts: {
-        select: {
-          postImage: true,
-          caption: true,
-        },
-      },
-    }
-  })
+  // await prisma.user.findFirst({
+  //   where: {
+  //     email: "" // req.body'den alinacak
+  //   },
+  //   select: {
+  //     id: true,
+  //     username: true,
+  //     email: true,
+
+  //     profile_picture: true,
+  //     posts: {
+  //       select: {
+  //         postImage: true,
+  //         caption: true,
+  //       },
+  //     },
+  //   }
+  // })
 
   res.status(200).json({ success: true, users: ["Masum Gökyüz", "Ege Aydemir"] });
 }
