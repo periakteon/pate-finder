@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { User } from "@prisma/client";
-import crypto from "crypto";
+import {  PrismaClient } from "@prisma/client";
 import * as z from "zod";
+import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
 type Users = // Discriminated Union
@@ -13,13 +12,6 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
-const hashPassword = (password: string, salt: string) => {
-  const hash = crypto
-    .createHash("sha256")
-    .update(password + salt)
-    .digest("hex");
-  return hash;
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,7 +36,7 @@ export default async function handler(
         .json({ success: false, error: "E-mail bulunamadı." });
     }
 
-    const hash = hashPassword(password, user.salt);
+    const {hash} = hashPassword(password, user.salt);
     if (user.hash !== hash) {
       return res
         .status(400)

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { User } from "@prisma/client";
+import {  PrismaClient } from "@prisma/client";
+import { hashPassword } from "@/utils/utils";
 import crypto from "crypto";
 import * as z from "zod";
 
@@ -16,14 +16,6 @@ const registerSchema = z.object({
   password: z.string().min(7),
 });
 
-const hashPassword = (password: string, salt: string) => {
-  const hash = crypto
-    .createHash("sha256")
-    .update(password + salt)
-    .digest("hex");
-  return { salt, hash };
-};
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Users>,
@@ -33,6 +25,9 @@ export default async function handler(
       .status(405)
       .json({ success: false, error: "Method not allowed" });
   }
+
+ 
+
   const { username, email, password } = registerSchema.parse(req.body);
   console.log("Body: ", req.body);
 
