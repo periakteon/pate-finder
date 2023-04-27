@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import {  PrismaClient } from "@prisma/client";
-import { hashPassword } from "@/utils/utils";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
 import crypto from "crypto";
-import * as z from "zod";
+import { z } from "zod";
+import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
 type Users = // Discriminated Union
@@ -11,10 +12,19 @@ type Users = // Discriminated Union
     | { success: false; error: string };
 
 const registerSchema = z.object({
-  username: z.string().min(3).max(20),
-  email: z.string().email(),
-  password: z.string().min(7),
+  username: z
+    .string()
+    .min(3, { message: "Kullanici adi 3 karakterden fazla olmalidir." })
+    .max(20, { message: "Kullanici adi 20 karakterden fazla olamaz." }),
+  email: z
+    .string()
+    .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
+  password: z
+    .string()
+    .min(7, { message: "Parola 7 karakterden fazla olmalidir." }),
 });
+
+type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,12 +35,20 @@ export default async function handler(
       .status(405)
       .json({ success: false, error: "Method not allowed" });
   }
-
- 
-
-  const { username, email, password } = registerSchema.parse(req.body);
-  console.log("Body: ", req.body);
-
+  let username : RegisterSchemaType["username"];
+  let email : RegisterSchemaType["email"];
+  let password : RegisterSchemaType["password"];
+  
+  try {
+    const parsed = registerSchema.parse(req.body);
+    username = parsed.username;
+    email = parsed.email;
+    password = parsed.password;
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
   try {
     const oldUser = await prisma.user.findUnique({
       where: {
@@ -64,7 +82,4 @@ export default async function handler(
       .status(500)
       .json({ success: false, error: "Kayit yapilirken bir hata oldu." });
   }
-
-  // TODO: Register with a secret and hash the password and create user.
-  // TODO: for each api validate with ZOD!!!!
 }
