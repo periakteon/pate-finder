@@ -13,8 +13,14 @@
     "db:push": "prisma db push"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@next/font": "^13.3.1",
     "@prisma/client": "^4.13.0",
     "next": "13.3.0",
+    "next-google-fonts": "^2.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "zod": "^3.21.4"
