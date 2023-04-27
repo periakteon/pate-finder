@@ -1,42 +1,64 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { User } from "@prisma/client";
+import crypto from "crypto";
+import * as z from "zod";
 
 const prisma = new PrismaClient();
-
 type Users = // Discriminated Union
-  { success: true; users: string[] } | { success: false; error: string };
+  { success: true; user: string } | { success: false; error: string };
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+const hashPassword = (password: string, salt: string) => {
+  const hash = crypto
+    .createHash("sha256")
+    .update(password + salt)
+    .digest("hex");
+  return hash;
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Users>,
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method not allowed" });
+  }
+  const { email, password } = loginSchema.parse(req.body);
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, error: "E-mail bulunamadı." });
+    }
+
+    const hash = hashPassword(password, user.salt);
+    if (user.hash !== hash) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Hatalı parola." });
+    }
+    console.log("Login işlemi başarılı: ", user)
+    res.status(200).json({ success: true, user: "Kullanıcı girişi başarılı!" });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ success: false, error: "Giriş yaparken bir hata oluştu." });
   }
 
-  console.log(req.body);
-
-  // TODO: check if hash is the same with the provided email
+  // TODO: Login with a secret and hash the password and authenticate user.
   // TODO: for each api validate with ZOD!!!!
-
-  // await prisma.user.findFirst({
-  //   where: {
-  //     email: "" // req.body'den alinacak
-  //   },
-  //   select: {
-  //     id: true,
-  //     username: true,
-  //     email: true,
-
-  //     profile_picture: true,
-  //     posts: {
-  //       select: {
-  //         postImage: true,
-  //         caption: true,
-  //       },
-  //     },
-  //   }
-  // })
-
-  res.status(200).json({ success: true, users: ["Masum Gökyüz", "Ege Aydemir"] });
 }
