@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import {  PrismaClient } from "@prisma/client";
-import * as z from "zod";
+import { PrismaClient } from "@prisma/client";
+import {z} from "zod";
 import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
@@ -12,6 +12,7 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export default async function handler(
   req: NextApiRequest,
@@ -22,7 +23,19 @@ export default async function handler(
       .status(405)
       .json({ success: false, error: "Method not allowed" });
   }
-  const { email, password } = loginSchema.parse(req.body);
+
+  let email: LoginSchemaType["email"];
+  let password: LoginSchemaType["password"];
+
+  try {
+    const parsed = loginSchema.parse(req.body);
+    email = parsed.email;
+    password = parsed.password;
+  } catch (err) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Invalid request data" });
+  }
 
   try {
     const user = await prisma.user.findUnique({
@@ -36,13 +49,11 @@ export default async function handler(
         .json({ success: false, error: "E-mail bulunamadı." });
     }
 
-    const {hash} = hashPassword(password, user.salt);
+    const { hash } = hashPassword(password, user.salt);
     if (user.hash !== hash) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Hatalı parola." });
+      return res.status(400).json({ success: false, error: "Hatalı parola." });
     }
-    console.log("Login işlemi başarılı: ", user)
+    console.log("Login işlemi başarılı: ", user);
     res.status(200).json({ success: true, user: "Kullanıcı girişi başarılı!" });
   } catch (err) {
     console.log(err);
