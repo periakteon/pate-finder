@@ -7,6 +7,8 @@ import {
   faGoogle,
   faSquareTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -23,8 +25,16 @@ const Login = () => {
       body: JSON.stringify(formData),
     });
     const data = await response.json();
+    if (data.success === false) {
+      toast.error(`Hata: ${data.error}`, {draggable: false, autoClose: 3000});
+    } else {
+      toast.success("Giriş Başarılı!", {draggable: false, autoClose: 3000});
+    }
     console.log(data);
-  }  
+  }
+
+  const toastHandler = () => toast("Wow so easy !")
+
 
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);

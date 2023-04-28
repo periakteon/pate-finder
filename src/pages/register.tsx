@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
-  //TODO: Make register operation. use /api/register
 
   const [formData, setFormData] = useState({
     username: "",
@@ -19,27 +20,32 @@ const Register = () => {
   const [showConfirmPasswordError, setShowConfirmPasswordError] =
     useState(false);
   const [showError, setShowError] = useState("");
-  
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (!formData.termsAccepted) {
-        alert("Lütfen hüküm ve koşulları kabul edin.");
-        return;
-      }
-      try {
-        const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-        const data = await response.json();
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!formData.termsAccepted) {
+      alert("Lütfen hüküm ve koşulları kabul edin.");
+      return;
+    }
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    if (data.success === false) {
+      toast.error(`Hata: ${data.error}`, {draggable: false, autoClose: 3000});
+    } else if (data.success === false && data.error["errorMessage"]){
+      const errorMessage = data.error["errorMessage"] || "Bilinmeyen bir hata oluştu.";
+      toast.error(`Hata: ${errorMessage}}`, {draggable: false, autoClose: 3000});
+    }
+    else {
+      toast.success("Üye kaydı başarılı!", {draggable: false, autoClose: 3000});
+    }
+    console.log(data);
+  };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
@@ -92,7 +98,6 @@ const Register = () => {
             <h2 className="text-4xl font-bold mb-10 flex justify-center">
               Kayıt Ol
             </h2>
-
             <div className={`relative ${showUsernameError ? "mb-2" : "mb-7"}`}>
               <input
                 type="text"
@@ -267,9 +272,9 @@ const Register = () => {
             <div className="p-2 flex flex-col items-center mt-4">
               <div className="text-sm  text-gray-500">Hesabınız var mı?</div>
               <Link href="/login">
-              <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out">
+                <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out">
                   Giriş Yap
-              </div>
+                </div>
               </Link>
             </div>
           </form>

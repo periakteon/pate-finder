@@ -5,7 +5,7 @@ import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
 type ResponseType = // Discriminated Union
-  { success: true; user: string } | { success: false; error: string };
+  { success: true; message: string } | { success: false; error: string };
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -34,7 +34,7 @@ export default async function handler(
   } catch (err) {
     return res
       .status(400)
-      .json({ success: false, error: "Invalid request data" });
+      .json({ success: false, error: "Geçersiz form bilgisi." });
   }
 
   try {
@@ -54,7 +54,7 @@ export default async function handler(
       return res.status(400).json({ success: false, error: "Hatalı parola." });
     }
     console.log("Login işlemi başarılı: ", user);
-    res.status(200).json({ success: true, user: "Kullanıcı girişi başarılı!" });
+    res.status(200).json({ success: true, message: "Kullanıcı girişi başarılı!" });
   } catch (err) {
     console.log(err);
     res
