@@ -1,8 +1,11 @@
+'use client';
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
 
@@ -21,6 +24,8 @@ const Register = () => {
     useState(false);
   const [showError, setShowError] = useState("");
 
+  const router = useRouter();
+  
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!formData.termsAccepted) {
@@ -36,13 +41,16 @@ const Register = () => {
     });
     const data = await response.json();
     if (data.success === false) {
-      toast.error(`Hata: ${data.error}`, {draggable: false, autoClose: 3000});
-    } else if (data.success === false && data.error["errorMessage"]){
+      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 3000 });
+    } else if (data.success === false && data.error["errorMessage"]) {     // sistemde e-mail kayıtlıysa hatayı göstermek için
       const errorMessage = data.error["errorMessage"] || "Bilinmeyen bir hata oluştu.";
-      toast.error(`Hata: ${errorMessage}}`, {draggable: false, autoClose: 3000});
+      toast.error(`Hata: ${errorMessage}}`, { draggable: false, autoClose: 3000 });
     }
     else {
-      toast.success("Üye kaydı başarılı!", {draggable: false, autoClose: 3000});
+      toast.success("Üye kaydı başarılı! Yönlendiriliyorsunuz.", { draggable: false, autoClose: 2000 });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
     console.log(data);
   };

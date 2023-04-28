@@ -7,16 +7,17 @@ import {
   faGoogle,
   faSquareTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
+
 
 const Login = () => {
-
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  const router = useRouter();
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const response = await fetch("/api/login", {
@@ -26,15 +27,17 @@ const Login = () => {
     });
     const data = await response.json();
     if (data.success === false) {
-      toast.error(`Hata: ${data.error}`, {draggable: false, autoClose: 3000});
+      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 3000 });
     } else {
-      toast.success("Giriş Başarılı!", {draggable: false, autoClose: 3000});
+      toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", { draggable: false, autoClose: 2000 });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
     console.log(data);
   }
 
-  const toastHandler = () => toast("Wow so easy !")
-
+  const toastHandler = () => toast("Wow so easy !");
 
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
@@ -63,9 +66,7 @@ const Login = () => {
       <div className="absolute py-3 sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 shadow-lg transform  sm:-rotate-3 sm:rounded-xl"></div>
         <div className=" backdrop-blur-sm w-80 hover:max-h-screen bg-white/80 rounded-md p-8 m-1">
-          <form
-            onSubmit={onSubmit}
-          >
+          <form onSubmit={onSubmit}>
             <h2 className="text-4xl mb-12 flex justify-center text-purple-900">
               Giriş Yap
             </h2>
@@ -88,13 +89,16 @@ const Login = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className={`peer p-3 h-10 w-full text-sm border-b-2 ${showEmailError ? "border-red-500" : "border-gray-300"
-                  } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
+                className={`peer p-3 h-10 w-full text-sm border-b-2 ${
+                  showEmailError ? "border-red-500" : "border-gray-300"
+                } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
                 placeholder="example@mail.com"
                 required
               />
               {showEmailError && (
-                <div className="text-red-500 text-xs">Email boş bırakılamaz.</div>
+                <div className="text-red-500 text-xs">
+                  Email boş bırakılamaz.
+                </div>
               )}
             </div>
 
@@ -117,17 +121,19 @@ const Login = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className={`peer p-3 h-10 text-sm w-full border-b-2 ${showPasswordError ? "border-red-500" : "border-gray-300"
-                  } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}
+                className={`peer p-3 h-10 text-sm w-full border-b-2 ${
+                  showPasswordError ? "border-red-500" : "border-gray-300"
+                } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}
                 placeholder="*********"
                 required
               />
 
               {showPasswordError && (
-                <div className="text-red-500 text-xs">Parola boş bırakılamaz.</div>
+                <div className="text-red-500 text-xs">
+                  Parola boş bırakılamaz.
+                </div>
               )}
             </div>
-
 
             <div className="p-8" />
             <div className="flex items-center justify-around pb-2">

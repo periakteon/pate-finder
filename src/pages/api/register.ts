@@ -61,19 +61,18 @@ export default async function handler(
         salt,
       },
     });
-    res
-      .status(200)
-      .json({
-        success: true,
-        username: user.username,
-        email: user.email,
-        message: "Üye kaydı başarılı!",
-      });
+    res.status(200).json({
+      success: true,
+      username: user.username,
+      email: user.email,
+      message: "Üye kaydı başarılı!",
+    });
   } catch (err) {
     if (err instanceof ZodError) {
       const errorMap = err.flatten().fieldErrors;
-      const errorMessages = Object.values(errorMap)
-      .flatMap((errors) => errors ?? []) // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+      const errorMessages = Object.values(errorMap).flatMap(
+        (errors) => errors ?? [],
+      ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
       return res.status(400).json({ success: false, error: errorMessages });
     } else {
       console.log(err);

@@ -7,4 +7,3 @@ export const hashPassword = (password: string, salt: string) => {
     .digest("hex");
   return { salt, hash };
 };
-

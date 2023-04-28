@@ -54,7 +54,9 @@ export default async function handler(
       return res.status(400).json({ success: false, error: "Hatalı parola." });
     }
     console.log("Login işlemi başarılı: ", user);
-    res.status(200).json({ success: true, message: "Kullanıcı girişi başarılı!" });
+    res
+      .status(200)
+      .json({ success: true, message: "Kullanıcı girişi başarılı!" });
   } catch (err) {
     console.log(err);
     res
