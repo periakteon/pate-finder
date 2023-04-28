@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,15 +8,17 @@ import {
   faSquareTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
+
 const Login = () => {
   //TODO: Make register operation. use /api/register
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    termsAccepted: false,
-  });
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log({ email: emailRef.current?.value, password: passwordRef.current?.value });
+  }
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
 
@@ -45,10 +47,7 @@ const Login = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 shadow-lg transform  sm:-rotate-3 sm:rounded-xl"></div>
         <div className=" backdrop-blur-sm w-80 hover:max-h-screen bg-white/80 rounded-md p-8 m-1">
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(formData);
-            }}
+            onSubmit={onSubmit}
           >
             <h2 className="text-4xl mb-12 flex justify-center text-purple-900">
               Giriş Yap
@@ -64,13 +63,8 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
-                onChange={(e) => {
-                  setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    email: e.target.value,
-                  }));
-                }}
+
+                ref={emailRef}
                 onBlur={handleBlur}
                 className={`peer p-3 h-10 w-full text-sm border-b-2 ${showEmailError ? "border-red-500" : "border-gray-300"
                   } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
@@ -92,13 +86,8 @@ const Login = () => {
               <input
                 id="password"
                 name="password"
-                value={formData.password}
-                onChange={(e) => {
-                  setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    password: e.target.value,
-                  }));
-                }}
+                ref={passwordRef}
+
                 onBlur={handleBlur}
                 className={`peer p-3 h-10 text-sm w-full border-b-2 ${showPasswordError ? "border-red-500" : "border-gray-300"
                   } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}

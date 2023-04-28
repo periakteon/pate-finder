@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import {z} from "zod";
+import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
