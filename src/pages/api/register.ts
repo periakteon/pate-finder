@@ -1,14 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
-type Users = // Discriminated Union
-
-    | { success: true; username: string; email: string }
-    | { success: false; error: string };
+type ResponseType =
+  // Discriminated Union
+  | { success: true; username: string; email: string }
+  | { success: false; error: object };
 
 const registerSchema = z.object({
   username: z
@@ -27,28 +27,18 @@ type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Users>,
+  res: NextApiResponse<ResponseType>,
 ) {
   if (req.method !== "POST") {
     return res
       .status(405)
-      .json({ success: false, error: "Method not allowed" });
+      .json({ success: false, error: { errorMessage: "Hatalı metod." } });
   }
-  let username: RegisterSchemaType["username"];
-  let email: RegisterSchemaType["email"];
-  let password: RegisterSchemaType["password"];
 
   try {
-    const parsed = registerSchema.parse(req.body);
-    username = parsed.username;
-    email = parsed.email;
-    password = parsed.password;
-  } catch (err) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Invalid request data" });
-  }
-  try {
+    const parsed = registerSchema.parse(req.body) as RegisterSchemaType;
+    const { username, email, password } = parsed;
+
     const oldUser = await prisma.user.findUnique({
       where: {
         email: email,
@@ -57,7 +47,10 @@ export default async function handler(
     if (oldUser) {
       return res
         .status(400)
-        .json({ success: false, error: "Bu e-mail adresi sistemde kayıtlı." });
+        .json({
+          success: false,
+          error: { errorMessage: "Bu e-mail adresi sistemde kayıtlı." },
+        });
     }
 
     const { salt, hash } = hashPassword(
@@ -76,9 +69,15 @@ export default async function handler(
       .status(200)
       .json({ success: true, username: user.username, email: user.email });
   } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .json({ success: false, error: "Kayit yapilirken bir hata oldu." });
+    if (err instanceof ZodError) {
+      const errorMap = err.flatten().fieldErrors;
+      const errorMessages = Object.values(errorMap).map((errors) => errors);
+      return res.status(400).json({ success: false, error: errorMessages });
+    } else {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ success: false, error: {errorMessage: "Kayıt yapılırken bir hata oluştu."} });
+    }
   }
 }

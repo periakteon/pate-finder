@@ -4,7 +4,7 @@ import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
 
 const prisma = new PrismaClient();
-type Users = // Discriminated Union
+type ResponseType = // Discriminated Union
   { success: true; user: string } | { success: false; error: string };
 
 const loginSchema = z.object({
@@ -16,7 +16,7 @@ type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Users>,
+  res: NextApiResponse<ResponseType>,
 ) {
   if (req.method !== "POST") {
     return res

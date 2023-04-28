@@ -9,17 +9,22 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const Login = () => {
-  //TODO: Make register operation. use /api/register
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
-  }
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    console.log(data);
+  }  
 
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
@@ -92,6 +97,7 @@ const Login = () => {
               </label>
               <input
                 id="password"
+                type="password"
                 name="password"
                 value={formData.password}
                 onChange={(e) => {
@@ -143,13 +149,13 @@ const Login = () => {
                 type="submit"
                 className="w-full bg-gradient-to-r from-rose-700 to-purple-700 hover:from-rose-500 hover:to-purple-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300 ease-in-out"
               >
-                Giris Yap
+                Giriş Yap
               </button>
               <div className="p-1" />
-              <div className="text-sm  text-gray-500">Hesabiniz yok mu?</div>
+              <div className="text-sm  text-gray-500">Hesabınız yok mu?</div>
               <Link href="/register">
                 <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out -mt-4">
-                  Kayit ol
+                  Kayıt ol
                 </div>
               </Link>
             </div>

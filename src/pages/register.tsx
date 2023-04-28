@@ -18,6 +18,28 @@ const Register = () => {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [showConfirmPasswordError, setShowConfirmPasswordError] =
     useState(false);
+  const [showError, setShowError] = useState("");
+  
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (!formData.termsAccepted) {
+        alert("Lütfen hüküm ve koşulları kabul edin.");
+        return;
+      }
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
@@ -65,10 +87,7 @@ const Register = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8">
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(formData);
-            }}
+            onSubmit={handleSubmit}
           >
             <h2 className="text-4xl font-bold mb-10 flex justify-center">
               Kayıt Ol
@@ -203,8 +222,7 @@ const Register = () => {
             {showConfirmPasswordError && (
               <div className="text-rose-500 mb-6">Parola boş bırakılamaz.</div>
             )}
-
-            <div className="relative h-24">
+            <div className="relative mb-7">
               {/* TODO: Use modal for terms and conditions, and width expansion on unclick, and disable button */}
               <Link href="#">
                 <label
@@ -233,17 +251,26 @@ const Register = () => {
               </Link>
               {showCheckboxError && (
                 <div className="text-rose-500">
-                  Üye olmak için şartları kabul etmelisiniz.
+                  Şartları kabul etmeniz gerekmektedir.
                 </div>
               )}
             </div>
             <div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-rose-700 to-purple-700 hover:from-rose-500 hover:to-purple-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                disabled={!formData.termsAccepted}
+                className="w-full bg-gradient-to-r from-rose-700 to-purple-700 hover:from-rose-500 hover:to-purple-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 Kayıt Ol
               </button>
+            </div>
+            <div className="p-2 flex flex-col items-center mt-4">
+              <div className="text-sm  text-gray-500">Hesabınız var mı?</div>
+              <Link href="/login">
+              <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out">
+                  Giriş Yap
+              </div>
+              </Link>
             </div>
           </form>
         </div>
