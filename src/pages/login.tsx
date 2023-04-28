@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,17 +8,19 @@ import {
   faSquareTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-
 const Login = () => {
   //TODO: Make register operation. use /api/register
 
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log({ email: emailRef.current?.value, password: passwordRef.current?.value });
+    console.log(formData);
   }
+
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
 
@@ -63,8 +65,13 @@ const Login = () => {
                 type="email"
                 id="email"
                 name="email"
-
-                ref={emailRef}
+                value={formData.email}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    email: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className={`peer p-3 h-10 w-full text-sm border-b-2 ${showEmailError ? "border-red-500" : "border-gray-300"
                   } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
@@ -86,8 +93,13 @@ const Login = () => {
               <input
                 id="password"
                 name="password"
-                ref={passwordRef}
-
+                value={formData.password}
+                onChange={(e) => {
+                  setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    password: e.target.value,
+                  }));
+                }}
                 onBlur={handleBlur}
                 className={`peer p-3 h-10 text-sm w-full border-b-2 ${showPasswordError ? "border-red-500" : "border-gray-300"
                   } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}
