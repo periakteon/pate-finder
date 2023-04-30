@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,7 +12,6 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,10 @@ const Login = () => {
     if (data.success === false) {
       toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 3000 });
     } else {
-      toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", { draggable: false, autoClose: 2000 });
+      toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
+        draggable: false,
+        autoClose: 2000,
+      });
       setTimeout(() => {
         router.push("/");
       }, 2000);
@@ -55,7 +59,7 @@ const Login = () => {
     }
   };
   return (
-    <div className=" min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+    <main className=" min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}
@@ -178,7 +182,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
