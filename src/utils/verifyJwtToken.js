@@ -22,11 +22,14 @@ export const verifyJwtToken = async (token) => {
      * payload kısmında kullanıcıya ait bilgiler bulunuyor
      * yalnızca "payload" almak için verify edilen token'ın dönüş değerini destruct ediyoruz - yalnızca payload'ı alacak şekilde
      */
-    const {payload} = await jwtVerify(token, getJwtSecretKey());
+    const { payload } = await jwtVerify(token, getJwtSecretKey());
+    console.log("Dönen payload:", payload);
     return payload;
-
   } catch (error) {
-    console.log("JWT verify edilirken bir hata oluştu (verifyJwtToken.js): ", error);
+    console.log(
+      "JWT verify edilirken bir hata oluştu (verifyJwtToken.js): ",
+      error,
+    );
     return null;
   }
 };
