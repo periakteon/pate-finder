@@ -12,6 +12,8 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,7 @@ const Login = () => {
     password: "",
   });
   const router = useRouter();
+  const searchParams = useSearchParams();
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const response = await fetch("/api/login", {
@@ -28,14 +31,16 @@ const Login = () => {
     });
     const data = await response.json();
     if (data.success === false) {
-      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 3000 });
+      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 2000 });
     } else {
+      // parametrede halihazırda nextUrl varsa ona yönlendir (örnek: .../login?nextUrl=%2Fmyprofile)
+      const nextUrl = searchParams.get("nextUrl")
       toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
         draggable: false,
-        autoClose: 2000,
+        autoClose: 1900,
       });
       setTimeout(() => {
-        router.push("/");
+        router.push(nextUrl ? nextUrl : "/");
       }, 2000);
     }
     console.log(data);
