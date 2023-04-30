@@ -2,6 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
+import { SignJWT } from "jose";
+import { getJwtSecretKey } from "../../utils/verifyJwtToken";
+import { NextResponse } from "next/server";
+import {serialize} from "cookie";
 
 const prisma = new PrismaClient();
 type ResponseType = // Discriminated Union
@@ -53,7 +57,26 @@ export default async function handler(
     if (user.hash !== hash) {
       return res.status(400).json({ success: false, error: "Hatalı parola." });
     }
-    console.log("Login işlemi başarılı: ", user);
+
+    // generating JWT token
+    const token = await new SignJWT({ email: user.email })
+      .setProtectedHeader({
+        alg: "HS256",
+      })
+      .setIssuedAt()
+      .setExpirationTime("30s")
+      .sign(getJwtSecretKey());
+
+    // set cookie
+    const cookie = serialize("token", token, {
+      httpOnly: true,
+      path: "/",}
+    );
+    console.log("token:", token);
+    console.log("(Server Side Log) Login işlemi başarılı:", user);
+    console.log("(Server Side Log) Cookie:", cookie);
+    
+    res.setHeader("Set-Cookie", cookie);
     res
       .status(200)
       .json({ success: true, message: "Kullanıcı girişi başarılı!" });
@@ -63,7 +86,4 @@ export default async function handler(
       .status(500)
       .json({ success: false, error: "Giriş yaparken bir hata oluştu." });
   }
-
-  // TODO: Login with a secret and hash the password and authenticate user.
-  // TODO: for each api validate with ZOD!!!!
 }

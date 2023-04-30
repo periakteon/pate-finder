@@ -55,8 +55,8 @@ export const authMiddleware = async (request) => {
      * bu isteği atan kullanıcı login olmaya aday bir kullanıcıdır, dolayısıyla gitmek istediği sayfaya (yani "next"e, mesela "/login" sayfasına) yönlendiririz
      */
     if (!hasVerifiedToken) {
+      console.log("Bir sonraki sayfaya yönlendiriliyor...");
       const response = NextResponse.next();
-
       return response;
     }
 
@@ -68,18 +68,26 @@ export const authMiddleware = async (request) => {
      * bu yüzden "/myprofile" sayfasına yönlendiriyoruz ("/" adresine de yönlendirebiliriz)
      */
     const response = NextResponse.redirect(new URL("/myprofile", url));
+    console.log("'/myprofile' sayfasına yönlendirildi");
     return response;
   }
 
   if (!hasVerifiedToken) {
     /**
-     * token geçerli değilse, yani hasVerifiedToken false döndürürse
-     * kullanıcıyı login sayfasına yönlendiriyoruz
+     * token geçerli değilse, yani hasVerifiedToken false döndürürse kullanıcıyı login sayfasına yönlendiriyoruz
+     * peki ya kullanıcı başka bir linkten geldiyse? diyelim ki kullanıcı ayarlar sayfasına gitmek istiyor ama nereden gideceğini bilmiyor, bir arkadaşı da bu kullanıcıya link atıyor ancak ayarlar sayfasına gitmesi için önce login olması gerekiyor, daha sonra da kaldığı yerden soft bir şekilde ayarlar sayfasına next edilmeli. Bunu nasıl yaparız?
+     * Yani şunu yapacağız: site.com/login?nextUrl=/settings
+     * Yani, login işleminden sonra parametre belirleyip o parametreye göre yönlendirme yapacağız
+     * peki URLSarchParams'ın içerisine neden "nextUrl.searchParams" ekledik?
+     * çünkü daha öncesinde getirmiş olduğu parametreler olabilir, onları tutmamız gerekiyor. Örneğin şöyle bir şey olabilir: site.com/login?nextUrl=/settings&username=masum. Dolayısıyla bu parametreleri de (bu örnekte "username=masum" tutmamız gerekiyor, bu yüzden "nextUrl.searchParams" ekledik 
      */
-    console.log("Redirect koduna girildi!");
-    return NextResponse.redirect(new URL("/login", url));
+    const searchParams = new URLSearchParams(nextUrl.searchParams);
+    searchParams.set("nextUrl", nextUrl.pathname);
+
+    console.log("Geçersiz token bilgisi. Redirect koduna girildi ve logine yönlendirildi!");
+    return NextResponse.redirect(new URL(`/login?${searchParams}`, url));
   }
-  console.log("Middleware sona geldi!");
+  console.log("Middleware sona geldi! Sorunsuz devam edebilirsiniz.");
   return NextResponse.next();
 };
 

@@ -1,6 +1,6 @@
 import { jwtVerify } from "jose";
 
-const getJwtSecretKey = () => {
+export const getJwtSecretKey = () => {
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
   if (!jwtSecretKey) {
