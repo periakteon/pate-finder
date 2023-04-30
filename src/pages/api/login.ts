@@ -48,7 +48,7 @@ export default async function handler(
     });
     if (!user) {
       return res
-        .status(400)
+        .status(404)
         .json({ success: false, error: "E-mail bulunamadı." });
     }
 
@@ -63,7 +63,7 @@ export default async function handler(
         alg: "HS256",
       })
       .setIssuedAt()
-      .setExpirationTime("30s")
+      .setExpirationTime("1d")
       .sign(getJwtSecretKey());
 
     // set cookie

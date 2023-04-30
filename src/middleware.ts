@@ -1,8 +1,9 @@
+import type { NextRequest } from 'next/server'
 import { verifyJwtToken } from "./utils/verifyJwtToken.js";
 import { NextResponse } from "next/server";
-import { isAuthPages } from "./utils/isAuthPages";
+import { isAuthPages } from "./utils/isAuthPages.js";
 
-export const authMiddleware = async (request) => {
+const authMiddleware = async (request: NextRequest) => {
   /**
    * url: anlık içerisinde bulunan url
    * nextUrl: yönlendirilecek url

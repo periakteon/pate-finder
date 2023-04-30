@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import crypto from "crypto";
 import { z, ZodError } from "zod";
 import { hashPassword } from "@/utils/utils";
@@ -34,20 +34,8 @@ export default async function handler(
   }
 
   try {
-    const parsed = registerSchema.parse(req.body) as RegisterSchemaType;
+    const parsed = registerSchema.parse(req.body);
     const { username, email, password } = parsed;
-
-    const oldUser = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    if (oldUser) {
-      return res.status(400).json({
-        success: false,
-        error: ["Bu e-mail adresi kullanılmaktadır."],
-      });
-    }
 
     const { salt, hash } = hashPassword(
       password,
@@ -74,6 +62,10 @@ export default async function handler(
         (errors) => errors ?? [],
       ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
       return res.status(400).json({ success: false, error: errorMessages });
+    } else if(err instanceof Prisma.PrismaClientKnownRequestError) {
+      if(err.code === "P2002") {
+        return res.status(400).json({ success: false, error: ["Bu e-mail adresi halihazırda kullanılmaktadır."] });
+      }
     } else {
       console.log(err);
       return res

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+export function Home () {
+
   return (
     <main className="min-h-screen bg-purple-100 flex flex-col items-center p-24">
       <div className="m-7 text-6xl hover:bg-rose-500 hover:text-white hover:rounded-lg">
@@ -20,3 +22,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Home;

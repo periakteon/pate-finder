@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +22,14 @@ const Login = () => {
   });
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const nextUrl = searchParams.get("nextUrl")
+  useEffect(() => {
+    if (nextUrl) {
+      toast.error(`Hata: Giriş yapmanız gerekmektedir.`, { draggable: false, autoClose: 1900 });
+    }
+  }, [nextUrl]);
+
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const response = await fetch("/api/login", {
@@ -34,13 +42,13 @@ const Login = () => {
       toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 2000 });
     } else {
       // parametrede halihazırda nextUrl varsa ona yönlendir (örnek: .../login?nextUrl=%2Fmyprofile)
-      const nextUrl = searchParams.get("nextUrl")
+      // const nextUrl = searchParams.get("nextUrl")
       toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
         draggable: false,
         autoClose: 1900,
       });
       setTimeout(() => {
-        router.push(nextUrl ? nextUrl : "/");
+        router.push(nextUrl ?? "/");
       }, 2000);
     }
     console.log(data);
@@ -64,7 +72,7 @@ const Login = () => {
     }
   };
   return (
-    <main className=" min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+    <main className="min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}
