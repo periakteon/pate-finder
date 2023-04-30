@@ -78,6 +78,7 @@ export const authMiddleware = async (request) => {
      * token geçerli değilse, yani hasVerifiedToken false döndürürse
      * kullanıcıyı login sayfasına yönlendiriyoruz
      */
+    console.log("Redirect koduna girildi!");
     return NextResponse.redirect(new URL("/login", url));
   }
 
