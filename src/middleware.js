@@ -67,10 +67,8 @@ export const authMiddleware = async (request) => {
      * dolayısıyla "/login" sayfasına girmesinin bir mantığı yoktur
      * bu yüzden "/myprofile" sayfasına yönlendiriyoruz ("/" adresine de yönlendirebiliriz)
      */
-    if (hasVerifiedToken) {
-      const response = NextResponse.redirect(new URL("/myprofile", url));
-      return response;
-    }
+    const response = NextResponse.redirect(new URL("/myprofile", url));
+    return response;
   }
 
   if (!hasVerifiedToken) {
@@ -81,7 +79,7 @@ export const authMiddleware = async (request) => {
     console.log("Redirect koduna girildi!");
     return NextResponse.redirect(new URL("/login", url));
   }
-
+  console.log("Middleware sona geldi!");
   return NextResponse.next();
 };
 
