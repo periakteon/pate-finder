@@ -11,15 +11,18 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  hash          String
-  salt          String
-  username      String   @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  hash      String
+  salt      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   pets Pet[]
+
+  followedBy Follows[] @relation("following")
+  following  Follows[] @relation("follower")
 }
 
 model Pet {
@@ -53,4 +56,13 @@ model Post {
 
   pet   Pet @relation(fields: [petId], references: [id])
   petId Int
+}
+
+model Follows {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  @@id([followerId, followingId])
 }
