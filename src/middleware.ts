@@ -79,7 +79,7 @@ const authMiddleware = async (request: NextRequest) => {
      * peki ya kullanıcı başka bir linkten geldiyse? diyelim ki kullanıcı ayarlar sayfasına gitmek istiyor ama nereden gideceğini bilmiyor, bir arkadaşı da bu kullanıcıya link atıyor ancak ayarlar sayfasına gitmesi için önce login olması gerekiyor, daha sonra da kaldığı yerden soft bir şekilde ayarlar sayfasına next edilmeli. Bunu nasıl yaparız?
      * Yani şunu yapacağız: site.com/login?nextUrl=/settings
      * Yani, login işleminden sonra parametre belirleyip o parametreye göre yönlendirme yapacağız
-     * peki URLSarchParams'ın içerisine neden "nextUrl.searchParams" ekledik?
+     * peki URLSearchParams'ın içerisine neden "nextUrl.searchParams" ekledik?
      * çünkü daha öncesinde getirmiş olduğu parametreler olabilir, onları tutmamız gerekiyor. Örneğin şöyle bir şey olabilir: site.com/login?nextUrl=/settings&username=masum. Dolayısıyla bu parametreleri de (bu örnekte "username=masum" tutmamız gerekiyor, bu yüzden "nextUrl.searchParams" ekledik 
      */
     const searchParams = new URLSearchParams(nextUrl.searchParams);

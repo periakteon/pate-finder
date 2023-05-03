@@ -26,7 +26,7 @@ const Login = () => {
   const nextUrl = searchParams.get("nextUrl")
   useEffect(() => {
     if (nextUrl) {
-      toast.error(`Hata: Giriş yapmanız gerekmektedir.`, { draggable: false, autoClose: 1900 });
+      toast.error(`Hata! Giriş yapmanız gerekmektedir.`, { draggable: false, autoClose: 1800 });
     }
   }, [nextUrl]);
 
@@ -45,7 +45,7 @@ const Login = () => {
       // const nextUrl = searchParams.get("nextUrl")
       toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
         draggable: false,
-        autoClose: 1900,
+        autoClose: 1800,
       });
       setTimeout(() => {
         router.push(nextUrl ?? "/");
@@ -53,8 +53,6 @@ const Login = () => {
     }
     console.log(data);
   }
-
-  const toastHandler = () => toast("Wow so easy !");
 
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);
