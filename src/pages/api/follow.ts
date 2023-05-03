@@ -11,24 +11,24 @@ export default async function followHandler(
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { followingId, followerId } = req.body
+  const { followerId, followingId } = req.body
 
-  if (!followingId || !followerId) {
+  if (!followerId || !followingId) {
     return res.status(400).json({ message: 'Hatalı veya eksik ID' })
   }
   try {
     const follower = await prisma.user.findUnique({
-      where: { id: followingId },
+      where: { id: followerId },
     })
-    console.log("followingId: ", follower);
+    console.log("followerId: ", follower);
     if (!follower) {
       return res.status(404).json({ message: 'Takipçi bulunamadı.' })
     }
 
     const following = await prisma.user.findUnique({
-      where: { id: followerId },
+      where: { id: followingId },
     })
-    console.log("followerId: ", following);
+    console.log("followingId: ", following);
     if (!following) {
       return res.status(404).json({ message: 'Takip edilecek olan kişi bulunamadı.' })
     }
@@ -37,8 +37,8 @@ export default async function followHandler(
     const existingFollow = await prisma.follows.findUnique({      
       where: {
         followerId_followingId: {
-          followingId: follower.id,
-          followerId: following.id,
+          followerId: follower.id,
+          followingId: following.id,
         },
       },
     })
