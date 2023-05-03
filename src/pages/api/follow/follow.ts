@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default async function followHandler(
+export default async function handleFollowRequest(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -43,7 +43,7 @@ export default async function followHandler(
       },
     })
     if (existingFollow) {
-      return res.status(400).json({ message: 'Kullanıcı zaten takip ediliyor.' })
+      return res.status(200).json({ message: 'Kullanıcı zaten takip ediliyor.' })
     }    
     const follow = await prisma.follows.create({
       data: {

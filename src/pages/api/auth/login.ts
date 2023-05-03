@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
 import { SignJWT } from "jose";
-import { getJwtSecretKey } from "../../utils/verifyJwtToken";
+import { getJwtSecretKey } from "../../../utils/verifyJwtToken";
 import {serialize} from "cookie";
 
 const prisma = new PrismaClient();
