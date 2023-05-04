@@ -18,7 +18,7 @@ export default async function handleFollowRequest(
   }
   try {
     const follower = await prisma.user.findUnique({
-      where: { id: followerId },
+      where: { id: Number(followerId) },
     })
     console.log("followerId: ", follower);
     if (!follower) {
@@ -26,7 +26,7 @@ export default async function handleFollowRequest(
     }
 
     const following = await prisma.user.findUnique({
-      where: { id: followingId },
+      where: { id: Number(followingId) },
     })
     console.log("followingId: ", following);
     if (!following) {
@@ -37,8 +37,8 @@ export default async function handleFollowRequest(
     const existingFollow = await prisma.follows.findUnique({      
       where: {
         followerId_followingId: {
-          followerId: follower.id,
-          followingId: following.id,
+          followerId: Number(follower.id),
+          followingId: Number(following.id),
         },
       },
     })
@@ -47,8 +47,12 @@ export default async function handleFollowRequest(
     }    
     const follow = await prisma.follows.create({
       data: {
-        follower: { connect: { id: follower.id } },
-        following: { connect: { id: following.id } },
+        follower:{ 
+          connect: { id: Number(follower.id) }
+        },
+        following: {
+          connect: { id: Number(following.id) }
+        },
       },
     })
     console.log("Takip işlemi başarılı!");

@@ -8,7 +8,7 @@ import {serialize} from "cookie";
 
 const prisma = new PrismaClient();
 type ResponseType = // Discriminated Union
-  { success: true; message: string } | { success: false; error: string };
+  { success: true; message: string; accessToken: string } | { success: false; error: string };
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -78,7 +78,7 @@ export default async function handler(
     res.setHeader("Set-Cookie", cookie);
     res
       .status(200)
-      .json({ success: true, message: "Kullanıcı girişi başarılı!" });
+      .json({ success: true, message: "Kullanıcı girişi başarılı!", accessToken: token });
   } catch (err) {
     console.log(err);
     res
