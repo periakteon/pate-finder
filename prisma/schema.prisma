@@ -23,6 +23,7 @@ model User {
 
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
+  Comment    Comment[]
 }
 
 model Pet {
@@ -54,8 +55,22 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pet   Pet @relation(fields: [petId], references: [id])
-  petId Int
+  pet     Pet       @relation(fields: [petId], references: [id])
+  petId   Int
+  Comment Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner  User @relation(fields: [userId], references: [id])
+  userId Int
+
+  relatedPost Post @relation(fields: [postId], references: [id])
+  postId      Int
 }
 
 model Follows {
