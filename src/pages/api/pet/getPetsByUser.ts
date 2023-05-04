@@ -6,7 +6,7 @@ type ResponseType =
   | { success: true; message: string; pets: Pet[] }
   | { success: false; error: string };
 
-export default async function handler(
+export default async function handleGetPetsByUser(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {

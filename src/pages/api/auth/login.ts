@@ -17,7 +17,7 @@ const loginSchema = z.object({
 
 type LoginSchemaType = z.infer<typeof loginSchema>;
 
-export default async function handler(
+export default async function handleLogin(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {

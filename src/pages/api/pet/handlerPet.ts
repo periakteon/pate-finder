@@ -1,3 +1,19 @@
+/**
+ * 
+ * @api {post} /api/pet/handlerPet Pet Oluşturma
+  "name": "Fido",
+  "breed": "Golden Retriever",
+  "age": 3,
+  "profile_picture": "https://example.com/fido.jpg",
+  "pet_type": "Dog",
+  "bio": "I'm a friendly and active dog who loves playing fetch!",
+  "phone": "555-1234",
+  "city": "Istanbul",
+  "country": "Turkey",
+  "ownerId": 12345
+    }
+ */
+
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Pet } from "@prisma/client";
 
@@ -8,15 +24,13 @@ type ResponseType =
   | { success: true; message: string; fetchAllPets?: Pet[] }
   | { success: false; error: string };
 
-export default async function handlerPet(
+export default async function handlePet(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
   if (req.method === "POST") {
     try {
       const {
-        owner_first_name,
-        owner_last_name,
         name,
         breed,
         age,
@@ -30,8 +44,6 @@ export default async function handlerPet(
       } = req.body;
       const pet = await prisma.pet.create({
         data: {
-          owner_first_name,
-          owner_last_name,
           name,
           breed,
           age,

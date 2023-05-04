@@ -23,9 +23,7 @@ const registerSchema = z.object({
     .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
 });
 
-type RegisterSchemaType = z.infer<typeof registerSchema>;
-
-export default async function handler(
+export default async function handleRegister(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
