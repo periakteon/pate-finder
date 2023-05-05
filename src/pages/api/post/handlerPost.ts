@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Post } from "@prisma/client";
 import { z, ZodError } from "zod";
-import authMiddleware from '../../../middleware/authMiddleware';
+import authMiddleware from "../../../middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
@@ -32,6 +32,7 @@ async function handlePost(
     try {
       const parsed = postSchema.parse(req.body);
       const { caption, postImage, petId, authorId } = parsed;
+
       const post = await prisma.post.create({
         data: {
           caption,
@@ -40,6 +41,7 @@ async function handlePost(
           author: { connect: { id: Number(authorId) } },
         },
       });
+
       res
         .status(200)
         .json({ success: true, message: "Post oluşturuldu:", post: post });
@@ -49,6 +51,7 @@ async function handlePost(
         const errorMessages = Object.values(errorMap).flatMap(
           (errors) => errors ?? [],
         ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce
+
         return res.status(400).json({ success: false, error: errorMessages });
       } else {
         res
@@ -59,4 +62,4 @@ async function handlePost(
   }
 }
 
-export default authMiddleware(handlePost)
+export default authMiddleware(handlePost);

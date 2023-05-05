@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 interface User {
   id: number;
   username: string;
   email: string;
-}[]
+}
+[];
 
 const Members = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/fetchMembers');
+      console.log(document.cookie);
+      const response = await fetch("/api/fetchMembers");
       const data = await response.json();
       if (data.success) {
         setUsers(data.data);
@@ -42,8 +44,12 @@ const Members = () => {
         {users.length > 0 &&
           users.map((user) => (
             <div key={user.id} className="mt-10">
-              <h1 className="text-xl text-white my-5 text-center underline underline-offset-8">{user.id}</h1>
-              <h1 className="text-xl text-white">Kullanıcı Adı: {user.username}</h1>
+              <h1 className="text-xl text-white my-5 text-center underline underline-offset-8">
+                {user.id}
+              </h1>
+              <h1 className="text-xl text-white">
+                Kullanıcı Adı: {user.username}
+              </h1>
               <h1 className="text-xl text-white">{user.email}</h1>
               <div className="">
                 <div className="cursor-pointer mt-5 text-3xl bg-emerald-600 hover:bg-emerald-400 text-white rounded-lg text-center">

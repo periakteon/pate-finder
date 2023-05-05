@@ -16,6 +16,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Pet } from "@prisma/client";
+import authMiddleware from "@/middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
@@ -24,10 +25,10 @@ type ResponseType =
   | { success: true; message: string; fetchAllPets?: Pet[] }
   | { success: false; error: string };
 
-export default async function handlePet(
+const handlePet = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method === "POST") {
     try {
       const {
@@ -42,6 +43,9 @@ export default async function handlePet(
         country,
         ownerId,
       } = req.body;
+
+      // TODO: ALARM ALARM no Type validation with zod!!!!!!!!!!
+
       const pet = await prisma.pet.create({
         data: {
           name,
@@ -76,14 +80,14 @@ export default async function handlePet(
         });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          success: false,
-          error: `Tüm petler getirilirken bir hata oluştu: ${error}`,
-        });
+      res.status(500).json({
+        success: false,
+        error: `Tüm petler getirilirken bir hata oluştu: ${error}`,
+      });
     }
   } else {
     res.status(405).json({ success: false, error: "Method not allowed" });
   }
-}
+};
+
+export default authMiddleware(handlePet);

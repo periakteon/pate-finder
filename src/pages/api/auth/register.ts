@@ -23,7 +23,6 @@ const registerSchema = z.object({
     .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
 });
 
-
 export default async function handleRegister(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
@@ -31,14 +30,26 @@ export default async function handleRegister(
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: ["Hatalı metod"] });
   }
-  try {
-    const parsed = registerSchema.parse(req.body);
-    const { username, email, password } = parsed;
 
-    const { salt, hash } = hashPassword(
-      password,
-      crypto.randomBytes(16).toString("hex"),
-    );
+  const parsed = await registerSchema.safeParseAsync(req.body);
+
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+
+    return res.status(400).json({ success: false, error: errorMessages });
+  }
+
+  const { username, email, password } = parsed.data;
+
+  const { salt, hash } = hashPassword(
+    password,
+    crypto.randomBytes(16).toString("hex"),
+  );
+
+  try {
     const user = await prisma.user.create({
       data: {
         username,
@@ -47,6 +58,7 @@ export default async function handleRegister(
         salt,
       },
     });
+
     res.status(200).json({
       success: true,
       username: user.username,
@@ -54,15 +66,12 @@ export default async function handleRegister(
       message: "Üye kaydı başarılı!",
     });
   } catch (err) {
-    if (err instanceof ZodError) {
-      const errorMap = err.flatten().fieldErrors;
-      const errorMessages = Object.values(errorMap).flatMap(
-        (errors) => errors ?? [],
-      ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
-      return res.status(400).json({ success: false, error: errorMessages });
-    } else if(err instanceof Prisma.PrismaClientKnownRequestError) {
-      if(err.code === "P2002") {
-        return res.status(400).json({ success: false, error: ["Bu e-mail adresi halihazırda kullanılmaktadır."] });
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      if (err.code === "P2002") {
+        return res.status(400).json({
+          success: false,
+          error: ["Bu e-mail adresi halihazırda kullanılmaktadır."],
+        });
       }
     } else {
       console.log(err);

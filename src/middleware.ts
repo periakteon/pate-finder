@@ -1,9 +1,9 @@
-import type { NextRequest } from 'next/server'
-import { verifyJwtToken } from "./utils/verifyJwtToken.js";
+import type { NextMiddleware } from "next/server";
+import { verifyJwtToken } from "./utils/verifyJwtToken";
 import { NextResponse } from "next/server";
-import { isAuthPages } from "./utils/isAuthPages.js";
+import { isAuthPages } from "./utils/isAuthPages";
 
-const authMiddleware = async (request: NextRequest) => {
+const authMiddleware: NextMiddleware = async (request) => {
   /**
    * url: anlık içerisinde bulunan url
    * nextUrl: yönlendirilecek url
@@ -43,13 +43,12 @@ const authMiddleware = async (request: NextRequest) => {
    * "nextUrl.pathname" mesela şöyle bir şey olabilir: "/login"
    * eğer "nextUrl.pathname" bizim AUTH_PAGES içerisindeki url'lerden biri ile eşleşiyorsa, true dönecek
    */
-  const isAuthPageRequested = isAuthPages(nextUrl.pathname);
 
   /**
    * eğer AUTH_PAGES içerisindeki url'lerden biri ile eşleşiyorsa, yani isAuthPageRequested true döndürürse
    * ne tür bir reponse verilmesi gerektiğini yazıyoruz
    */
-  if (isAuthPageRequested) {
+  if (isAuthPages(nextUrl.pathname)) {
     /**
      * eğer AUTH_PAGES içerisindeki url'lerden biri ile eşleşiyorsa, yani isAuthPageRequested true döndürürse ve,
      * request isteği atan kullanıcının token'ı geçerli değilse, yani hasVerifiedToken false döndürürse
@@ -80,12 +79,14 @@ const authMiddleware = async (request: NextRequest) => {
      * Yani şunu yapacağız: site.com/login?nextUrl=/settings
      * Yani, login işleminden sonra parametre belirleyip o parametreye göre yönlendirme yapacağız
      * peki URLSearchParams'ın içerisine neden "nextUrl.searchParams" ekledik?
-     * çünkü daha öncesinde getirmiş olduğu parametreler olabilir, onları tutmamız gerekiyor. Örneğin şöyle bir şey olabilir: site.com/login?nextUrl=/settings&username=masum. Dolayısıyla bu parametreleri de (bu örnekte "username=masum" tutmamız gerekiyor, bu yüzden "nextUrl.searchParams" ekledik 
+     * çünkü daha öncesinde getirmiş olduğu parametreler olabilir, onları tutmamız gerekiyor. Örneğin şöyle bir şey olabilir: site.com/login?nextUrl=/settings&username=masum. Dolayısıyla bu parametreleri de (bu örnekte "username=masum" tutmamız gerekiyor, bu yüzden "nextUrl.searchParams" ekledik
      */
     const searchParams = new URLSearchParams(nextUrl.searchParams);
     searchParams.set("nextUrl", nextUrl.pathname);
 
-    console.log("Geçersiz token bilgisi. Redirect koduna girildi ve logine yönlendirildi!");
+    console.log(
+      "Geçersiz token bilgisi. Redirect koduna girildi ve logine yönlendirildi!",
+    );
     return NextResponse.redirect(new URL(`/login?${searchParams}`, url));
   }
   console.log("Middleware sona geldi! Sorunsuz devam edebilirsiniz.");

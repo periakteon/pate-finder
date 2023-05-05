@@ -14,7 +14,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 
-
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -23,10 +22,13 @@ const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const nextUrl = searchParams.get("nextUrl")
+  const nextUrl = searchParams.get("nextUrl");
   useEffect(() => {
     if (nextUrl) {
-      toast.error(`Hata! Giriş yapmanız gerekmektedir.`, { draggable: false, autoClose: 1800 });
+      toast.error(`Hata! Giriş yapmanız gerekmektedir.`, {
+        draggable: false,
+        autoClose: 1800,
+      });
     }
   }, [nextUrl]);
 

@@ -25,24 +25,24 @@ type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export default async function handleLogin(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType>,
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method not allowed" });
   }
 
-  let email: LoginSchemaType["email"];
-  let password: LoginSchemaType["password"];
+  const parsed = await loginSchema.safeParseAsync(req.body);
 
-  try {
-    const parsed = loginSchema.parse(req.body);
-    email = parsed.email;
-    password = parsed.password;
-  } catch (err) {
+  if (!parsed.success) {
+    // TODO: please use parsed.error here
     return res
       .status(400)
       .json({ success: false, error: "Geçersiz form bilgisi." });
   }
+
+  const { email, password } = parsed.data;
 
   try {
     const user = await prisma.user.findUnique({
@@ -77,9 +77,11 @@ export default async function handleLogin(
       httpOnly: true,
       path: "/",
     });
-    
+
     res.setHeader("Set-Cookie", cookie);
-    res.status(200).json({ success: true, message: "Giriş başarılı", accessToken: token });
+    res
+      .status(200)
+      .json({ success: true, message: "Giriş başarılı", accessToken: token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Bir hata oluştu." });

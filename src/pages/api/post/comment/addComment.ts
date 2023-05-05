@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { z, ZodError } from "zod";
-import authMiddleware from '../../../../middleware/authMiddleware';
-
+import authMiddleware from "../../../../middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
@@ -11,10 +10,7 @@ const commentSchema = z.object({
   text: z.string(),
 });
 
-async function addCommentHandler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+async function addCommentHandler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method not allowed" });
     return;
@@ -22,7 +18,7 @@ async function addCommentHandler(
   try {
     const userId = req.userId;
     console.log("user Id:", userId);
-    
+
     const { postId, text } = commentSchema.parse(req.body);
     const comment = await prisma.comment.create({
       data: {

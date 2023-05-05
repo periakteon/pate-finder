@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { NextApiRequest, NextApiResponse } from "next";
+import { PrismaClient } from "@prisma/client";
+import authMiddleware from "@/middleware/authMiddleware";
 
 interface User {
   id: number;
@@ -21,14 +22,15 @@ type Response = SuccessResponse | ErrorResponse;
 
 const prisma = new PrismaClient();
 
-export default async function getUsers(
+const getUsers = async (
   req: NextApiRequest,
   res: NextApiResponse<Response>,
-): Promise<void> {
-  if (req.method !== 'GET') {
-    res.status(405).json({ success: false, error: 'Method not allowed' });
+): Promise<void> => {
+  if (req.method !== "GET") {
+    res.status(405).json({ success: false, error: "Method not allowed" });
     return;
   }
+
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -37,9 +39,12 @@ export default async function getUsers(
         email: true,
       },
     });
+
     res.status(200).json({ success: true, data: users });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
-}
+};
+
+export default authMiddleware(getUsers);

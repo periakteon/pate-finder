@@ -5,4 +5,5 @@ const AUTH_PAGES = ["/login", "/register"];
  * eğer AUTH_PAGES içerisindeki url'lerden biri ile eşleşiyorsa true dönüyoruz
  * eğer AUTH_PAGES içerisindeki url'lerden hiçbiri ile eşleşmiyorsa false dönüyoruz
  */
-export const isAuthPages = (url) => AUTH_PAGES.some((page) => page.startsWith(url));
+export const isAuthPages = (url: string) =>
+  AUTH_PAGES.some((page) => page.startsWith(url));

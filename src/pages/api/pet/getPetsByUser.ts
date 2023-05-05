@@ -1,16 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Pet } from "@prisma/client";
+import authMiddleware from "@/middleware/authMiddleware";
 
 const prisma = new PrismaClient();
+
 type ResponseType =
   | { success: true; message: string; pets: Pet[] }
   | { success: false; error: string };
 
-export default async function handleGetPetsByUser(
+const handleGetPetsByUser = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   const userId = req.query.userId;
+
+  // TODO: ALARM ALARM no type validation with zod for user id
   /**
    * http://localhost:3000/api/pet/getPetsByUser?userId=1
    */
@@ -33,4 +37,6 @@ export default async function handleGetPetsByUser(
       res.status(500).json({ success: false, error: "Internal Server Error" });
     }
   }
-}
+};
+
+export default authMiddleware(handleGetPetsByUser);

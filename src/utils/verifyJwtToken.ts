@@ -14,7 +14,7 @@ export const getJwtSecretKey = () => {
   return new TextEncoder().encode(jwtSecretKey);
 };
 
-export const verifyJwtToken = async (token) => {
+export const verifyJwtToken = async (token: string) => {
   try {
     /**
      * JWT aslında üç parçadan oluşuyor: header, payload ve signature
@@ -27,7 +27,7 @@ export const verifyJwtToken = async (token) => {
     return payload;
   } catch (error) {
     console.log(
-      "JWT verify edilirken bir hata oluştu (verifyJwtToken.js): ",
+      "JWT verify edilirken bir hata oluştu (verifyJwtToken): ",
       error,
     );
     return null;

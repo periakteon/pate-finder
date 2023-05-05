@@ -18,6 +18,12 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/middleware/auth.js", "src/pages/api/login/router.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/middleware/auth.js",
+    "src/pages/api/login/router.js"
+  ],
   "exclude": ["node_modules"]
 }
