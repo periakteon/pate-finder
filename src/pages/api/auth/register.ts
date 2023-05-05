@@ -23,7 +23,6 @@ const registerSchema = z.object({
     .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
 });
 
-type RegisterSchemaType = z.infer<typeof registerSchema>;
 
 export default async function handleRegister(
   req: NextApiRequest,
@@ -32,22 +31,6 @@ export default async function handleRegister(
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, error: ["Hatalı metod"] });
   }
-
-  let username: RegisterSchemaType["username"];
-  let email: RegisterSchemaType["email"];
-  let password: RegisterSchemaType["password"];
-
-  try {
-    const parsed = registerSchema.parse(req.body);
-    username = parsed.username;
-    email = parsed.email;
-    password = parsed.password;
-  } catch (err) {
-    return res
-      .status(400)
-      .json({ success: false, error: ["Geçersiz form bilgisi."] });
-  }
-
   try {
     const parsed = registerSchema.parse(req.body);
     const { username, email, password } = parsed;
