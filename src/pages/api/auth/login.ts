@@ -82,7 +82,6 @@ export default async function handleLogin(
     console.log("(Server Side Log) Cookie:", cookie);
 
     res.setHeader("Set-Cookie", cookie);
-    res.setHeader("Authorization", `Bearer ${token}`);
     res.status(200).json({ success: true, message: "Giriş başarılı", accessToken: token });
   } catch (error) {
     console.log(error);

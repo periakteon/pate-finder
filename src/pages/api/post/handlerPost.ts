@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Post } from "@prisma/client";
 import { z, ZodError } from "zod";
 
+const prisma = new PrismaClient();
+
 type ResponseType = // Discriminated Union
 
     | { success: true; message: string; post?: Post }
@@ -15,8 +17,6 @@ const postSchema = z.object({
   petId: z.number(),
   authorId: z.number(),
 });
-
-const prisma = new PrismaClient();
 
 export default async function handlePost(
   req: NextApiRequest,
