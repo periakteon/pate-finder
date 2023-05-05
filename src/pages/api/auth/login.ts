@@ -4,11 +4,17 @@ import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
 import { SignJWT } from "jose";
 import { getJwtSecretKey } from "../../../utils/verifyJwtToken";
-import {serialize} from "cookie";
+import { serialize } from "cookie";
 
 const prisma = new PrismaClient();
-type ResponseType = // Discriminated Union
-  { success: true; message: string; accessToken: string } | { success: false; error: string };
+
+type ResponseType =
+  | {
+      success: true;
+      message: string;
+      accessToken: string;
+    }
+  | { success: false; error: string };
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -19,12 +25,10 @@ type LoginSchemaType = z.infer<typeof loginSchema>;
 
 export default async function handleLogin(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>,
+  res: NextApiResponse<ResponseType>
 ) {
   if (req.method !== "POST") {
-    return res
-      .status(405)
-      .json({ success: false, error: "Method not allowed" });
+    return res.status(405).json({ success: false, error: "Method not allowed" });
   }
 
   let email: LoginSchemaType["email"];
@@ -46,6 +50,7 @@ export default async function handleLogin(
         email: email,
       },
     });
+
     if (!user) {
       return res
         .status(404)
@@ -53,12 +58,13 @@ export default async function handleLogin(
     }
 
     const { hash } = hashPassword(password, user.salt);
+
     if (user.hash !== hash) {
       return res.status(400).json({ success: false, error: "Hatalı parola." });
     }
 
     // generating JWT token
-    const token = await new SignJWT({ email: user.email })
+    const token = await new SignJWT({ id: user.id, email: user.email })
       .setProtectedHeader({
         alg: "HS256",
       })
@@ -69,20 +75,17 @@ export default async function handleLogin(
     // set cookie
     const cookie = serialize("token", token, {
       httpOnly: true,
-      path: "/",}
-    );
-    console.log("token:", token);
+      path: "/",
+    });
+
     console.log("(Server Side Log) Login işlemi başarılı:", user);
     console.log("(Server Side Log) Cookie:", cookie);
-    
+
     res.setHeader("Set-Cookie", cookie);
-    res
-      .status(200)
-      .json({ success: true, message: "Kullanıcı girişi başarılı!", accessToken: token });
-  } catch (err) {
-    console.log(err);
-    res
-      .status(500)
-      .json({ success: false, error: "Giriş yaparken bir hata oluştu." });
+    res.setHeader("Authorization", `Bearer ${token}`);
+    res.status(200).json({ success: true, message: "Giriş başarılı", accessToken: token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Bir hata oluştu." });
   }
 }
