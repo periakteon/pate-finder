@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Post } from "@prisma/client";
 import { z, ZodError } from "zod";
+import authMiddleware from '../../../middleware/authMiddleware';
 
 const prisma = new PrismaClient();
 
@@ -18,7 +19,7 @@ const postSchema = z.object({
   authorId: z.number(),
 });
 
-export default async function handlePost(
+async function handlePost(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
@@ -57,3 +58,5 @@ export default async function handlePost(
     }
   }
 }
+
+export default authMiddleware(handlePost)

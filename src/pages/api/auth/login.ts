@@ -77,10 +77,7 @@ export default async function handleLogin(
       httpOnly: true,
       path: "/",
     });
-
-    console.log("(Server Side Log) Login işlemi başarılı:", user);
-    console.log("(Server Side Log) Cookie:", cookie);
-
+    
     res.setHeader("Set-Cookie", cookie);
     res.status(200).json({ success: true, message: "Giriş başarılı", accessToken: token });
   } catch (error) {
