@@ -16,7 +16,6 @@ const postSchema = z.object({
     .max(280, { message: "Caption must be less than 280 characters" }),
   postImage: z.string().url(),
   petId: z.number(),
-  authorId: z.number(),
 });
 
 async function handlePost(
@@ -28,17 +27,28 @@ async function handlePost(
       .status(405)
       .json({ success: false, error: ["Method not allowed"] });
   }
+  const parsed = await postSchema.safeParseAsync(req.body);
+
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    // console.log(errorMap);
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+
+    return res.status(400).json({ success: false, error: errorMessages });
+  }
   if (req.method === "POST") {
     try {
-      const parsed = postSchema.parse(req.body);
-      const { caption, postImage, petId, authorId } = parsed;
+      const authorId = req.userId;
+      const { caption, postImage, petId } = parsed.data;
 
       const post = await prisma.post.create({
         data: {
           caption,
           postImage,
-          pet: { connect: { id: Number(petId) } },
-          author: { connect: { id: Number(authorId) } },
+          pet: { connect: { id: petId } },
+          author: { connect: { id: authorId } },
         },
       });
 
@@ -46,18 +56,9 @@ async function handlePost(
         .status(200)
         .json({ success: true, message: "Post oluşturuldu:", post: post });
     } catch (error) {
-      if (error instanceof ZodError) {
-        const errorMap = error.flatten().fieldErrors;
-        const errorMessages = Object.values(errorMap).flatMap(
-          (errors) => errors ?? [],
-        ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce
-
-        return res.status(400).json({ success: false, error: errorMessages });
-      } else {
-        res
-          .status(500)
-          .json({ success: false, error: ["Internal Server Error"] });
-      }
+      res
+        .status(500)
+        .json({ success: false, error: ["Internal Server Error"] });
     }
   }
 }

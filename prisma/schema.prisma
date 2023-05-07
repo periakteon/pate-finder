@@ -11,42 +11,28 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  hash      String
-  salt      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  pets Pet[]
-
-  posts Post[]
+  id                  Int      @id @default(autoincrement())
+  username            String   @unique
+  email               String   @unique
+  hash                String
+  salt                String
+  pet_name            String
+  pet_breed           String
+  pet_age             Int
+  pet_profile_picture String
+  pet_type            String
+  pet_bio             String
+  pet_phone           String
+  pet_city            String
+  pet_country         String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
 
+  posts   Post[]
   Comment Comment[]
-}
-
-model Pet {
-  id              Int      @id @default(autoincrement())
-  name            String
-  breed           String
-  age             Int
-  profile_picture String
-  pet_type        String
-  bio             String
-  phone           String
-  city            String
-  country         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  owner   User @relation(fields: [ownerId], references: [id])
-  ownerId Int
-
-  posts Post[]
 }
 
 model Post {
@@ -56,13 +42,10 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pet   Pet @relation(fields: [petId], references: [id])
-  petId Int
-
-  Comment Comment[]
-
   author   User @relation(fields: [authorId], references: [id])
   authorId Int // Kullanıcının kimlik numarasını tutar
+
+  Comment Comment[]
 }
 
 model Comment {
@@ -71,11 +54,11 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  owner  User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  relatedPost Post @relation(fields: [postId], references: [id])
-  postId      Int
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
 }
 
 model Follows {

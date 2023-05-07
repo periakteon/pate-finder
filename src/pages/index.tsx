@@ -17,6 +17,14 @@ export function Home() {
           Profilime Git (Protected Route)
         </Link>
       </div>
+      <div className="m-7 text-6xl">
+        <Link
+          href={"/members"}
+          className="hover:bg-rose-500 hover:text-white hover:rounded-lg"
+        >
+          Members
+        </Link>
+      </div>
     </main>
   );
 }

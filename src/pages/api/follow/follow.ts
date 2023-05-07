@@ -1,39 +1,53 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
+type ResponseType =
+  // Discriminated Union
+  { success: true; message: string } | { success: false; error: string[] };
+
+const followSchema = z.object({
+  followingId: z.number({
+    required_error: "Takip edilecek kullanıcı id'si zorunludur.",
+    invalid_type_error:
+      "Takip edilecek kullanıcı id'si sayı tipinde olmalıdır.",
+  }),
+});
 
 const handleFollowRequest = async (
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<ResponseType>,
 ) => {
   if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: ["Method not allowed"] });
   }
 
-  const { followingId } = req.body;
+  const parsed = await followSchema.safeParseAsync(req.body);
 
-  // TODO: ALARM ALARM zod type validation for body
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    // console.log(errorMap);
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+
+    return res.status(400).json({ success: false, error: errorMessages });
+  }
 
   const followerId = req.userId;
+  const { followingId } = parsed.data;
+
+  if (followerId === followingId) {
+    return res
+      .status(400)
+      .json({ success: false, error: ["Kendinizi takip edemezsiniz!"] });
+  }
 
   try {
-
-    if (followerId === followingId) {
-      return res.status(400).json({ message: "Kendinizi takip edemezsiniz!" });
-    }
-
-    // TODO: Gerek var mı?
-    const alreadyFollowing = await prisma.follows.findFirst({
-      where: {
-        followerId: Number(followerId),
-        followingId: Number(followingId),
-      },
-    });
-    if (alreadyFollowing) {
-      return res.status(400).json({ message: "Zaten takip ediyorsunuz!" });
-    }
     const follow = await prisma.follows.create({
       data: {
         follower: {
@@ -51,11 +65,16 @@ const handleFollowRequest = async (
 
     console.log("Takip işlemi başarılı!");
 
-    res.status(200).json({ message: "Takip başarılı!", follow });
+    res.status(200).json({ success: true, message: "Takip başarılı!" });
   } catch (error) {
-    // TODO: handle already existing prisma error.
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return res
+          .status(200)
+          .json({ success: true, message: "Zaten takip ediyorsunuz!" });
+      }
+      res.status(500).json({ success: false, error: [JSON.stringify(error)] });
+    }
   }
 };
 
