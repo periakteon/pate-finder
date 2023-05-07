@@ -29,6 +29,9 @@ const handlePet = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
+  
+  const userId = req.userId;
+
   if (req.method === "POST") {
     try {
       const {
@@ -41,7 +44,6 @@ const handlePet = async (
         phone,
         city,
         country,
-        ownerId,
       } = req.body;
 
       // TODO: ALARM ALARM no Type validation with zod!!!!!!!!!!
@@ -57,7 +59,7 @@ const handlePet = async (
           phone,
           city,
           country,
-          ownerId: parseInt(ownerId),
+          ownerId: userId,
         },
       });
       res.status(200).json({ success: true, message: `Pet oluşturuldu!`, pet });
