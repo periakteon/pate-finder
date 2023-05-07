@@ -3,6 +3,7 @@ import { verifyJwtToken } from "./utils/verifyJwtToken";
 import { NextResponse } from "next/server";
 import { isAuthPages } from "./utils/isAuthPages";
 
+// tum request islemleri atildiktan sonra middleware araya girerek islemi kontrol ediyor
 const authMiddleware: NextMiddleware = async (request) => {
   /**
    * url: anlık içerisinde bulunan url
