@@ -15,7 +15,6 @@ const postSchema = z.object({
     .string()
     .max(280, { message: "Caption must be less than 280 characters" }),
   postImage: z.string().url(),
-  petId: z.number(),
 });
 
 async function handlePost(
@@ -41,13 +40,12 @@ async function handlePost(
   if (req.method === "POST") {
     try {
       const authorId = req.userId;
-      const { caption, postImage, petId } = parsed.data;
+      const { caption, postImage } = parsed.data;
 
       const post = await prisma.post.create({
         data: {
           caption,
           postImage,
-          pet: { connect: { id: petId } },
           author: { connect: { id: authorId } },
         },
       });
