@@ -13,9 +13,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
+import { z } from "zod";
+import { loginRequestSchema, loginResponseSchema } from "@/utils/zodSchemas";
+
+type LoginRequestType = z.infer<typeof loginRequestSchema>;
 
 const Login = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginRequestType>({
     email: "",
     password: "",
   });
@@ -39,7 +43,25 @@ const Login = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
+
     const data = await response.json();
+
+    const parsed = await loginResponseSchema.safeParseAsync(data);
+
+    if (!parsed.success) {
+      // TODO: Handle ZOD error
+      return;
+    }
+
+    if (!parsed.data.success) {
+      // TODO: Handle API error
+      return;
+    }
+
+    // TODO: NABARSAN YAP
+    parsed.data.message;
+
+    // TODO: Change below according to above
     if (data.success === false) {
       toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 2000 });
     } else {

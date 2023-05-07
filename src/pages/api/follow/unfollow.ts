@@ -4,6 +4,7 @@ import authMiddleware from "@/middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
+// TODO: WTF is this
 const handleUnfollowRequest = async (
   req: NextApiRequest,
   res: NextApiResponse,

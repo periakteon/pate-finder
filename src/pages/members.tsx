@@ -1,23 +1,13 @@
+import { followFollowResponse } from "@/utils/zodSchemas";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { z } from "zod";
+
 interface User {
   id: number;
   username: string;
   email: string;
 }
 [];
-
-const responseSchema = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    message: z.string(),
-  }),
-  z.object({
-    success: z.literal(false),
-    error: z.array(z.string()),
-  }),
-]);
 
 const Members = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -32,7 +22,7 @@ const Members = () => {
         body: JSON.stringify({ followingId }),
       });
       const data = await response.json();
-      const parsed = await responseSchema.safeParseAsync(data);
+      const parsed = await followFollowResponse.safeParseAsync(data);
 
       if (parsed.success) {
         if (parsed.data.success) {

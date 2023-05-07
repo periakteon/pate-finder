@@ -2,11 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
 import { z } from "zod";
+import { followFollowResponse } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
-type ResponseType =
-  // Discriminated Union
-  { success: true; message: string } | { success: false; error: string[] };
+type ResponseType = z.infer<typeof followFollowResponse>;
 
 const followSchema = z.object({
   followingId: z.number({
