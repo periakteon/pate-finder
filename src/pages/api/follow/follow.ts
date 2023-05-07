@@ -19,6 +19,21 @@ const handleFollowRequest = async (
   const followerId = req.userId;
 
   try {
+
+    if (followerId === followingId) {
+      return res.status(400).json({ message: "Kendinizi takip edemezsiniz!" });
+    }
+
+    // TODO: Gerek var mı?
+    const alreadyFollowing = await prisma.follows.findFirst({
+      where: {
+        followerId: Number(followerId),
+        followingId: Number(followingId),
+      },
+    });
+    if (alreadyFollowing) {
+      return res.status(400).json({ message: "Zaten takip ediyorsunuz!" });
+    }
     const follow = await prisma.follows.create({
       data: {
         follower: {
