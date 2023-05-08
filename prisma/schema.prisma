@@ -25,7 +25,7 @@ model User {
   followedBy Follows[] @relation("following")
   following  Follows[] @relation("follower")
 
-  Pet     Pet?
+  Pet     Pet[]
   posts   Post[]
   Comment Comment[]
 }

@@ -2,18 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Prisma, PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
 import { z } from "zod";
-import { followFollowResponse } from "@/utils/zodSchemas";
+import { followFollowResponse, followRequestSchema } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 type ResponseType = z.infer<typeof followFollowResponse>;
-
-const followSchema = z.object({
-  followingId: z.number({
-    required_error: "Takip edilecek kullanıcı id'si zorunludur.",
-    invalid_type_error:
-      "Takip edilecek kullanıcı id'si sayı tipinde olmalıdır.",
-  }),
-});
 
 const handleFollowRequest = async (
   req: NextApiRequest,
@@ -25,7 +17,7 @@ const handleFollowRequest = async (
       .json({ success: false, error: ["Method not allowed"] });
   }
 
-  const parsed = await followSchema.safeParseAsync(req.body);
+  const parsed = await followRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;

@@ -1,15 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Pet, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
 import { z } from "zod";
+import { getPetByUserResponse } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
-type ResponseType =
-  | { success: true; message: string; pets: Pet[] }
-  | { success: false; error: string[] };
+type ResponseType = z.infer<typeof getPetByUserResponse>;
 
-const getPetsByUserSchema = z.object({
+const getPetByUserSchema = z.object({
   userId: z
     .string({
       invalid_type_error: "Kullanıcı id'si sayı olmalıdır.",
@@ -22,40 +21,42 @@ const handleGetPetsByUser = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
-  const parsed = await getPetsByUserSchema.safeParseAsync(req.query);
-  console.log("parsed", parsed);
-  console.log("req.query:", req.query);
+  const parsed = await getPetByUserSchema.safeParseAsync(req.query);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
     );
-    return res.status(400).json({ success: false, error: errorMessages });
+    return res.status(400).json({ success: false, errors: errorMessages });
   }
   const { userId } = parsed.data;
-  console.log("userId:", userId);
 
   /**
-   * http://localhost:3000/api/pet/getPetsByUser?userId=1
+   * http://localhost:3000/api/pet/getPetByUser?userId=1
    */
   if (req.method !== "GET") {
     return res
       .status(405)
-      .json({ success: false, error: ["Method not allowed"] });
+      .json({ success: false, errors: ["Method not allowed"] });
   }
 
   try {
-    const pets = await prisma.pet.findMany({
+    const pet = await prisma.pet.findFirst({
       where: {
-        ownerId: userId,
+        userId: userId,
       },
     });
+    if (!pet) {
+      return res
+        .status(404)
+        .json({ success: false, errors: ["Pet bulunamadı."] });
+    }
     res
       .status(200)
-      .json({ success: true, message: "Petler başarıyla getirildi.", pets });
+      .json({ success: true, message: "Petler başarıyla getirildi.", pet });
   } catch (error) {
-    res.status(500).json({ success: false, error: ["Internal Server Error"] });
+    res.status(500).json({ success: false, errors: ["Internal Server Error"] });
   }
 };
 
