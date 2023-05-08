@@ -3,35 +3,20 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import crypto from "crypto";
 import { z } from "zod";
 import { hashPassword } from "@/utils/utils";
+import { registerResponse, registerRequestSchema } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
-type ResponseType =
-  // Discriminated Union
-  | { success: true; username: string; email: string; message: string }
-  | { success: false; error: string[] };
-
-const registerSchema = z.object({
-  username: z
-    .string()
-    .min(3, { message: "Kullanıcı adı 3 karakterden fazla olmalıdır." })
-    .max(20, { message: "Kullanıcı adı 20 karakterden fazla olamaz." }),
-  email: z
-    .string()
-    .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
-  password: z
-    .string()
-    .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
-});
+type ResponseType = z.infer<typeof registerResponse>;
 
 export default async function handleRegister(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: ["Hatalı metod"] });
+    return res.status(405).json({ success: false, errors: ["Hatalı metod"] });
   }
 
-  const parsed = await registerSchema.safeParseAsync(req.body);
+  const parsed = await registerRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
@@ -39,7 +24,7 @@ export default async function handleRegister(
       (errors) => errors ?? [],
     ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
 
-    return res.status(400).json({ success: false, error: errorMessages });
+    return res.status(400).json({ success: false, errors: errorMessages });
   }
 
   const { username, email, password } = parsed.data;
@@ -70,14 +55,14 @@ export default async function handleRegister(
       if (err.code === "P2002") {
         return res.status(400).json({
           success: false,
-          error: ["Bu e-mail adresi halihazırda kullanılmaktadır."],
+          errors: ["Bu e-mail adresi halihazırda kullanılmaktadır."],
         });
       }
     } else {
       console.log(err);
       return res
         .status(500)
-        .json({ success: false, error: ["Kayıt yapılırken hata oluştu."] });
+        .json({ success: false, errors: ["Kayıt yapılırken hata oluştu."] });
     }
   }
 }

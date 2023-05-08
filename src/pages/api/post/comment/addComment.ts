@@ -1,34 +1,50 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import { z, ZodError } from "zod";
+import { PrismaClient, Comment } from "@prisma/client";
+import { z } from "zod";
 import authMiddleware from "../../../../middleware/authMiddleware";
+import { commentRequestSchema } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
-const commentSchema = z.object({
-  postId: z.number(),
-  text: z.string(),
-});
+type ResponseType =
+  | { success: true; message: string; comment?: Comment }
+  | { success: false; error: string[] };
 
-async function addCommentHandler(req: NextApiRequest, res: NextApiResponse) {
+async function addCommentHandler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>,
+) {
   if (req.method !== "POST") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
+    return res
+      .status(400)
+      .json({ success: false, error: ["Method not allowed"] });
   }
-  try {
-    const userId = req.userId;
-    console.log("user Id:", userId);
 
-    const { postId, text } = commentSchema.parse(req.body);
+  const parsed = await commentRequestSchema.safeParseAsync(req.body);
+
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    // console.log(errorMap);
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+
+    return res.status(400).json({ success: false, error: errorMessages });
+  }
+
+  const userId = req.userId;
+  const { text, postId } = parsed.data;
+
+  try {
     const comment = await prisma.comment.create({
       data: {
         text,
-        owner: {
+        user: {
           connect: {
             id: userId,
           },
         },
-        relatedPost: {
+        post: {
           connect: {
             id: postId,
           },
@@ -36,10 +52,10 @@ async function addCommentHandler(req: NextApiRequest, res: NextApiResponse) {
       },
     });
 
-    res.status(200).json({ comment });
+    res.status(200).json({ success: true, message: "Comment added", comment });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ message: "Invalid data provided" });
+    res.status(400).json({ success: false, error: ["Comment error"] });
   }
 }
 

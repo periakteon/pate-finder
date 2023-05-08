@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Post } from "@prisma/client";
 import { z, ZodError } from "zod";
 import authMiddleware from "../../../middleware/authMiddleware";
+import { postRequestSchema } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
@@ -9,13 +10,6 @@ type ResponseType = // Discriminated Union
 
     | { success: true; message: string; post?: Post }
     | { success: false; error: string[] };
-
-const postSchema = z.object({
-  caption: z
-    .string()
-    .max(280, { message: "Caption must be less than 280 characters" }),
-  postImage: z.string().url(),
-});
 
 async function handlePost(
   req: NextApiRequest,
@@ -26,7 +20,7 @@ async function handlePost(
       .status(405)
       .json({ success: false, error: ["Method not allowed"] });
   }
-  const parsed = await postSchema.safeParseAsync(req.body);
+  const parsed = await postRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;

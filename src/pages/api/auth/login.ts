@@ -24,12 +24,14 @@ export default async function handleLogin(
   const parsed = await loginRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
-    // TODO: please use parsed.error here
-    return res
-      .status(400)
-      .json({ success: false, errors: ["Geçersiz form bilgisi."] });
-  }
+    const errorMap = parsed.error.flatten().fieldErrors;
+    // console.log(errorMap);
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    );
 
+    return res.status(400).json({ success: false, errors: errorMessages });
+  }
   const { email, password } = parsed.data;
 
   try {
