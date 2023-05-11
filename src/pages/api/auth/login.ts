@@ -71,7 +71,7 @@ export default async function handleLogin(
     });
 
     res.setHeader("Set-Cookie", cookie);
-    res.status(200).json({ success: true, message: "Giriş başarılı" });
+    res.status(200).json({ success: true, message: "Giriş başarılı", id: user.id, token: token});
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, errors: ["Bir hata oluştu."] });

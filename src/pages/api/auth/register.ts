@@ -62,7 +62,7 @@ export default async function handleRegister(
       console.log(err);
       return res
         .status(500)
-        .json({ success: false, errors: ["Kayıt yapılırken hata oluştu."] });
+        .json({ success: false, errors: ["Internal Server Error"] });
     }
   }
 }

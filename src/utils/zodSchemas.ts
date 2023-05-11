@@ -28,6 +28,8 @@ export const loginResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
     message: z.string(),
+    id: z.number(),
+    token: z.string(),
   }),
   z.object({
     success: z.literal(false),
