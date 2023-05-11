@@ -157,3 +157,24 @@ export const postRequestSchema = z.object({
     .max(280, { message: "Caption must be less than 280 characters" }),
   postImage: z.string().url(),
 });
+
+export const fetchFeedResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    posts: z.array(
+      z.object({
+        id: z.number(),
+        caption: z.string(),
+        postImage: z.string().url(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        authorId: z.number(),
+      }),
+    ),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
