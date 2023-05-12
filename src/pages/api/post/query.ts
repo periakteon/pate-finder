@@ -13,7 +13,7 @@ export async function getPostsByFollowedUsers(req: NextApiRequest, res: NextApiR
 
   const userId = req.userId;
   const { page } = req.query;
-  const pageNumber = parseInt(page as string, 10) || 1;
+  const pageNumber = Number(page) ?? 1;
   const skip = (pageNumber - 1) * POSTS_PER_PAGE;
 
   const follows = await prisma.follows.findMany({
@@ -28,6 +28,20 @@ export async function getPostsByFollowedUsers(req: NextApiRequest, res: NextApiR
       orderBy: { createdAt: 'desc' },
       skip,
       take: POSTS_PER_PAGE,
+      select: {
+        id: true,
+        caption: true,
+        postImage: true,
+        createdAt: true,
+        updatedAt: true,
+        authorId: true,
+        author: {
+          select: {
+            profile_picture: true,
+            username: true,
+          },
+        },
+      },
     }),
     prisma.post.count({
       where: { authorId: { in: followedUserIds } },

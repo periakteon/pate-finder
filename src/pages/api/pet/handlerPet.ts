@@ -4,7 +4,7 @@
   "name": "Fido",
   "breed": "Golden Retriever",
   "age": 3,
-  "profile_picture": "https://example.com/fido.jpg",
+  "pet_photo": "https://example.com/fido.jpg",
   "type": "Dog",
   "bio": "I'm a friendly and active dog who loves playing fetch!",
   "ownerId": 12345
@@ -40,7 +40,7 @@ const handlePet = async (
 
     return res.status(400).json({ success: false, errors: errorMessages });
   }
-  const { name, breed, age, profile_picture, type, bio } = parsed.data;
+  const { name, breed, age, pet_photo, type, bio } = parsed.data;
 
   if (req.method === "POST") {
     try {
@@ -62,7 +62,7 @@ const handlePet = async (
           name,
           breed,
           age,
-          profile_picture,
+          pet_photo,
           type,
           bio,
           userId: userId,

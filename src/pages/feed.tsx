@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 
 type Post = {
   id: number;
+  author: {
+    username: string;
+    profile_picture: string;
+  };
   authorId: number;
   caption: string;
   postImage: string;
@@ -79,9 +83,16 @@ function HomePage() {
         <ul>
           {posts.map((post, id) => (
             <li key={id}>
-              <h2 className="text-2xl text-center font-bold">{post.caption}</h2>
+              <p className="font-bold text-center my-3">USERNAME: {post.author.username}</p>
+              {post.author.profile_picture === null ? (
+                <Image className="mx-auto rounded-full border border-gray-900" src="https://img.freepik.com/free-icon/user_318-804790.jpg" alt="image" width={128} height={128} />
+              ) : (
+                <Image className="mx-auto rounded-full border border-gray-900" src={post.author.profile_picture} alt="image" width={128} height={128} />
+              )}
+              <h2 className="text-2xl text-center font-bold">CAPTION: {post.caption}</h2>
               <Image className="mx-auto" src={post.postImage} alt="image" width={640} height={480} />
-              <p className="font-bold text-center my-3">Ekleyen Kullanıcı: {post.authorId}</p>
+              <p className="font-bold text-center my-3">Post ID: {post.id}</p>
+              <p className="font-bold text-center my-3">User ID: {post.authorId}</p>
               <hr className="my-5" />
             </li>
           ))}

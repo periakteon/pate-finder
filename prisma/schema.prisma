@@ -16,6 +16,7 @@ model User {
   email     String   @unique
   hash      String
   salt      String
+  profile_picture String?
   phone     String?
   city      String?
   country   String?
@@ -35,7 +36,7 @@ model Pet {
   name            String
   breed           String
   age             Int
-  profile_picture String
+  pet_photo String
   type            String
   bio             String
   createdAt       DateTime @default(now())

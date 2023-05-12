@@ -121,7 +121,7 @@ export const handlerPetRequestSchema = z.object({
   name: z.string(),
   breed: z.string(),
   age: z.number(),
-  profile_picture: z.string().url(),
+  pet_photo: z.string().url(),
   type: z.string(),
   bio: z.string(),
 });
