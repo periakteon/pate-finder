@@ -25,6 +25,14 @@ export function Home() {
           Members
         </Link>
       </div>
+      <div className="m-7 text-6xl">
+        <Link
+          href={"/feed"}
+          className="hover:bg-rose-500 hover:text-white hover:rounded-lg"
+        >
+          Feed
+        </Link>
+      </div>
     </main>
   );
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 type Post = {
@@ -70,13 +71,14 @@ function HomePage() {
   console.log("Kalan sayfa: ", totalPages - pageNumber);
 
   return (
-    <div>
+    <div className="flex justify-center">
       <ul>
         {posts.map((post, id) => (
           <li key={id}>
             <h2>{post.caption}</h2>
-            <p>{post.postImage}</p>
+            <Image src={post.postImage} alt="image" width={640} height={480} />
             <p>Ekleyen Kullanıcı: {post.authorId}</p>
+            <hr />
           </li>
         ))}
       </ul>

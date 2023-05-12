@@ -23,7 +23,6 @@ export const verifyJwtToken = async (token: string) => {
      * yalnızca "payload" almak için verify edilen token'ın dönüş değerini destruct ediyoruz - yalnızca payload'ı alacak şekilde
      */
     const { payload } = await jwtVerify(token, getJwtSecretKey());
-    console.log("Dönen payload:", payload);
     return payload;
   } catch (error) {
     console.log(

@@ -34,8 +34,6 @@ const authMiddleware: NextMiddleware = async (request) => {
    */
   const hasVerifiedToken = token && (await verifyJwtToken(token));
 
-  console.log("hasVerifiedToken:", hasVerifiedToken);
-
   /**
    * infinite loop'a girmemek için (çünkü hasVerifiedToken aşağıda false dönüyorsa login'e redirect ediyor, login'de de aynı işlemi yapıyor ve TOO_MANY_REDIRECTS hatası alıyoruz)
    * bunun için request'in içerisinden gelen nextUrl'i, yani kullanıcının gitmek istediği linki alıyoruz
@@ -95,9 +93,8 @@ const authMiddleware: NextMiddleware = async (request) => {
 };
 
 // hangi sayfalarda kontrol yapmak istediğimizi belirtiyoruz
-// halihazırda login yapmışsa, "login" ve "register" route'larına erişemesin
 export const config = {
-  matcher: ["/login", "/register", "/myprofile"],
+  matcher: ["/myprofile", "/feed"],
 };
 
 export default authMiddleware;
