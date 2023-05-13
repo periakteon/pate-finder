@@ -34,9 +34,11 @@ const generateRandomUsers = async () => {
   try {
     await fs.writeFile("users.json", JSON.stringify(users));
     console.log("Kullanıcılar users.json dosyasına kaydedildi.");
+    return users;
   } catch (err) {
     console.error(err);
   }
 };
 
 generateRandomUsers();
+console.log(users);
