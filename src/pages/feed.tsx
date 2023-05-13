@@ -32,9 +32,17 @@ function HomePage() {
   useEffect(() => {
     const loadPosts = async (pageNumber: number) => {
       setIsLoading(true);
-      const res = await fetch(`/api/post/query?page=${pageNumber}`);
-      const data: ApiResponse = await res.json();
-      console.log(data);
+
+      const res = await fetch(
+        `/api/post/query?page=${pageNumber}&pageSize=${10}`,
+      );
+      const data = await res.json(); // TODO: ALARM ALARM ZOD VALIDATION, COERCING
+
+      // TODO HERE COMES THE ZOD use ResponseTypeSchema from feed.ts
+      // TODO PLX
+      if (data.posts.length === 0) {
+        setShowNoContentMessage(true);
+      }
 
       if (data.success === true) {
         setPosts((prevPosts) => [...prevPosts, ...data.posts]); //yeni gelecek postları eski postların üzerine ekliyoruz

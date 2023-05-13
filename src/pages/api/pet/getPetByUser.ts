@@ -44,9 +44,10 @@ const handleGetPetsByUser = async (
   try {
     const pet = await prisma.pet.findFirst({
       where: {
-        userId: userId,
+        userId,
       },
     });
+
     if (!pet) {
       return res
         .status(404)

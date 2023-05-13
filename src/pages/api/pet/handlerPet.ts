@@ -28,6 +28,12 @@ const handlePet = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, errors: ["Method not allowed"] });
+  }
+
   const userId = req.userId;
 
   const parsed = await handlerPetRequestSchema.safeParseAsync(req.body);
@@ -40,47 +46,44 @@ const handlePet = async (
 
     return res.status(400).json({ success: false, errors: errorMessages });
   }
-  const { name, breed, age, pet_photo, type, bio } = parsed.data;
 
-  if (req.method === "POST") {
-    try {
-      const hasPet = await prisma.pet.findFirst({
-        where: {
-          userId: userId,
+  const { name, breed, birthdate, pet_photo, type, bio } = parsed.data;
+
+  try {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        pet: {
+          upsert: {
+            create: {
+              name,
+              breed,
+              birthdate,
+              pet_photo,
+              type,
+              bio,
+            },
+            update: {
+              name,
+              breed,
+              birthdate,
+              pet_photo,
+              type,
+              bio,
+            },
+          },
         },
-      });
-      if (hasPet) {
-        return res.status(400).json({
-          success: false,
-          errors: [
-            "Bu kullanıcının zaten peti var: Birden fazla pet eklenemez.",
-          ],
-        });
-      }
-      const pet = await prisma.pet.create({
-        data: {
-          name,
-          breed,
-          age,
-          pet_photo,
-          type,
-          bio,
-          userId: userId,
-        },
-      });
-      return res
-        .status(200)
-        .json({ success: true, message: `Pet oluşturuldu!`, pet });
-    } catch (error) {
-      return res.status(500).json({
-        success: false,
-        errors: [`Pet oluşturulurken bir hata oluştu: ${error}`],
-      });
-    }
-  } else {
-    return res
-      .status(405)
-      .json({ success: false, errors: ["Method not allowed"] });
+      },
+    });
+
+    return res.status(200).json({ success: true, message: "İşlem başarılı!" });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      errors: [`Pet oluşturulurken bir hata oluştu: ${error}`],
+    });
   }
 };
 

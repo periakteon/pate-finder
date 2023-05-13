@@ -89,7 +89,7 @@ export const getPetByUserResponse = z.discriminatedUnion("success", [
       name: z.string(),
       breed: z.string(),
       type: z.string(),
-      age: z.number(),
+      birthdate: z.date(),
     }),
     message: z.string(),
   }),
@@ -103,13 +103,6 @@ export const handlerPetResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
     message: z.string(),
-    pet: z.object({
-      id: z.number(),
-      name: z.string(),
-      breed: z.string(),
-      type: z.string(),
-      age: z.number(),
-    }),
   }),
   z.object({
     success: z.literal(false),
@@ -120,7 +113,7 @@ export const handlerPetResponse = z.discriminatedUnion("success", [
 export const handlerPetRequestSchema = z.object({
   name: z.string(),
   breed: z.string(),
-  age: z.number(),
+  birthdate: z.date(),
   pet_photo: z.string().url(),
   type: z.string(),
   bio: z.string(),

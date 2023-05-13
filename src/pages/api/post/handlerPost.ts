@@ -31,6 +31,7 @@ async function handlePost(
 
     return res.status(400).json({ success: false, error: errorMessages });
   }
+
   if (req.method === "POST") {
     try {
       const authorId = req.userId;

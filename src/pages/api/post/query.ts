@@ -4,11 +4,13 @@ import authMiddleware from "@/middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
-const POSTS_PER_PAGE = 10;
+// TODO: ALARM ALARM Handle Request and Response type ZODS PLX
+// HANDLE req.query for request, and write
 
 export async function getPostsByFollowedUsers(
   req: NextApiRequest,
   res: NextApiResponse,
+  // res: NextApiResponse<ResponseType> plx
 ) {
   if (req.method !== "GET") {
     return res
@@ -17,45 +19,46 @@ export async function getPostsByFollowedUsers(
   }
 
   const userId = req.userId;
-  const { page } = req.query;
-  const pageNumber = Number(page) ?? 1;
-  const skip = (pageNumber - 1) * POSTS_PER_PAGE;
+  const { page, pageSize } = req.query;
 
-  const follows = await prisma.follows.findMany({
+  // TODO: ALARM ALARM ZOD VALIDATION PLX
+  const pageNumber = Number(page) ?? 1; // SET PAGE, and set default please
+  const pageSizeNumber = Number(pageSize) ?? 1; // SET PAGE SIZE MAX IN ZOD, and set default please
+  // TODO: ALARM ALARM ZOD VALIDATION PLX
+
+  const follows = await prisma.follow.findMany({
     where: { followerId: userId },
     select: { followingId: true },
   });
   const followedUserIds = follows.map((f) => f.followingId);
 
-  const [posts, count] = await Promise.all([
-    prisma.post.findMany({
-      where: { authorId: { in: followedUserIds } },
-      orderBy: { createdAt: "desc" },
-      skip,
-      take: POSTS_PER_PAGE,
-      select: {
-        id: true,
-        caption: true,
-        postImage: true,
-        createdAt: true,
-        updatedAt: true,
-        authorId: true,
-        author: {
-          select: {
-            profile_picture: true,
-            username: true,
-          },
+  const posts = await prisma.post.findMany({
+    where: { authorId: { in: followedUserIds } },
+    orderBy: { createdAt: "desc" },
+    skip: (pageNumber - 1) * pageSizeNumber,
+    take: pageSizeNumber,
+    select: {
+      id: true,
+      caption: true,
+      postImage: true,
+      createdAt: true,
+      updatedAt: true,
+      authorId: true,
+      author: {
+        select: {
+          profile_picture: true,
+          username: true,
         },
       },
-    }),
-    prisma.post.count({
-      where: { authorId: { in: followedUserIds } },
-    }),
-  ]);
+    },
+  });
 
-  const totalPages = Math.ceil(count / POSTS_PER_PAGE);
+  // TODO: PLX
+  // const result: QueryResponseType = {
 
-  return res.status(200).json({ success: true, posts, totalPages });
+  // }
+
+  return res.status(200).json({ success: true, posts });
 }
 
 export default authMiddleware(getPostsByFollowedUsers);
