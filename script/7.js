@@ -2,7 +2,8 @@
 Follow scripti.
 */
 
-const axios = require("axios");
+const axios = require("axios").default;
+axios.defaults.maxSockets = Infinity;
 const qs = require("qs");
 const users = require("./users.json");
 const followingIds = require("./followings.json");
@@ -10,7 +11,7 @@ const followingIds = require("./followings.json");
 const loginEndpoint = "http://localhost:3000/api/auth/login";
 const followEndpoint = "http://localhost:3000/api/follow/follow";
 
-async function makeRequest() {
+async function followRequest() {
   try {
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
@@ -65,7 +66,9 @@ async function makeRequest() {
     }
   } catch (error) {
     console.error(error.response.data);
+  } finally {
+    console.log("Follow işlemi bitti.");
   }
 }
 
-makeRequest();
+followRequest();

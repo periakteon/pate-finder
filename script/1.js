@@ -1,45 +1,42 @@
-/**
- * 100 adet random user generator
- */
+const fs = require("fs").promises;
+const { faker } = require("@faker-js/faker");
 
-const fs = require('fs');
-const { faker } = require('@faker-js/faker');
+const generateRandomUsers = async () => {
+  const users = [];
+  const usedEmails = new Set();
 
-let users = [];
-let usedEmails = new Set();
+  for (let i = 0; i < 100; i++) {
+    let username = faker.internet.userName();
+    let email = faker.internet.email();
 
-for (let i = 0; i < 100; i++) {
-  let username = faker.name.firstName();
-  let email = faker.internet.email();
-  while (usedEmails.has(email)) {
-    console.log(`Dikkat: ${email} adresi daha önce kullanıldı, yeni bir adres üretiliyor.`);
-    email = faker.internet.email();
-  }
-  usedEmails.add(email);
-  let password = faker.internet.password();
+    while (usedEmails.has(email)) {
+      console.warn(
+        `Dikkat: ${email} adresi daha önce kullanıldı, yeni bir adres üretiliyor.`
+      );
+      email = faker.internet.email();
+    }
 
-  if (username.length < 5) {
-    do {
+    usedEmails.add(email);
+
+    if (username.length < 5) {
       username = faker.name.firstName();
-    } while (username.length < 5);
+    }
+
+    const password = faker.internet.password();
+    const user = { username, email, password };
+
+    console.log(`Kullanıcı oluşturuldu: ${i}`);
+    users.push(user);
   }
 
-  let user = {
-    username: username,
-    email: email,
-    password: password,
-  };
-  console.log(`Kullanıcı oluşturuldu: ${i}`);
-  users.push(user);
-}
+  console.log("Çakışan e-postalar:", usedEmails);
 
-console.log("Çakışan e-postalar:", usedEmails);
-const jsonUsers = JSON.stringify(users);
-
-fs.writeFile('users.json', jsonUsers, (err) => {
-  if (err) {
+  try {
+    await fs.writeFile("users.json", JSON.stringify(users));
+    console.log("Kullanıcılar users.json dosyasına kaydedildi.");
+  } catch (err) {
     console.error(err);
-    return;
   }
-  console.log('Kullanıcılar users.json dosyasına kaydedildi.');
-});
+};
+
+generateRandomUsers();

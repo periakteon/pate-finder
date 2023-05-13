@@ -3,7 +3,8 @@
  */
 
 const fs = require("fs");
-const axios = require("axios");
+const axios = require("axios").default;
+axios.defaults.maxSockets = Infinity;
 
 const users = JSON.parse(fs.readFileSync("./users.json"));
 
@@ -24,7 +25,7 @@ async function registerUsers(users) {
       console.error(`Kullanıcı ${i} ${(user.email)} kaydedilirken HATA oluştu:`, error.response.data);
     }
 
-    await new Promise(resolve => setTimeout(resolve, 0010));
+    await new Promise(resolve => setTimeout(resolve, 0001));
   }
   
   console.log('Tüm kullanıcı kayıtları tamamlandı!');

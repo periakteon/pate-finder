@@ -3,17 +3,16 @@
  *
  */
 
-const axios = require("axios");
+const axios = require("axios").default;
+axios.defaults.maxSockets = Infinity;
 const qs = require("qs");
 const users = require("./users.json");
 const posts = require("./posts.json");
-const followingIds = require("./followings.json");
 
 const loginEndpoint = "http://localhost:3000/api/auth/login";
 const addPostEndpoint = "http://localhost:3000/api/post/handlerPost";
-const followEndpoint = "http://localhost:3000/api/follow/follow";
 
-async function makeRequest() {
+async function postRequest() {
   try {
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
@@ -56,6 +55,9 @@ async function makeRequest() {
   } catch (error) {
     console.error(error.response.data);
   }
+  finally {
+    console.log("All posts have been added!");
+  }
 }
 
-makeRequest();
+postRequest();
