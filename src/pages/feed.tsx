@@ -26,10 +26,10 @@ function HomePage() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showNoContentMessage, setShowNoContentMessage] = useState<boolean>(false);
+  const [showNoContentMessage, setShowNoContentMessage] =
+    useState<boolean>(false);
 
   useEffect(() => {
-
     const loadPosts = async (pageNumber: number) => {
       setIsLoading(true);
       const res = await fetch(`/api/post/query?page=${pageNumber}`);
@@ -43,7 +43,7 @@ function HomePage() {
       } else {
         console.error(data.errors);
       }
-    }
+    };
 
     // İlk sayfa yükleme
     loadPosts(pageNumber);
@@ -71,7 +71,8 @@ function HomePage() {
     // Sayfa scroll edildiğinde yeni postlar yükleniyor
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }), [];
+  }),
+    [];
 
   console.log("Sayfa numarası: ", pageNumber);
   console.log("Toplam sayfa: ", totalPages);
@@ -83,25 +84,47 @@ function HomePage() {
         <ul>
           {posts.map((post, id) => (
             <li key={id}>
-              <p className="font-bold text-center my-3">USERNAME: {post.author.username}</p>
+              <p className="font-bold text-center my-3">
+                USERNAME: {post.author.username}
+              </p>
               {post.author.profile_picture === null ? (
-                <Image className="mx-auto rounded-full border border-gray-900" src="https://img.freepik.com/free-icon/user_318-804790.jpg" alt="image" width={128} height={128} />
+                <Image
+                  className="mx-auto rounded-full border border-gray-900"
+                  src="https://img.freepik.com/free-icon/user_318-804790.jpg"
+                  alt="image"
+                  width={128}
+                  height={128}
+                />
               ) : (
-                <Image className="mx-auto rounded-full border border-gray-900" src={post.author.profile_picture} alt="image" width={128} height={128} />
+                <Image
+                  className="mx-auto rounded-full border border-gray-900"
+                  src={post.author.profile_picture}
+                  alt="image"
+                  width={128}
+                  height={128}
+                />
               )}
-              <h2 className="text-2xl text-center font-bold">CAPTION: {post.caption}</h2>
-              <Image className="mx-auto" src={post.postImage} alt="image" width={640} height={480} />
+              <h2 className="text-2xl text-center font-bold">
+                CAPTION: {post.caption}
+              </h2>
+              <Image
+                className="mx-auto"
+                src={post.postImage}
+                alt="image"
+                width={640}
+                height={480}
+              />
               <p className="font-bold text-center my-3">Post ID: {post.id}</p>
-              <p className="font-bold text-center my-3">User ID: {post.authorId}</p>
+              <p className="font-bold text-center my-3">
+                User ID: {post.authorId}
+              </p>
               <hr className="my-5" />
             </li>
           ))}
         </ul>
       </div>
 
-      {isLoading && (
-        <p>Loading...</p>
-      )}
+      {isLoading && <p>Loading...</p>}
 
       {pageNumber < totalPages && !isLoading && (
         <button onClick={handleLoadMore} disabled={pageNumber >= totalPages}>
@@ -110,7 +133,9 @@ function HomePage() {
       )}
 
       {showNoContentMessage && (
-        <p className="text-center text-gray-400 font-bold my-5">Gösterilecek yeni içerik yok.</p>
+        <p className="text-center text-gray-400 font-bold my-5">
+          Gösterilecek yeni içerik yok.
+        </p>
       )}
     </>
   );

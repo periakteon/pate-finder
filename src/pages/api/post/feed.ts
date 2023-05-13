@@ -35,7 +35,13 @@ export async function getPostsByFollowedUsers(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
   );
 
-  return res.status(200).json({ success: true, message: "Postlar başarıyla çekildi!", posts: sortedPosts });
+  return res
+    .status(200)
+    .json({
+      success: true,
+      message: "Postlar başarıyla çekildi!",
+      posts: sortedPosts,
+    });
 }
 
 export default authMiddleware(getPostsByFollowedUsers);

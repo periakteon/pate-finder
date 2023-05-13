@@ -40,11 +40,14 @@ const Register = () => {
     });
     const data = await response.json();
     if (data.success === false) {
-      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 3000 });
-    } else if (data.success === false && data.error["errorMessage"]) {
+      toast.error(`Hata: ${data.errors}`, {
+        draggable: false,
+        autoClose: 3000,
+      });
+    } else if (data.success === false && data.errors["errorMessage"]) {
       // sistemde e-mail kayıtlıysa hatayı göstermek için
       const errorMessage =
-        data.error["errorMessage"] || "Bilinmeyen bir hata oluştu.";
+        data.errors["errorMessage"] || "Bilinmeyen bir hata oluştu.";
       toast.error(`Hata: ${errorMessage}}`, {
         draggable: false,
         autoClose: 3000,

@@ -6,7 +6,12 @@ import { hashPassword } from "@/utils/utils";
 import { registerResponse, registerRequestSchema } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
+
 type ResponseType = z.infer<typeof registerResponse>;
+type PrismaErrorMeta = {
+  target: string[];
+  [key: string]: string[];
+};
 
 export default async function handleRegister(
   req: NextApiRequest,
@@ -53,9 +58,10 @@ export default async function handleRegister(
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       if (err.code === "P2002") {
+        const target = (err.meta as PrismaErrorMeta).target[0];
         return res.status(400).json({
           success: false,
-          errors: ["Bu e-mail adresi halihazırda kullanılmaktadır."],
+          errors: [`Bu ${target} halihazırda kullanılmaktadır.`],
         });
       }
     } else {

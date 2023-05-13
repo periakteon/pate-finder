@@ -6,9 +6,14 @@ const prisma = new PrismaClient();
 
 const POSTS_PER_PAGE = 10;
 
-export async function getPostsByFollowedUsers(req: NextApiRequest, res: NextApiResponse) {
+export async function getPostsByFollowedUsers(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== "GET") {
-    return res.status(405).json({ success: false, errors: ["Method not allowed"] });
+    return res
+      .status(405)
+      .json({ success: false, errors: ["Method not allowed"] });
   }
 
   const userId = req.userId;
@@ -25,7 +30,7 @@ export async function getPostsByFollowedUsers(req: NextApiRequest, res: NextApiR
   const [posts, count] = await Promise.all([
     prisma.post.findMany({
       where: { authorId: { in: followedUserIds } },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: "desc" },
       skip,
       take: POSTS_PER_PAGE,
       select: {
