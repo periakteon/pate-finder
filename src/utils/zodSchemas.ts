@@ -41,7 +41,7 @@ export const registerRequestSchema = z.object({
   username: z
     .string()
     .min(3, { message: "Kullanıcı adı 3 karakterden fazla olmalıdır." })
-    .max(20, { message: "Kullanıcı adı 20 karakterden fazla olamaz." }),
+    .max(25, { message: "Kullanıcı adı 20 karakterden fazla olamaz." }),
   email: z
     .string()
     .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
