@@ -1,37 +1,30 @@
-const { spawn } = require('child_process');
+const { exec } = require("child_process");
 
 async function runNodeFiles() {
-  const files = ['./...prepare.js', './..go.js'];
+  const files = ["./...prepare.js", "./..go.js"];
 
   for (const file of files) {
     console.log(`Running ${file}...`);
     await runNodeFile(file);
+    console.log(`${file} has finished running.`);
   }
 
-  console.log('All files have been run!');
+  console.log("All files have been run!");
 }
 
 async function runNodeFile(file) {
   return new Promise((resolve, reject) => {
-    const childProcess = spawn('node', [file]);
-
-    childProcess.on('error', (error) => {
-      console.error(`Error running ${file}:`, error);
-      reject(error);
-    });
-
-    childProcess.on('exit', (code) => {
-      if (code === 0) {
-        console.log(`${file} has finished running.`);
-        resolve();
+    exec(`node ${file}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error running ${file}:`, error);
+        reject(error);
       } else {
-        console.error(`${file} has failed with code ${code}.`);
-        reject(code);
+        resolve();
       }
     });
   });
 }
 
 runNodeFiles()
-  .then(() => console.log('All files have finished running.'))
-  .catch((error) => console.error('An error occurred:', error));
+  .then(() => console.log("All files have finished running."))
+  .catch((error) => console.error("An error occurred:", error));
