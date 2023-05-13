@@ -19,6 +19,8 @@ async function runNodeFile(file) {
         console.error(`Error running ${file}:`, error);
         reject(error);
       } else {
+        console.log(`${file} stdout: ${stdout}`);
+        console.error(`${file} stderr: ${stderr}`);
         resolve();
       }
     });
