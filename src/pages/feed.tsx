@@ -13,7 +13,7 @@ type Post = {
   postImage: string;
   createdAt: string;
   updatedAt: string;
-}
+};
 
 const infiniteScrollResponseSchema = z.object({
   success: z.boolean(),
@@ -34,8 +34,6 @@ const infiniteScrollResponseSchema = z.object({
   errors: z.record(z.array(z.string())).optional(),
 });
 
-
-
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -44,35 +42,36 @@ function HomePage() {
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
 
-    useEffect(() => {
-      const loadPosts = async (pageNumber: number) => {
-        setIsLoading(true);
-    
-        const res = await fetch(
-          `/api/post/query?page=${pageNumber}&pageSize=${10}`,
+  useEffect(() => {
+    const loadPosts = async (pageNumber: number) => {
+      setIsLoading(true);
+
+      const res = await fetch(
+        `/api/post/query?page=${pageNumber}&pageSize=${10}`,
+      );
+      try {
+        const data = await infiniteScrollResponseSchema.parseAsync(
+          await res.json(),
         );
-        try {
-          const data = await infiniteScrollResponseSchema.parseAsync(await res.json());
-    
-          if (data.posts.length === 0) {
-            setShowNoContentMessage(true);
-            return;
-          }
-          
-          if (data.success === true) {
-            setPosts((prevPosts) => [...prevPosts, ...data.posts]);
-            setIsLoading(false);
-          } else {
-            console.error(data.errors);
-          }
-        } catch (error) {
-          console.error(error);
+
+        if (data.posts.length === 0) {
+          setShowNoContentMessage(true);
+          return;
         }
-      };
-    
-      loadPosts(pageNumber);
-    }, [pageNumber]);
-    
+
+        if (data.success === true) {
+          setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+          setIsLoading(false);
+        } else {
+          console.error(data.errors);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadPosts(pageNumber);
+  }, [pageNumber]);
 
   const handleLoadMore = () => {
     setPageNumber((prevPageNumber) => prevPageNumber + 1);
@@ -94,8 +93,9 @@ function HomePage() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }), [];
-  
+  }),
+    [];
+
   return (
     <>
       <div className="flex justify-center">

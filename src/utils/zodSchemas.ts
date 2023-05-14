@@ -217,25 +217,32 @@ export const fetchFeedResponse = z.discriminatedUnion("success", [
  */
 
 export const infiniteScrollRequestQuerySchema = z.object({
-  page: z.string({
-    invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
-    required_error: "Sayfa numarası gereklidir.",
-  })
-  .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
-  .default("1")
-  .transform(Number)
-  .refine((val) => val >= 1, { message: "Sayfa numarası 1'den küçük olamaz." }),
+  page: z
+    .string({
+      invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
+      required_error: "Sayfa numarası gereklidir.",
+    })
+    .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
+    .default("1")
+    .transform(Number)
+    .refine((val) => val >= 1, {
+      message: "Sayfa numarası 1'den küçük olamaz.",
+    }),
 
-  pageSize: z.string({
-    invalid_type_error: "Sayfa büyüklüğü sayı tipinde olmalıdır.",
-    required_error: "Sayfa büyüklüğü gereklidir.",
-  })
-  .default("10")
-  .transform(Number)
-  .refine((val) => val >= 1, { message: "Sayfa büyüklüğü 1'den küçük olamaz." })
-  .refine((val) => val <= 100, { message: "Sayfa büyüklüğü 100'den büyük olamaz." }),
+  pageSize: z
+    .string({
+      invalid_type_error: "Sayfa büyüklüğü sayı tipinde olmalıdır.",
+      required_error: "Sayfa büyüklüğü gereklidir.",
+    })
+    .default("10")
+    .transform(Number)
+    .refine((val) => val >= 1, {
+      message: "Sayfa büyüklüğü 1'den küçük olamaz.",
+    })
+    .refine((val) => val <= 100, {
+      message: "Sayfa büyüklüğü 100'den büyük olamaz.",
+    }),
 });
-
 
 export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
   z.object({
@@ -256,7 +263,7 @@ export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
     ),
     message: z.string(),
   }),
-  
+
   z.object({
     success: z.literal(false),
     errors: z.array(z.string()),
