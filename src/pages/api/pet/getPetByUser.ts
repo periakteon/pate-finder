@@ -2,26 +2,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
 import { z } from "zod";
-import { getPetByUserResponse } from "@/utils/zodSchemas";
+import { getPetByUserRequest, getPetByUserResponse } from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof getPetByUserResponse>;
 
-const getPetByUserSchema = z.object({
-  userId: z
-    .string({
-      invalid_type_error: "Kullanıcı id'si sayı olmalıdır.",
-      required_error: "Kullanıcı id'si gereklidir.",
-    })
-    .transform(Number),
-});
-
 const handleGetPetsByUser = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
-  const parsed = await getPetByUserSchema.safeParseAsync(req.query);
+  const parsed = await getPetByUserRequest.safeParseAsync(req.query);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;

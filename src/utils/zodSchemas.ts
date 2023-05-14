@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Follow API Schemas
+ */
 export const followFollowResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -19,6 +22,31 @@ export const followRequestSchema = z.object({
   }),
 });
 
+/**
+ * Unfollow API Schemas
+ */
+export const unfollowResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const unfollowRequestSchema = z.object({
+  followingId: z.number({
+    required_error: "Takipten çıkılacak kullanıcı id'si zorunludur.",
+    invalid_type_error:
+      "Takipten çıkılacak kullanıcı id'si sayı tipinde olmalıdır.",
+  }),
+});
+
+/**
+ * Login API Schemas
+ */
 export const loginRequestSchema = z.object({
   email: z.string().email(),
   password: z.string(),
@@ -37,6 +65,9 @@ export const loginResponseSchema = z.discriminatedUnion("success", [
   }),
 ]);
 
+/**
+ * Register API Schemas
+ */
 export const registerRequestSchema = z.object({
   username: z
     .string()
@@ -49,6 +80,7 @@ export const registerRequestSchema = z.object({
     .string()
     .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
 });
+
 export const registerResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -62,23 +94,16 @@ export const registerResponse = z.discriminatedUnion("success", [
   }),
 ]);
 
-export const unfollowResponse = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    message: z.string(),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);
-
-export const unfollowRequestSchema = z.object({
-  followingId: z.number({
-    required_error: "Takipten çıkılacak kullanıcı id'si zorunludur.",
-    invalid_type_error:
-      "Takipten çıkılacak kullanıcı id'si sayı tipinde olmalıdır.",
-  }),
+/**
+ * Get Pets API Schemas
+ */
+export const getPetByUserRequest = z.object({
+  userId: z
+    .string({
+      invalid_type_error: "Kullanıcı id'si sayı olmalıdır.",
+      required_error: "Kullanıcı id'si gereklidir.",
+    })
+    .transform(Number),
 });
 
 export const getPetByUserResponse = z.discriminatedUnion("success", [
@@ -99,6 +124,9 @@ export const getPetByUserResponse = z.discriminatedUnion("success", [
   }),
 ]);
 
+/**
+ * Create Pet Schemas
+ */
 export const handlerPetResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -119,6 +147,9 @@ export const handlerPetRequestSchema = z.object({
   bio: z.string(),
 });
 
+/**
+ * Fetch All Pets Schema
+ */
 export const fetchAllPetsResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -139,11 +170,17 @@ export const fetchAllPetsResponse = z.discriminatedUnion("success", [
   }),
 ]);
 
+/**
+ * Comment API Schema
+ */
 export const commentRequestSchema = z.object({
   postId: z.number(),
   text: z.string(),
 });
 
+/**
+ * Create Post API Schema
+ */
 export const postRequestSchema = z.object({
   caption: z
     .string()
@@ -151,6 +188,9 @@ export const postRequestSchema = z.object({
   postImage: z.string().url(),
 });
 
+/**
+ * Fetch Feed API Schema
+ */
 export const fetchFeedResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -166,6 +206,57 @@ export const fetchFeedResponse = z.discriminatedUnion("success", [
     ),
     message: z.string(),
   }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+/**
+ * Infinite Scroll Query API Schemas
+ */
+
+export const infiniteScrollRequestQuerySchema = z.object({
+  page: z.string({
+    invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
+    required_error: "Sayfa numarası gereklidir.",
+  })
+  .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
+  .default("1")
+  .transform(Number)
+  .refine((val) => val >= 1, { message: "Sayfa numarası 1'den küçük olamaz." }),
+
+  pageSize: z.string({
+    invalid_type_error: "Sayfa büyüklüğü sayı tipinde olmalıdır.",
+    required_error: "Sayfa büyüklüğü gereklidir.",
+  })
+  .default("10")
+  .transform(Number)
+  .refine((val) => val >= 1, { message: "Sayfa büyüklüğü 1'den küçük olamaz." })
+  .refine((val) => val <= 100, { message: "Sayfa büyüklüğü 100'den büyük olamaz." }),
+});
+
+
+export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    posts: z.array(
+      z.object({
+        id: z.number(),
+        caption: z.string(),
+        postImage: z.string().url(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        authorId: z.number(),
+        author: z.object({
+          profile_picture: z.string().url().nullable(),
+          username: z.string(),
+        }),
+      }),
+    ),
+    message: z.string(),
+  }),
+  
   z.object({
     success: z.literal(false),
     errors: z.array(z.string()),

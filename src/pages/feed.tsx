@@ -1,25 +1,40 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { z } from "zod";
 
 type Post = {
   id: number;
   author: {
     username: string;
-    profile_picture: string;
+    profile_picture: string | null;
   };
   authorId: number;
   caption: string;
   postImage: string;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-type ApiResponse = {
-  success: boolean;
-  posts: Post[];
-  totalPages: number;
-  errors?: string[];
-};
+const infiniteScrollResponseSchema = z.object({
+  success: z.boolean(),
+  posts: z.array(
+    z.object({
+      id: z.number(),
+      author: z.object({
+        username: z.string(),
+        profile_picture: z.string().nullable(),
+      }),
+      authorId: z.number(),
+      caption: z.string(),
+      postImage: z.string(),
+      createdAt: z.string(),
+      updatedAt: z.string(),
+    }),
+  ),
+  errors: z.record(z.array(z.string())).optional(),
+});
+
+
 
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -29,63 +44,58 @@ function HomePage() {
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    const loadPosts = async (pageNumber: number) => {
-      setIsLoading(true);
-
-      const res = await fetch(
-        `/api/post/query?page=${pageNumber}&pageSize=${10}`,
-      );
-      const data = await res.json(); // TODO: ALARM ALARM ZOD VALIDATION, COERCING
-
-      // TODO HERE COMES THE ZOD use ResponseTypeSchema from feed.ts
-      // TODO PLX
-      if (data.posts.length === 0) {
-        setShowNoContentMessage(true);
-      }
-
-      if (data.success === true) {
-        setPosts((prevPosts) => [...prevPosts, ...data.posts]); //yeni gelecek postları eski postların üzerine ekliyoruz
-        setTotalPages(data.totalPages);
-        setIsLoading(false);
-      } else {
-        console.error(data.errors);
-      }
-    };
-
-    // İlk sayfa yükleme
-    loadPosts(pageNumber);
-  }, [pageNumber]);
+    useEffect(() => {
+      const loadPosts = async (pageNumber: number) => {
+        setIsLoading(true);
+    
+        const res = await fetch(
+          `/api/post/query?page=${pageNumber}&pageSize=${10}`,
+        );
+        try {
+          const data = await infiniteScrollResponseSchema.parseAsync(await res.json());
+    
+          if (data.posts.length === 0) {
+            setShowNoContentMessage(true);
+            return;
+          }
+          
+          if (data.success === true) {
+            setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+            setIsLoading(false);
+          } else {
+            console.error(data.errors);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      loadPosts(pageNumber);
+    }, [pageNumber]);
+    
 
   const handleLoadMore = () => {
-    if (pageNumber < totalPages) {
-      setPageNumber((prevPageNumber) => prevPageNumber + 1);
-      if (pageNumber + 1 === totalPages) {
-        setShowNoContentMessage(true);
-      }
+    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+  };
+
+  const handleScroll = () => {
+    const bottom =
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      document.documentElement.scrollHeight;
+
+    if (bottom && !isLoading && !showNoContentMessage) {
+      handleLoadMore();
     }
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Sayfa sonuna geldiğimizi kontrol ediyoruz
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
-        handleLoadMore();
-      }
-    };
-    // Sayfa scroll edildiğinde yeni postlar yükleniyor
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }),
-    [];
 
-  console.log("Sayfa numarası: ", pageNumber);
-  console.log("Toplam sayfa: ", totalPages);
-  console.log("Kalan sayfa: ", totalPages - pageNumber);
-
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }), [];
+  
   return (
     <>
       <div className="flex justify-center">

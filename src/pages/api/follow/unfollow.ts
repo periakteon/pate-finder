@@ -8,7 +8,6 @@ const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof unfollowResponse>;
 
-// TODO: WTF is this
 const handleUnfollowRequest = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
@@ -33,10 +32,8 @@ const handleUnfollowRequest = async (
   const followerId = req.userId;
   const { followingId } = parsed.data;
 
-  // TODO: ALARM ALARM no zod type validation
-
   try {
-    await prisma.follows.delete({
+    await prisma.follow.delete({
       where: {
         followerId_followingId: {
           followerId: Number(followerId),
@@ -46,7 +43,6 @@ const handleUnfollowRequest = async (
     });
     res.status(200).json({ success: true, message: "Takipten çıkıldı." });
   } catch (errors) {
-    // TODO: Check if it errors for already not present connection
     res.status(405).json({ success: false, errors: ["Method not allowed"] });
   }
 };

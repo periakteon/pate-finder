@@ -2,10 +2,10 @@ const fs = require("fs");
 const { faker } = require("@faker-js/faker");
 const axios = require("axios");
 
-const loginEndpoint = "http://localhost:3001/api/auth/login";
-const registerEndpoint = "http://localhost:3001/api/auth/register";
-const addPostEndpoint = "http://localhost:3001/api/post/handlerPost";
-const followEndpoint = "http://localhost:3001/api/follow/follow";
+const loginEndpoint = "http://localhost:3000/api/auth/login";
+const registerEndpoint = "http://localhost:3000/api/auth/register";
+const addPostEndpoint = "http://localhost:3000/api/post/handlerPost";
+const followEndpoint = "http://localhost:3000/api/follow/follow";
 
 // TODO: Add pet to user, see handlerPet.ts
 

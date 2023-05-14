@@ -39,7 +39,7 @@ const handleFollowRequest = async (
   }
 
   try {
-    const follow = await prisma.follows.create({
+    await prisma.follow.create({
       data: {
         follower: {
           connect: {

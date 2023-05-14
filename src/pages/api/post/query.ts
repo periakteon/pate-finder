@@ -1,16 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 import authMiddleware from "@/middleware/authMiddleware";
+import {
+  infiniteScrollRequestQuerySchema,
+  infiniteScrollResponseSchema,
+} from "../../../utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
-// TODO: ALARM ALARM Handle Request and Response type ZODS PLX
-// HANDLE req.query for request, and write
+type infiniteScrollResponseSchema = z.infer<
+  typeof infiniteScrollResponseSchema
+>;
 
 export async function getPostsByFollowedUsers(
   req: NextApiRequest,
-  res: NextApiResponse,
-  // res: NextApiResponse<ResponseType> plx
+  res: NextApiResponse<infiniteScrollResponseSchema>,
 ) {
   if (req.method !== "GET") {
     return res
@@ -19,12 +24,23 @@ export async function getPostsByFollowedUsers(
   }
 
   const userId = req.userId;
-  const { page, pageSize } = req.query;
+  const parsed = await infiniteScrollRequestQuerySchema.safeParseAsync(
+    req.query,
+  );
 
-  // TODO: ALARM ALARM ZOD VALIDATION PLX
-  const pageNumber = Number(page) ?? 1; // SET PAGE, and set default please
-  const pageSizeNumber = Number(pageSize) ?? 1; // SET PAGE SIZE MAX IN ZOD, and set default please
-  // TODO: ALARM ALARM ZOD VALIDATION PLX
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    );
+
+    return res.status(400).json({ success: false, errors: errorMessages });
+  }
+
+  const { page, pageSize } = parsed.data;
+
+  const pageNumber = page; // SET PAGE, and set default please
+  const pageSizeNumber = pageSize; // SET PAGE SIZE MAX IN ZOD, and set default please
 
   const follows = await prisma.follow.findMany({
     where: { followerId: userId },
@@ -58,7 +74,9 @@ export async function getPostsByFollowedUsers(
 
   // }
 
-  return res.status(200).json({ success: true, posts });
+  return res
+    .status(200)
+    .json({ success: true, posts, message: "Feed başarıyla getirildi." });
 }
 
 export default authMiddleware(getPostsByFollowedUsers);
