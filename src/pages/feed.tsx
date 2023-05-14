@@ -34,20 +34,23 @@ const infiniteScrollResponseSchema = z.object({
   errors: z.record(z.array(z.string())).optional(),
 });
 
+const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
 
   useEffect(() => {
-    const loadPosts = async (pageNumber: number) => {
+    const loadPosts = async (pageNumber: number, pageSize: number) => {
       setIsLoading(true);
 
       const res = await fetch(
-        `/api/post/query?page=${pageNumber}&pageSize=${10}`,
+        `/api/post/query?page=${pageNumber}&pageSize=${pageSize}`,
       );
       try {
         const data = await infiniteScrollResponseSchema.parseAsync(
@@ -62,16 +65,17 @@ function HomePage() {
         if (data.success === true) {
           setPosts((prevPosts) => [...prevPosts, ...data.posts]);
           setIsLoading(false);
+          console.log("DATA:", data);
         } else {
           console.error(data.errors);
         }
       } catch (error) {
         console.error(error);
       }
-    };
+    };    
 
-    loadPosts(pageNumber);
-  }, [pageNumber]);
+    loadPosts(pageNumber, pageSize);
+  }, [pageNumber, pageSize]);
 
   const handleLoadMore = () => {
     setPageNumber((prevPageNumber) => prevPageNumber + 1);
@@ -98,6 +102,22 @@ function HomePage() {
 
   return (
     <>
+      <p>KAÇ GÖNDERİ?</p>
+      <select
+        value={pageSize}
+        onChange={(event) => {
+          const newPageSize = parseInt(event.target.value);
+          setPageSize(newPageSize);
+          setPageNumber(1); // Reset page number when page size changes
+        }}
+      >
+        {PAGE_SIZE_OPTIONS.map((size) => (
+          <option key={size} value={size}>
+            {size}
+          </option>
+        ))}
+      </select>
+
       <div className="flex justify-center">
         <ul>
           {posts.map((post, id) => (
