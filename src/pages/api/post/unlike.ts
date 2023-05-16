@@ -52,7 +52,7 @@ const handleUnlikeRequest = async (
         like: existingLike,
       });
     } else {
-      return res.status(400).json({
+      return res.status(200).json({
         success: false,
         errors: ["Bu gönderiyi zaten beğenmediğiniz için beğeni kaldırılamaz!"],
       });
