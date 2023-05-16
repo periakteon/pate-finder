@@ -42,7 +42,7 @@ const handlePet = async (
     const errorMap = parsed.error.flatten().fieldErrors;
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
-    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+    );
 
     return res.status(400).json({ success: false, errors: errorMessages });
   }

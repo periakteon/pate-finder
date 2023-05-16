@@ -12,8 +12,14 @@ const handleLikeRequest = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
-  const parsed = await likeRequest.safeParseAsync(req.body);
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, errors: ["Method not allowed"] });
+  }
+
   const userId = req.userId;
+  const parsed = await likeRequest.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
@@ -22,12 +28,6 @@ const handleLikeRequest = async (
     );
 
     return res.status(400).json({ success: false, errors: errorMessages });
-  }
-
-  if (req.method !== "POST") {
-    return res
-      .status(405)
-      .json({ success: false, errors: ["Method not allowed"] });
   }
 
   const { postId } = parsed.data;
@@ -47,9 +47,9 @@ const handleLikeRequest = async (
         data: {},
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
-        message: "Like güncellendi!",
+        message: "Bu gönderi zaten beğenildi!",
         like: updatedLike,
       });
     } else {
@@ -61,7 +61,7 @@ const handleLikeRequest = async (
         },
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Like başarılı!",
         like: newLike,

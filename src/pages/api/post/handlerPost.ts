@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 type ResponseType = // Discriminated Union
 
     | { success: true; message: string; post?: Post }
-    | { success: false; error: string[] };
+    | { success: false; errors: string[] };
 
 async function handlePost(
   req: NextApiRequest,
@@ -18,18 +18,17 @@ async function handlePost(
   if (req.method !== "POST") {
     return res
       .status(405)
-      .json({ success: false, error: ["Method not allowed"] });
+      .json({ success: false, errors: ["Method not allowed"] });
   }
   const parsed = await postRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
-    // console.log(errorMap);
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
-    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+    );
 
-    return res.status(400).json({ success: false, error: errorMessages });
+    return res.status(400).json({ success: false, errors: errorMessages });
   }
 
   if (req.method === "POST") {
@@ -51,7 +50,7 @@ async function handlePost(
     } catch (error) {
       res
         .status(500)
-        .json({ success: false, error: ["Internal Server Error"] });
+        .json({ success: false, errors: ["Internal Server Error"] });
     }
   }
 }

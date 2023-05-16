@@ -38,9 +38,9 @@ export const unfollowResponse = z.discriminatedUnion("success", [
 
 export const unfollowRequestSchema = z.object({
   followingId: z.number({
-    required_error: "Takipten çıkılacak kullanıcı id'si zorunludur.",
+    required_error: "Takipten çıkılacak kullanıcı ID'si zorunludur.",
     invalid_type_error:
-      "Takipten çıkılacak kullanıcı id'si sayı tipinde olmalıdır.",
+      "Takipten çıkılacak kullanıcı ID'si sayı tipinde olmalıdır.",
   }),
 });
 
@@ -51,7 +51,7 @@ export const loginRequestSchema = z.object({
   email: z
     .string()
     .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
-  password: z.string(),
+  password: z.string({ required_error: "Parola gereklidir." }),
 });
 
 export const loginResponseSchema = z.discriminatedUnion("success", [
@@ -76,10 +76,13 @@ export const registerRequestSchema = z.object({
     .min(3, { message: "Kullanıcı adı 3 karakterden fazla olmalıdır." })
     .max(25, { message: "Kullanıcı adı 20 karakterden fazla olamaz." }),
   email: z
-    .string()
+    .string({
+      required_error: "E-mail adresi gereklidir.",
+      invalid_type_error: "E-mail adresi string tipinde olmalıdır.",
+    })
     .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
   password: z
-    .string()
+    .string({ required_error: "Parola gereklidir." })
     .min(7, { message: "Parola 7 karakterden fazla olmalıdir." }),
 });
 
@@ -102,8 +105,8 @@ export const registerResponse = z.discriminatedUnion("success", [
 export const getPetByUserRequest = z.object({
   userId: z
     .string({
-      invalid_type_error: "Kullanıcı id'si sayı olmalıdır.",
-      required_error: "Kullanıcı id'si gereklidir.",
+      invalid_type_error: "Kullanıcı ID'si sayı olmalıdır.",
+      required_error: "Kullanıcı ID'si gereklidir.",
     })
     .transform(Number),
 });
@@ -141,12 +144,32 @@ export const handlerPetResponse = z.discriminatedUnion("success", [
 ]);
 
 export const handlerPetRequestSchema = z.object({
-  name: z.string(),
-  breed: z.string(),
-  birthdate: z.date(),
-  pet_photo: z.string().url(),
-  type: z.string(),
-  bio: z.string(),
+  name: z.string({
+    required_error: "Evcil hayvan ismi gereklidir.",
+    invalid_type_error: "Evcil hayvan ismi string tipinde olmalıdır.",
+  }),
+  breed: z.string({
+    required_error: "Evcil hayvan cinsi gereklidir.",
+    invalid_type_error: "Evcil hayvan cinsi string tipinde olmalıdır.",
+  }),
+  birthdate: z.date({
+    required_error: "Evcil hayvanın doğum tarihi gereklidir.",
+    invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
+  }),
+  pet_photo: z
+    .string({
+      required_error: "Evcil hayvan görseli gereklidir.",
+      invalid_type_error: "Evcil hayvan görseli fotoğraf şeklinde olmalıdır.",
+    })
+    .url(),
+  type: z.string({
+    required_error: "Evcil hayvan türü gereklidir.",
+    invalid_type_error: "Evcil hayvan türü string tipinde olmalıdır.",
+  }),
+  bio: z.string({
+    required_error: "Evcil hayvan biyografisi gereklidir.",
+    invalid_type_error: "Evcil hayvan biyografisi string tipinde olmalıdır.",
+  }),
 });
 
 /**
@@ -176,7 +199,10 @@ export const fetchAllPetsResponse = z.discriminatedUnion("success", [
  * Comment API Schema
  */
 export const commentRequestSchema = z.object({
-  postId: z.number(),
+  postId: z.number({
+    invalid_type_error: "Post ID sayı tipinde olmalıdır.",
+    required_error: "Post ID gereklidir.",
+  }),
   text: z.string(),
 });
 
@@ -185,9 +211,17 @@ export const commentRequestSchema = z.object({
  */
 export const postRequestSchema = z.object({
   caption: z
-    .string()
-    .max(280, { message: "Caption must be less than 280 characters" }),
-  postImage: z.string().url(),
+    .string({
+      invalid_type_error: "Gönderi yazısı string tipinde olmalıdır.",
+      required_error: "Gönderi yazısı gereklidir.",
+    })
+    .max(280, { message: "Gönderi yazısı en fazla 280 karakter olabilir" }),
+  postImage: z
+    .string({
+      invalid_type_error: "Gönderi görseli URL şeklinde olmalıdır",
+      required_error: "Gönderi görseli gereklidir",
+    })
+    .url(),
 });
 
 /**
@@ -288,5 +322,8 @@ export const likeResponse = z.discriminatedUnion("success", [
 ]);
 
 export const likeRequest = z.object({
-  postId: z.number(),
+  postId: z.number({
+    required_error: "Post ID'si gereklidir.",
+    invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",
+  }),
 });

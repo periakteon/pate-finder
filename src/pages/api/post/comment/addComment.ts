@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 type ResponseType =
   | { success: true; message: string; comment?: Comment }
-  | { success: false; error: string[] };
+  | { success: false; errors: string[] };
 
 async function addCommentHandler(
   req: NextApiRequest,
@@ -17,19 +17,18 @@ async function addCommentHandler(
   if (req.method !== "POST") {
     return res
       .status(400)
-      .json({ success: false, error: ["Method not allowed"] });
+      .json({ success: false, errors: ["Method not allowed"] });
   }
 
   const parsed = await commentRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
-    // console.log(errorMap);
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
-    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+    );
 
-    return res.status(400).json({ success: false, error: errorMessages });
+    return res.status(400).json({ success: false, errors: errorMessages });
   }
 
   const userId = req.userId;
@@ -55,7 +54,7 @@ async function addCommentHandler(
     res.status(200).json({ success: true, message: "Comment added", comment });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ success: false, error: ["Comment error"] });
+    res.status(400).json({ success: false, errors: ["Comment error"] });
   }
 }
 
