@@ -93,4 +93,6 @@ model Like {
 
   post   Post @relation(fields: [postId], references: [id])
   postId Int
+
+  @@unique([postId, userId])
 }

@@ -31,15 +31,42 @@ const handleLikeRequest = async (
   }
 
   const { postId } = parsed.data;
+
   try {
-    const like = await prisma.like.create({
-      data: {
+    const existingLike = await prisma.like.findFirst({
+      where: {
         postId,
         userId,
       },
     });
 
-    res.status(200).json({ success: true, message: "Like başarılı!", like });
+    if (existingLike) {
+      // Like already exists, update the existing like
+      const updatedLike = await prisma.like.update({
+        where: { id: existingLike.id },
+        data: {},
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Like güncellendi!",
+        like: updatedLike,
+      });
+    } else {
+      // Like does not exist, create a new like
+      const newLike = await prisma.like.create({
+        data: {
+          postId,
+          userId,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Like başarılı!",
+        like: newLike,
+      });
+    }
   } catch (error) {
     res.status(500).json({ success: false, errors: ["Internal Server Error"] });
   }
