@@ -48,7 +48,9 @@ export const unfollowRequestSchema = z.object({
  * Login API Schemas
  */
 export const loginRequestSchema = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email({ message: "Lütfen geçerli bir e-mail adresi giriniz." }),
   password: z.string(),
 });
 

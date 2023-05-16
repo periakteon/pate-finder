@@ -72,7 +72,7 @@ function HomePage() {
       } catch (error) {
         console.error(error);
       }
-    };    
+    };
 
     loadPosts(pageNumber, pageSize);
   }, [pageNumber, pageSize]);

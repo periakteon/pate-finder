@@ -69,11 +69,6 @@ export async function getPostsByFollowedUsers(
     },
   });
 
-  // TODO: PLX
-  // const result: QueryResponseType = {
-
-  // }
-
   return res
     .status(200)
     .json({ success: true, posts, message: "Feed başarıyla getirildi." });

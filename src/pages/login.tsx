@@ -25,8 +25,8 @@ const Login = () => {
   });
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const nextUrl = searchParams.get("nextUrl");
+
   useEffect(() => {
     if (nextUrl) {
       toast.error(`Hata! Giriş yapmanız gerekmektedir.`, {
@@ -45,25 +45,22 @@ const Login = () => {
     });
 
     const data = await response.json();
-
     const parsed = await loginResponseSchema.safeParseAsync(data);
 
     if (!parsed.success) {
-      // TODO: Handle ZOD error
+      console.log("parsed error:", parsed.error);
+      toast.error(`Hata: ${parsed.error}`, {
+        draggable: false,
+        autoClose: 2000,
+      });
       return;
     }
 
     if (!parsed.data.success) {
-      // TODO: Handle API error
-      return;
-    }
-
-    // TODO: NABARSAN YAP
-    parsed.data.message;
-
-    // TODO: Change below according to above
-    if (data.success === false) {
-      toast.error(`Hata: ${data.error}`, { draggable: false, autoClose: 2000 });
+      toast.error(`Hata: ${parsed.data.errors}`, {
+        draggable: false,
+        autoClose: 2000,
+      });
     } else {
       // parametrede halihazırda nextUrl varsa ona yönlendir (örnek: .../login?nextUrl=%2Fmyprofile)
       // const nextUrl = searchParams.get("nextUrl")
@@ -75,7 +72,6 @@ const Login = () => {
         router.push(nextUrl ?? "/");
       }, 2000);
     }
-    console.log(data);
   }
 
   const [showEmailError, setShowEmailError] = useState(false);

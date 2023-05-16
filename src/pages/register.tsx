@@ -248,7 +248,6 @@ const Register = () => {
               <div className="text-rose-500 mb-6">Parola boş bırakılamaz.</div>
             )}
             <div className="relative mb-7">
-              {/* TODO: Use modal for terms and conditions, and width expansion on unclick, and disable button */}
               <Link href="#">
                 <label
                   htmlFor="termsAccepted"
