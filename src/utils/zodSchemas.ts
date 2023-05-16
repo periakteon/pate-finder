@@ -271,3 +271,22 @@ export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
     errors: z.array(z.string()),
   }),
 ]);
+export const likeResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    like: z.object({
+      id: z.number(),
+      postId: z.number(),
+      userId: z.number(),
+    }),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const likeRequest = z.object({
+  postId: z.number(),
+});
