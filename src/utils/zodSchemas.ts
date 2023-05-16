@@ -305,6 +305,10 @@ export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
     errors: z.array(z.string()),
   }),
 ]);
+
+/**
+ * Like API Schemas
+ */
 export const likeResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
@@ -322,6 +326,33 @@ export const likeResponse = z.discriminatedUnion("success", [
 ]);
 
 export const likeRequest = z.object({
+  postId: z.number({
+    required_error: "Post ID'si gereklidir.",
+    invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",
+  }),
+});
+
+/**
+ * Unlike API Schemas
+ */
+
+export const unlikeResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    like: z.object({
+      id: z.number(),
+      postId: z.number(),
+      userId: z.number(),
+    }),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const unlikeRequest = z.object({
   postId: z.number({
     required_error: "Post ID'si gereklidir.",
     invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",

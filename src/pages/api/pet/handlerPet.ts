@@ -35,7 +35,6 @@ const handlePet = async (
   }
 
   const userId = req.userId;
-
   const parsed = await handlerPetRequestSchema.safeParseAsync(req.body);
 
   if (!parsed.success) {
