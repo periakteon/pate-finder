@@ -94,7 +94,7 @@ const authMiddleware: NextMiddleware = async (request) => {
 
 // hangi sayfalarda kontrol yapmak istediğimizi belirtiyoruz
 export const config = {
-  matcher: ["/myprofile", "/feed"],
+  matcher: ["/myprofile", "/feed", "/login", "/register"],
 };
 
 export default authMiddleware;
