@@ -56,28 +56,29 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         />
       </div>
       <div className="flex justify-evenly">
-        <button className="flex items-center">
+        <button className="flex items-center  text-green-500 hover:text-green-800">
           <FontAwesomeIcon
             icon={faPaw}
-            className="text-2xl text-green-500 mr-2"
+            className="text-2xl mr-2"
           />
           Like
         </button>
-        <button className="flex items-center">
+        <button className="flex items-center  text-blue-500 hover:text-blue-800 ">
           <FontAwesomeIcon
             icon={faComment}
-            className="text-2xl text-blue-500 mr-2"
+            className="text-2xl mr-2"
           />
           Comment
         </button>
-        <button className="flex items-center">
+        <button className="flex items-center text-purple-500 hover:text-purple-800 ">
           <FontAwesomeIcon
             icon={faShare}
-            className="text-2xl text-purple-500 mr-2"
+            className="text-2xl mr-2"
           />
           Share
         </button>
       </div>
+      <hr className="divide-x-0 mt-4" />
 
     </div>
   );
