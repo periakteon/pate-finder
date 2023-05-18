@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import { Poppins } from "next/font/google";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const roboto = Roboto({
   weight: "400",
   subsets: ["latin"],
