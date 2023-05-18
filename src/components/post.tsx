@@ -78,7 +78,6 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           Share
         </button>
       </div>
-
     </div>
   );
 };
