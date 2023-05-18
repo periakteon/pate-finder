@@ -78,7 +78,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           Share
         </button>
       </div>
-      <hr className="my-5" />
+
     </div>
   );
 };
