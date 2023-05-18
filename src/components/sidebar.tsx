@@ -8,19 +8,22 @@ import {
   faUser,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const Sidebar = () => {
   return (
     <div className="bg-violet-50 flex flex-col justify-between w-64 h-screen sticky top-0">
       <div className="p-4">
         <div className="text-3xl font-bold text-center mb-6">
-          <Image
-            src="/logo/png/logo-no-background-pink.png"
-            width={125}
-            height={125}
-            alt="logo"
-            className="flex self-start top-0 left-0 mt-5 ml-5"
-          />
+          <Link href="/feed">
+            <Image
+              src="/logo/png/logo-no-background-pink.png"
+              width={125}
+              height={125}
+              alt="logo"
+              className="flex self-start top-0 left-0 mt-5 ml-5"
+            />
+          </Link>
         </div>
         <nav>
           <ul>
