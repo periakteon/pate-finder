@@ -23,7 +23,7 @@ type Post = {
 const PostComponent: React.FC<PostProps> = ({ post }) => {
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-200 max-w-[600px]">
+      <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-gray-200 max-w-[600px]">
         <div className="flex items-center mb-4">
           <div className="w-12 h-12 mr-4">
             {post.author.profile_picture === null ? (
