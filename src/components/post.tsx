@@ -46,9 +46,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         <div className="font-semibold text-md">{post.author.username}</div>
       </div>
       <h2 className="text-lg font-semibold mb-2">{post.caption}</h2>
-      <div className="relative aspect-w-1 aspect-h-1 mb-4">
+      <div className="relative flex justify-center aspect-w-1 aspect-h-1 mb-4">
         <Image
-          className="object-cover rounded-lg"
+          className="flex  object-cover rounded-lg"
           src={post.postImage}
           alt="image"
           width={600}
@@ -56,28 +56,29 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         />
       </div>
       <div className="flex justify-evenly">
-        <button className="flex items-center">
+        <button className="flex items-center  text-green-500 hover:text-green-800">
           <FontAwesomeIcon
             icon={faPaw}
-            className="text-2xl text-green-500 mr-2"
+            className="text-2xl mr-2"
           />
-          Like
+          Beğen
         </button>
-        <button className="flex items-center">
+        <button className="flex items-center  text-blue-500 hover:text-blue-800 ">
           <FontAwesomeIcon
             icon={faComment}
-            className="text-2xl text-blue-500 mr-2"
+            className="text-2xl mr-2"
           />
-          Comment
+          Yorum
         </button>
-        <button className="flex items-center">
+        <button className="flex items-center text-purple-500 hover:text-purple-800 ">
           <FontAwesomeIcon
             icon={faShare}
-            className="text-2xl text-purple-500 mr-2"
+            className="text-2xl mr-2"
           />
-          Share
+          Paylaş
         </button>
       </div>
+      <hr className="divide-x-0 mt-4" />
     </div>
   );
 };
