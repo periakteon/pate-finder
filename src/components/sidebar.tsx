@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
   faMagnifyingGlass,
-  faMessage,
+  faPaw,
   faUser,
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +25,7 @@ const Sidebar = () => {
         <nav>
           <ul>
             <li className="mb-2">
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-300 rounded-lg">
+              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 rounded-lg cursor-pointer">
                 <FontAwesomeIcon
                   icon={faHouse}
                   className="text-2xl text-pink-600 mr-2"
@@ -34,7 +34,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li className="mb-2">
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-300 rounded-lg">
+              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 rounded-lg cursor-pointer">
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
                   className="text-2xl text-pink-600 mr-2"
@@ -43,16 +43,16 @@ const Sidebar = () => {
               </div>
             </li>
             <li className="mb-2">
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-300 rounded-lg">
+              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 rounded-lg cursor-pointer">
                 <FontAwesomeIcon
-                  icon={faMessage}
+                  icon={faPaw}
                   className="text-2xl text-pink-600 mr-2"
                 />
-                <span className="text-lg font-medium">Mesajlar</span>
+                <span className="text-lg font-medium">Keşfet</span>
               </div>
             </li>
             <li className="mb-2">
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-300 rounded-lg">
+              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 rounded-lg cursor-pointer">
                 <FontAwesomeIcon
                   icon={faUser}
                   className="text-2xl text-pink-600 mr-2"
@@ -64,7 +64,7 @@ const Sidebar = () => {
         </nav>
       </div>
       <div className="p-4">
-        <div className="flex items-center p-4 text-pink-600 hover:bg-pink-300 rounded-lg">
+        <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 rounded-lg cursor-pointer">
           <FontAwesomeIcon
             icon={faBars}
             className="text-2xl text-pink-600 mr-2"

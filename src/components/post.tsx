@@ -57,24 +57,15 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
       </div>
       <div className="flex justify-evenly">
         <button className="flex items-center  text-green-500 hover:text-green-800">
-          <FontAwesomeIcon
-            icon={faPaw}
-            className="text-2xl mr-2"
-          />
+          <FontAwesomeIcon icon={faPaw} className="text-2xl mr-2" />
           Beğen
         </button>
         <button className="flex items-center  text-blue-500 hover:text-blue-800 ">
-          <FontAwesomeIcon
-            icon={faComment}
-            className="text-2xl mr-2"
-          />
+          <FontAwesomeIcon icon={faComment} className="text-2xl mr-2" />
           Yorum
         </button>
         <button className="flex items-center text-purple-500 hover:text-purple-800 ">
-          <FontAwesomeIcon
-            icon={faShare}
-            className="text-2xl mr-2"
-          />
+          <FontAwesomeIcon icon={faShare} className="text-2xl mr-2" />
           Paylaş
         </button>
       </div>
