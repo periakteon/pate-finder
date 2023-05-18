@@ -1,6 +1,8 @@
+import Sidebar from "@/components/sidebar";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { z } from "zod";
+import PostComponent from "@/components/post";
 
 type Post = {
   id: number;
@@ -102,68 +104,16 @@ function HomePage() {
 
   return (
     <>
-      <p>KAÇ GÖNDERİ?</p>
-      <select
-        value={pageSize}
-        onChange={(event) => {
-          const newPageSize = parseInt(event.target.value);
-          setPageSize(newPageSize);
-          setPageNumber(1); // Reset page number when page size changes
-        }}
-      >
-        {PAGE_SIZE_OPTIONS.map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
-
-      <div className="flex justify-center">
-        <ul>
+      <div className="flex flex-row">
+        <Sidebar />
+        <ul className="px-8">
           {posts.map((post, id) => (
-            <li key={id}>
-              <p className="font-bold text-center my-3">
-                USERNAME: {post.author.username}
-              </p>
-              {post.author.profile_picture === null ? (
-                <Image
-                  className="mx-auto rounded-full border border-gray-900"
-                  src="https://img.freepik.com/free-icon/user_318-804790.jpg"
-                  alt="image"
-                  width={128}
-                  height={128}
-                />
-              ) : (
-                <Image
-                  className="mx-auto rounded-full border border-gray-900"
-                  src={post.author.profile_picture}
-                  alt="image"
-                  width={128}
-                  height={128}
-                />
-              )}
-              <h2 className="text-2xl text-center font-bold">
-                CAPTION: {post.caption}
-              </h2>
-              <Image
-                className="mx-auto"
-                src={post.postImage}
-                alt="image"
-                width={640}
-                height={480}
-              />
-              <p className="font-bold text-center my-3">Post ID: {post.id}</p>
-              <p className="font-bold text-center my-3">
-                User ID: {post.authorId}
-              </p>
-              <hr className="my-5" />
-            </li>
+            <PostComponent key={id} post={post} />
           ))}
         </ul>
       </div>
 
       {isLoading && <p>Loading...</p>}
-
       {pageNumber < totalPages && !isLoading && (
         <button onClick={handleLoadMore} disabled={pageNumber >= totalPages}>
           Load More
