@@ -14,17 +14,22 @@ const Sidebar = () => {
   return (
     <div className="bg-violet-50 flex flex-col justify-between w-64 h-screen sticky top-0">
       <div className="p-4">
-        <div className="text-3xl font-bold text-center mb-6">
-          <Link href="/feed">
-            <Image
-              src="/logo/png/logo-no-background-pink.png"
-              width={125}
-              height={125}
-              alt="logo"
-              className="flex self-start top-0 left-0 mt-5 ml-5"
-            />
-          </Link>
-        </div>
+      <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
+  {/* LOGO */}
+  <Link href="/feed">
+    <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80">
+      <Image
+        src="/logo/png/logo-no-background-pink.png"
+        width={125}
+        height={125}
+        alt="logo"
+      />
+    </div>
+  </Link>
+</div>
+
+
+
         <nav>
           <ul>
             <li className="mb-2">
