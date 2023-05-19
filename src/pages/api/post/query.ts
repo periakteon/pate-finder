@@ -39,8 +39,8 @@ export async function getPostsByFollowedUsers(
 
   const { page, pageSize } = parsed.data;
 
-  const pageNumber = page; // SET PAGE, and set default please
-  const pageSizeNumber = pageSize; // SET PAGE SIZE MAX IN ZOD, and set default please
+  const pageNumber = page;
+  const pageSizeNumber = pageSize;
 
   const follows = await prisma.follow.findMany({
     where: { followerId: userId },
