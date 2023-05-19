@@ -12,8 +12,12 @@ module.exports = {
         // TODO: Tema renkleri ayarla
         // dark theme
         dark: {
-          primary: "#432C7A",
-          secondary: "#2A2F4F",
+          primary: "#fff",
+          secondary:"#15202b",
+          background: "#0d131a",
+          hover: "#334756",
+          searchBar: "#212A3E",
+          border: "#27384d",
           gray: {
             100: "#f7fafc",
             900: "#1a202c",

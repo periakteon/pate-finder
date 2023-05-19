@@ -1,5 +1,4 @@
 import Sidebar from "@/components/sidebar";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import PostComponent from "@/components/post";
@@ -47,6 +46,9 @@ function HomePage() {
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
 
+  // hydration hatasını çözmek için
+  const [mounted, setMounted] = useState(false)
+
   useEffect(() => {
     const loadPosts = async (pageNumber: number, pageSize: number) => {
       setIsLoading(true);
@@ -67,7 +69,6 @@ function HomePage() {
         if (data.success === true) {
           setPosts((prevPosts) => [...prevPosts, ...data.posts]);
           setIsLoading(false);
-          console.log("DATA:", data);
         } else {
           console.error(data.errors);
         }
@@ -101,6 +102,15 @@ function HomePage() {
     };
   }),
     [];
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
+
 
   return (
     <>

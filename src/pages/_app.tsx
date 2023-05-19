@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute="class">
         <ToastContainer />
         <main
-          className={`${poppins.className} bg-gray-100 dark:bg-dark-secondary`}
+          className={`${poppins.className} bg-gray-100 dark:bg-dark-background`}
         >
           <Component {...pageProps} />
         </main>
