@@ -23,6 +23,7 @@
     "next": "13.3.0",
     "next-google-fonts": "^2.2.0",
     "next-s3-upload": "^0.3.0",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-spinners": "^0.13.8",
