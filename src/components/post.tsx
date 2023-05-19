@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 
 type PostProps = {
   post: Post;
@@ -21,6 +22,16 @@ type Post = {
 };
 
 const PostComponent: React.FC<PostProps> = ({ post }) => {
+  const [fullDate, setFullDate] = useState(false);
+
+  const handleMouseEnter = () => {
+    setFullDate(true);
+  };
+
+  const handleMouseLeave = () => {
+    setFullDate(false);
+  };
+
   return (
     <>
       <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
@@ -47,6 +58,13 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
             )}
           </div>
           <div className="font-semibold text-md">{post.author.username}</div>
+          <div
+            className="text-gray-400 text-sm ml-auto"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {fullDate ? formatFullDate(post.createdAt) : formatCreatedAt(post.createdAt, handleMouseEnter)}
+          </div>
         </div>
         <h2 className="text-lg font-semibold mb-2 whitespace-normal text-justify">
           {post.caption}
@@ -76,7 +94,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           </button>
         </div>
       </div>
-      <hr className="divide-x my-4 dark:border-dark-border"/>
+      <hr className="divide-x my-4 dark:border-dark-border" />
     </>
   );
 };
