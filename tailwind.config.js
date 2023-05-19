@@ -13,7 +13,7 @@ module.exports = {
         // dark theme
         dark: {
           primary: "#fff",
-          secondary:"#15202b",
+          secondary: "#15202b",
           background: "#0d131a",
           hover: "#334756",
           searchBar: "#212A3E",

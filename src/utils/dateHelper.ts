@@ -1,4 +1,7 @@
-export const formatCreatedAt = (createdAt: string, onMouseEnter: () => void): string => {
+export const formatCreatedAt = (
+  createdAt: string,
+  onMouseEnter: () => void,
+): string => {
   const date = new Date(createdAt);
   const currentDate = new Date();
 
@@ -17,7 +20,6 @@ export const formatCreatedAt = (createdAt: string, onMouseEnter: () => void): st
     return `${diffInDays} gün önce`;
   }
 };
-
 
 export const formatFullDate = (createdAt: string): string => {
   const date = new Date(createdAt);
