@@ -6,12 +6,11 @@ import {
   faMagnifyingGlass,
   faPaw,
   faUser,
-  faBars,
   faSun,
-  faMoon
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
 const Sidebar = () => {
   const [searchMode, setSearchMode] = useState<boolean>(false);
@@ -135,27 +134,30 @@ const Sidebar = () => {
         </nav>
       </div>
       <div className="p-4 mx-auto">
-  <div className="flex items-center p-4 text-pink-600 rounded-lg">
-    <button className="transition-all cursor-pointer">
-      {resolvedTheme === "dark" ? (
-        <FontAwesomeIcon
-          icon={faSun}
-          className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"} transition-transform animate-spin-slow`}
-          onClick={() => setTheme("light")}
-          style={{ fontSize: "3rem" }} // İstediğiniz boyutu burada belirleyin
-        />
-      ) : (
-        <FontAwesomeIcon
-          icon={faMoon}
-          className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"} transition-transform animate-spin-slow`}
-          onClick={() => setTheme("dark")}
-          style={{ fontSize: "3rem" }} // İstediğiniz boyutu burada belirleyin
-        />
-      )}
-    </button>
-  </div>
-</div>
-
+        <div className="flex items-center p-4 text-pink-600 rounded-lg">
+          <button className="transition-all cursor-pointer">
+            {resolvedTheme === "dark" ? (
+              <FontAwesomeIcon
+                icon={faSun}
+                className={`icon-style mr-2 ${
+                  theme === "light" ? "rotate-0" : "rotate-90"
+                } transition-transform animate-spin-slow`}
+                onClick={() => setTheme("light")}
+                style={{ fontSize: "3rem" }} // İstediğiniz boyutu burada belirleyin
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faMoon}
+                className={`icon-style mr-2 ${
+                  theme === "dark" ? "rotate-0" : "rotate-0"
+                } transition-transform animate-spin-slow`}
+                onClick={() => setTheme("dark")}
+                style={{ fontSize: "3rem" }} // İstediğiniz boyutu burada belirleyin
+              />
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
