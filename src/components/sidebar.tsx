@@ -8,15 +8,19 @@ import {
   faUser,
   faSun,
   faMoon,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
+import PostModal from "./postModal";
 
 const Sidebar = () => {
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -63,7 +67,11 @@ const Sidebar = () => {
             <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
               <Image
                 priority={true}
-                src={isDarkTheme ? "/logo/png/logo-no-background.png" : "/logo/png/logo-no-background-pink.png"}
+                src={
+                  isDarkTheme
+                    ? "/logo/png/logo-no-background.png"
+                    : "/logo/png/logo-no-background-pink.png"
+                }
                 width={125}
                 height={125}
                 alt="logo"
@@ -78,16 +86,28 @@ const Sidebar = () => {
 
         <nav>
           <ul>
-            <li className="mb-2">
+            <motion.li
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-2"
+            >
               <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                 <FontAwesomeIcon
                   icon={faHouse}
                   className="text-2xl text-pink-600 mr-2 dark:text-white"
                 />
-                <span className="text-lg font-medium dark:text-white ">Anasayfa</span>
+                <span className="text-lg font-medium dark:text-white">
+                  Anasayfa
+                </span>
               </div>
-            </li>
-            <li className="mb-2">
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-2"
+            >
               {!searchMode ? (
                 <div
                   className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
@@ -99,7 +119,9 @@ const Sidebar = () => {
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
                     />
                   </label>
-                  <span className="text-lg font-medium dark:text-white">Ara</span>
+                  <span className="text-lg font-medium dark:text-white">
+                    Ara
+                  </span>
                 </div>
               ) : (
                 <form
@@ -121,51 +143,91 @@ const Sidebar = () => {
                   </label>
                 </form>
               )}
-            </li>
-            <li className="mb-2">
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-2"
+            >
               <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                 <FontAwesomeIcon
                   icon={faPaw}
                   className="text-2xl text-pink-600 mr-2 dark:text-white"
                 />
-                <span className="text-lg font-medium dark:text-white">Keşfet</span>
+                <span className="text-lg font-medium dark:text-white">
+                  Keşfet
+                </span>
               </div>
-            </li>
-            <li className="mb-2">
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-2"
+            >
               <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                 <FontAwesomeIcon
                   icon={faUser}
                   className="text-2xl text-pink-600 mr-2 dark:text-white"
                 />
-                <span className="text-lg font-medium dark:text-white">Profil</span>
+                <span className="text-lg font-medium dark:text-white">
+                  Profil
+                </span>
               </div>
-            </li>
+            </motion.li>
+            <motion.li
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mb-2"
+            >
+              <div
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+              >
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="text-2xl text-pink-600 mr-2 dark:text-white"
+                />
+                <button className="text-lg font-medium dark:text-white">
+                  Gönderi Ekle
+                </button>
+              </div>
+            </motion.li>
           </ul>
         </nav>
       </div>
       <div className="p-4 mx-auto">
-        <div className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+        >
           <button className="transition-all cursor-pointer">
             {resolvedTheme === "dark" ? (
               <FontAwesomeIcon
                 icon={faSun}
-                className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${
+                  theme === "light" ? "rotate-0" : "rotate-90"
+                } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("light")}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faMoon}
-                className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${
+                  theme === "dark" ? "rotate-0" : "rotate-0"
+                } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("dark")}
               />
             )}
           </button>
-        </div>
+        </motion.div>
       </div>
+      <PostModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
-
   );
 };
 

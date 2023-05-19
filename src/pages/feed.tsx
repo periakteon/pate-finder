@@ -47,7 +47,7 @@ function HomePage() {
     useState<boolean>(false);
 
   // hydration hatasını çözmek için
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const loadPosts = async (pageNumber: number, pageSize: number) => {
@@ -104,13 +104,12 @@ function HomePage() {
     [];
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   if (!mounted) {
-    return null
+    return null;
   }
-
 
   return (
     <>

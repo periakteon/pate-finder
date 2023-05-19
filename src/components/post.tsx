@@ -63,7 +63,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {fullDate ? formatFullDate(post.createdAt) : formatCreatedAt(post.createdAt, handleMouseEnter)}
+            {fullDate
+              ? formatFullDate(post.createdAt)
+              : formatCreatedAt(post.createdAt, handleMouseEnter)}
           </div>
         </div>
         <h2 className="text-lg font-semibold mb-2 whitespace-normal text-justify">
