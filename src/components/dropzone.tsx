@@ -54,6 +54,7 @@ const Dropzone = () => {
     onDrop: handleDrop,
   });
 
+  // TODO: "resolvedTheme" ile dark veya light temaya göre toast teması ayarla
   const handleSubmit = async () => {
     if (!caption || caption.trim() === "") {
       toast.error("Lütfen bir içerik girin.", {
