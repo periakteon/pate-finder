@@ -15,6 +15,8 @@ module.exports = {
           primary: "#fff",
           secondary: "#15202b",
           background: "#0d131a",
+          dropzone: "#161f2b",
+          dropzoneBorder: "#27384d",
           hover: "#334756",
           searchBar: "#212A3E",
           border: "#27384d",

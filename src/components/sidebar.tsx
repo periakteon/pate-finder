@@ -14,13 +14,19 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import PostModal from "./postModal";
+import { atom, useAtom } from 'jotai';
+
+export const isModalOpenAtom = atom(false);
 
 const Sidebar = () => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
+  console.log("isModalOpen:", isModalOpen);
+  
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -58,6 +64,14 @@ const Sidebar = () => {
   useEffect(() => {
     setIsDarkTheme(resolvedTheme === "dark");
   }, [resolvedTheme]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between w-64 h-screen sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border">
@@ -226,7 +240,7 @@ const Sidebar = () => {
           </button>
         </motion.div>
       </div>
-      <PostModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <PostModal/>
     </div>
   );
 };
