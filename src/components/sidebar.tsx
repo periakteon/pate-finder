@@ -24,9 +24,7 @@ const Sidebar = () => {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
-  console.log("isModalOpen:", isModalOpen);
-  
+  const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
   const handleSearchClick = () => {
     setSearchMode(true);

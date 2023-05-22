@@ -32,9 +32,6 @@ const Dropzone = () => {
   const { uploadToS3 } = useS3Upload();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
-  console.log("Files:", files);
-  console.log("URL:", selectedFileURL);
-
   const handleChangeCaption = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
     setCaption(value);
@@ -56,6 +53,7 @@ const Dropzone = () => {
 
   // TODO: "resolvedTheme" ile dark veya light temaya göre toast teması ayarla
   const handleSubmit = async () => {
+
     if (!caption || caption.trim() === "") {
       toast.error("Lütfen bir içerik girin.", {
         draggable: false,
@@ -63,7 +61,7 @@ const Dropzone = () => {
       });
       return;
     }
-
+    
     if (caption.trim().length > 280) {
       toast.error("İçerik en fazla 280 karakter olmalıdır.", {
         draggable: false,
