@@ -12,11 +12,11 @@ const poppins = Poppins({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [theme, setTheme] = useState(""); // theme değerini depolayacağımız state
+  const [theme, setTheme] = useState("");
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    setTheme(storedTheme || "dark");
+    setTheme(storedTheme || "dark"); // eğer localStorage'da bir tema yoksa default olarak "dark" yapıyoruz
   }, []);
 
   return (
