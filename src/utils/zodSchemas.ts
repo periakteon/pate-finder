@@ -335,6 +335,13 @@ export const likeRequest = z.object({
   }),
 });
 
+export const checkLikeRequest = z.object({
+  postId: z.string({
+    required_error: "Post ID'si gereklidir.",
+    invalid_type_error: "Post ID'si string tipinde olmalıdır.",
+  }).transform(Number),
+});
+
 /**
  * Unlike API Schemas
  */

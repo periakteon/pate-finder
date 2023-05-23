@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
+import { toast } from "react-toastify";
 
 type PostProps = {
   post: Post;
@@ -23,14 +24,62 @@ type Post = {
 
 const PostComponent: React.FC<PostProps> = ({ post }) => {
   const [fullDate, setFullDate] = useState(false);
+  const [liked, setLiked] = useState(false);
 
-  const handleMouseEnter = () => {
-    setFullDate(true);
+  const handleLike = async () => {
+    try {
+      const response = await fetch("/api/post/like", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postId: post.id }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        setLiked(true);
+      }
+    } catch (error) {
+      console.error("Bir hata oluştu:", error);
+    }
   };
+  
+  const handleUnlike = async () => {
+    try {
+      const response = await fetch("/api/post/unlike", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postId: post.id }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        setLiked(false);
+      }
+    } catch (error) {
+      console.error("Bir hata oluştu:", error);
+    }
+  };
+  
 
-  const handleMouseLeave = () => {
-    setFullDate(false);
-  };
+  useEffect(() => {
+    const checkLikeStatus = async () => {
+      try {
+        const response = await fetch(`/api/post/check-like?postId=${post.id}`);
+        const data = await response.json();
+        setLiked(data.liked);
+      } catch (error) {
+        console.error("Bir hata oluştu:", error);
+      }
+    };
+
+    checkLikeStatus();
+  }, []);
 
   return (
     <>
@@ -60,12 +109,12 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           <div className="font-semibold text-md">{post.author.username}</div>
           <div
             className="text-gray-400 text-sm ml-auto"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setFullDate(true)}
+            onMouseLeave={() => setFullDate(false)}
           >
             {fullDate
               ? formatFullDate(post.createdAt)
-              : formatCreatedAt(post.createdAt, handleMouseEnter)}
+              : formatCreatedAt(post.createdAt, () => setFullDate(true))}
           </div>
         </div>
         <h2 className="text-lg font-semibold mb-2 whitespace-normal text-justify">
@@ -82,9 +131,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           />
         </div>
         <div className="flex justify-evenly">
-          <button className="flex items-center  text-green-500 hover:text-green-800">
+          <button className="flex items-center text-green-500 hover:text-green-800" onClick={liked ? handleUnlike : handleLike}>
             <FontAwesomeIcon icon={faPaw} className="text-2xl mr-2" />
-            Beğen
+            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
           </button>
           <button className="flex items-center  text-blue-500 hover:text-blue-800 ">
             <FontAwesomeIcon icon={faComment} className="text-2xl mr-2" />
