@@ -22,16 +22,21 @@ export default async function getPostsByUsername(
       .json({ success: false, errors: ["Method not allowed"] });
   }
 
-  const { username } = getPostsRequestSchema.parse(req.query);
+  const parsed = await getPostsRequestSchema.safeParseAsync(req.query);
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    );
+
+    return res.status(400).json({ success: false, errors: errorMessages });
+  }
+  const { username } = parsed.data;
 
   try {
     const user = await prisma.user.findUnique({
-      where: {
-        username,
-      },
-      include: {
-        posts: true,
-      },
+      where: { username },
+      include: { posts: true },
     });
 
     if (!user) {
