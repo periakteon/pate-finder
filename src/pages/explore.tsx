@@ -24,10 +24,13 @@ const IndexPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<UserData[]>([]);
 
-  const formatCreatedAt = (createdAt: string) => {
+  const formatCreatedAt = (createdAt: string | null) => {
+    if (!createdAt) {
+      return "";
+    }
     const date = new Date(createdAt);
     return date.toLocaleDateString();
-  };
+  };   
 
   const fetchData = async () => {
     try {
@@ -54,8 +57,8 @@ const IndexPage: React.FC = () => {
         return;
       }
       if (parsed.data.success) {
-        return setData(parsed.data.users);
-      }
+        return setData(parsed.data.users as UserData[]);
+      }            
     } catch (error) {
       console.error(error);
     } finally {
