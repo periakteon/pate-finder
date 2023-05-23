@@ -358,3 +358,30 @@ export const unlikeRequest = z.object({
     invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",
   }),
 });
+
+export const getPostsResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    username: z.string(),
+    posts: z.array(
+      z.object({
+        id: z.number(),
+        caption: z.string(),
+        postImage: z.string(),
+        createdAt: z.string(),
+        updatedAt: z.string(),
+      }),
+    ),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const getPostsRequestSchema = z.object({
+  username: z.string({
+    required_error: "Kullanıcı adı zorunludur.",
+    invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
+  }),
+});
