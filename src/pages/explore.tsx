@@ -39,7 +39,6 @@ const IndexPage: React.FC = () => {
       const parsed = await exploreResponse.safeParseAsync(data);
 
       if (!parsed.success) {
-        console.log("parsed error:", parsed.error);
         toast.error(`Hata: ${parsed.error}`, {
           draggable: false,
           autoClose: 2000,
