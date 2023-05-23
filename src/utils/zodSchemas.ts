@@ -358,3 +358,54 @@ export const unlikeRequest = z.object({
     invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",
   }),
 });
+
+export const exploreResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    users: z.array(
+      z.object({
+        id: z.number(),
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+        createdAt: z.string(),
+        pet: z
+          .object({
+            id: z.number(),
+            name: z.string(),
+            type: z.string(),
+            breed: z.string(),
+            pet_photo: z.string().url().nullable(),
+          })
+          .nullable(),
+      }),
+    ),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const searchRequest = z.object({
+  username: z.string({
+    required_error: "Kullanıcı adı gereklidir.",
+    invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
+  }),
+});
+
+export const searchResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    users: z.array(
+      z.object({
+        id: z.number(),
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+      }),
+    ),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);

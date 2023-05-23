@@ -51,9 +51,7 @@ const Dropzone = () => {
     onDrop: handleDrop,
   });
 
-  // TODO: "resolvedTheme" ile dark veya light temaya göre toast teması ayarla
   const handleSubmit = async () => {
-
     if (!caption || caption.trim() === "") {
       toast.error("Lütfen bir içerik girin.", {
         draggable: false,
@@ -61,7 +59,7 @@ const Dropzone = () => {
       });
       return;
     }
-    
+
     if (caption.trim().length > 280) {
       toast.error("İçerik en fazla 280 karakter olmalıdır.", {
         draggable: false,
@@ -189,22 +187,22 @@ const Dropzone = () => {
         </div>
         {!uploading && (
           <button
-          onClick={handleSubmit}
-          disabled={uploading}
-          className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
-        >
-          Gönder
-        </button>
+            onClick={handleSubmit}
+            disabled={uploading}
+            className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
+          >
+            Gönder
+          </button>
         )}
         {uploading && (
           <div className="flex items-center justify-center mb-4">
-          <BeatLoader
-            cssOverride={override}
-            size={15}
-            color={"silver"}
-            loading={uploading}
-          />
-        </div>
+            <BeatLoader
+              cssOverride={override}
+              size={15}
+              color={"silver"}
+              loading={uploading}
+            />
+          </div>
         )}
       </div>
     </>
