@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+// Prisma'dan dönen "DateTime" tarihini "yyyy-MM-dd HH:mm:ss" formatında bir string'e dönüştürüyoruz (exploreResponse'da Zod hatası almamak için)
+const transformDate = z.string().transform((value) => new Date(value).toISOString());
+
 /**
  * Follow API Schemas
  */
@@ -367,7 +370,7 @@ export const exploreResponse = z.discriminatedUnion("success", [
         id: z.number(),
         username: z.string(),
         profile_picture: z.string().url().nullable(),
-        createdAt: z.string(),
+        createdAt: z.custom((value) => transformDate.parse(value)),
         pet: z
           .object({
             id: z.number(),

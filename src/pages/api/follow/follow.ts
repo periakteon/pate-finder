@@ -21,10 +21,9 @@ const handleFollowRequest = async (
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
-    // console.log(errorMap);
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
-    ); // error'un undefined dönme ihtimaline karşı array dönmesi için coalesce operatörü
+    );
 
     return res.status(400).json({ success: false, error: errorMessages });
   }
@@ -53,9 +52,6 @@ const handleFollowRequest = async (
         },
       },
     });
-
-    console.log("Takip işlemi başarılı!");
-
     res.status(200).json({ success: true, message: "Takip başarılı!" });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

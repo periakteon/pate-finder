@@ -25,7 +25,6 @@ export default async function handleLogin(
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
-    // console.log(errorMap);
     const errorMessages = Object.values(errorMap).flatMap(
       (errors) => errors ?? [],
     );

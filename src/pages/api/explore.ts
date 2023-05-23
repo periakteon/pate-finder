@@ -42,7 +42,6 @@ const explorer = async (
         },
       },
     });
-
     res.status(200).json({ success: true, users: users });
   } catch (error) {
     console.error(error);

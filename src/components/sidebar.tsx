@@ -34,8 +34,6 @@ const Sidebar = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
-  console.log(searchResults);
-
   const handleSearchClick = () => {
     setSearchMode(true);
     setTimeout(() => {
