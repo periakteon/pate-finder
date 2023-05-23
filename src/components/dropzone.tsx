@@ -128,7 +128,7 @@ const Dropzone = () => {
 
   return (
     <>
-      <div className="container mx-auto flex flex-col rounded-lg items-center py-8 bg-dark-background border">
+      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
         <div
           {...getRootProps()}
           className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
@@ -173,7 +173,7 @@ const Dropzone = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
+          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
             characterCount > 280 ? "border-rose-500" : "border-slate-500"
           }`}
         />
