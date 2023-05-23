@@ -21,8 +21,8 @@ type UserData = {
 };
 
 const IndexPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<UserData[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const formatCreatedAt = (createdAt: string | null) => {
     if (!createdAt) {
@@ -30,11 +30,11 @@ const IndexPage: React.FC = () => {
     }
     const date = new Date(createdAt);
     return date.toLocaleDateString();
-  };   
+  };
 
-  const fetchData = async () => {
+  const fetchData = async (page: number) => {
     try {
-      const response = await fetch("/api/explore");
+      const response = await fetch(`/api/explore?page=${page}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data from API");
       }
@@ -56,23 +56,40 @@ const IndexPage: React.FC = () => {
         });
         return;
       }
+
       if (parsed.data.success) {
-        return setData(parsed.data.users as UserData[]);
-      }            
+        const newUsers = parsed.data.users as UserData[];
+        setData((prevData) => [...prevData, ...newUsers]);
+      }
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const loadMoreData = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = document.documentElement.scrollTop;
+
+      if (windowHeight + scrollTop >= documentHeight) {
+        loadMoreData();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col md:flex-row text-black">
@@ -85,29 +102,19 @@ const IndexPage: React.FC = () => {
             Kullanıcıları Keşfet
           </h1>
           <div className="space-y-4">
-            {data.map((user) => (
+            {data.map((user, id) => (
               <div
-                key={user.id}
+                key={id}
                 className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white p-4 rounded shadow"
               >
                 <div className="flex flex-col md:flex-row items-center space-x-4">
-                  {user.profile_picture ? (
-                    <Image
-                      src={user.profile_picture}
-                      alt="Profile Picture"
-                      className="w-16 h-16 md:w-32 md:h-32 rounded-full"
-                      width={64}
-                      height={64}
-                    />
-                  ) : (
-                    <Image
-                      src={defaultImage}
-                      alt="Profile Picture"
-                      className="w-16 h-16 md:w-32 md:h-32 rounded-full"
-                      width={64}
-                      height={64}
-                    />
-                  )}
+                  <Image
+                    src={user.profile_picture || defaultImage}
+                    alt="Profile Picture"
+                    className="w-16 h-16 md:w-32 md:h-32 rounded-full"
+                    width={64}
+                    height={64}
+                  />
                   <div>
                     <h2 className="text-2xl font-bold">{user.username}</h2>
                     <p>Created At: {formatCreatedAt(user.createdAt)}</p>

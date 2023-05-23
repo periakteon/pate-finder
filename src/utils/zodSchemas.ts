@@ -362,6 +362,20 @@ export const unlikeRequest = z.object({
   }),
 });
 
+export const exploreQuery = z.object({
+  page: z
+    .string({
+      invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
+      required_error: "Sayfa numarası gereklidir.",
+    })
+    .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
+    .default("1")
+    .transform(Number)
+    .refine((val) => val >= 1, {
+      message: "Sayfa numarası 1'den küçük olamaz.",
+    }),
+});
+
 export const exploreResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),

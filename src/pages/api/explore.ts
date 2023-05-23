@@ -3,6 +3,7 @@ import { exploreResponse } from "@/utils/zodSchemas";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { exploreQuery } from '../../utils/zodSchemas';
 
 const prisma = new PrismaClient();
 
@@ -17,8 +18,26 @@ const explorer = async (
       .status(405)
       .json({ success: false, errors: ["Method not allowed"] });
   }
+  const userId = req.userId;
+  const parsed = await exploreQuery.safeParseAsync(
+    req.query,
+  );
+
+  if (!parsed.success) {
+    const errorMap = parsed.error.flatten().fieldErrors;
+    const errorMessages = Object.values(errorMap).flatMap(
+      (errors) => errors ?? [],
+    );
+
+    return res.status(400).json({ success: false, errors: errorMessages });
+  }
+
+  const { page } = parsed.data;
+  const pageNumber = page;
+
   try {
-    const userId = req.userId;
+    const itemsPerPage = 10;
+    const skip = (pageNumber - 1) * itemsPerPage;
 
     const users = await prisma.user.findMany({
       select: {
@@ -41,8 +60,11 @@ const explorer = async (
           id: userId,
         },
       },
+      skip,
+      take: itemsPerPage,
     });
-    res.status(200).json({ success: true, users: users });
+
+    res.status(200).json({ success: true, users });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, errors: ["Internal Server Error"] });
