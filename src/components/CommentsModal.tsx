@@ -40,18 +40,33 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
-      <div>
-        <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold">Comments {id}</div>
-          <div>Başlık {caption}</div>
-          <div>Resim <Image src={postImage} alt="Post Image" height={400} width={400} /></div>
-          <div>Tarih: {formatFullDate(createdAt)}</div>
-          <div>Yazar: {author.username}</div>
-          {author.profile_picture && (
-            <div>
-              <Image className="rounded-full" src={author.profile_picture} alt="Avatar" width={64} height={64} />
+      <div className="w-2/3 h-full bg-dark-dropzone flex">
+        <div className="w-2/3 bg-dark-secondary border-r-2 border-r-slate-700 relative">
+          <div className="aspect-w-2 aspect-h-3">
+            <Image
+              priority
+              src={postImage}
+              alt="Post Image"
+              layout="fill"
+              objectFit="contain"
+              objectPosition="center"
+            />
+          </div>
+        </div>
+        <div className="w-2/5 flex flex-col justify-start p-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              {author.profile_picture && (
+                <Image className="rounded-full" src={author.profile_picture} alt="Avatar" width={64} height={64} />
+              )}
+              <div>{author.username}</div>
             </div>
-          )}
+            <div className="text-gray-500">{formatFullDate(createdAt)}</div>
+          </div>
+          <div className="text-lg font-bold my-4">{caption}</div>
+          <hr className="my-4 dark:border-dark-border" />
+          {/* Yorumlar buraya eklenebilir */}
+          YORUMLAR
         </div>
       </div>
     </Modal>
