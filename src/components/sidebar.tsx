@@ -25,8 +25,8 @@ const Sidebar = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
-  console.log("isModalOpen:", isModalOpen);
-  
+
+
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -223,24 +223,22 @@ const Sidebar = () => {
             {resolvedTheme === "dark" ? (
               <FontAwesomeIcon
                 icon={faSun}
-                className={`icon-style mr-2 ${
-                  theme === "light" ? "rotate-0" : "rotate-90"
-                } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                  } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("light")}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faMoon}
-                className={`icon-style mr-2 ${
-                  theme === "dark" ? "rotate-0" : "rotate-0"
-                } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                  } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("dark")}
               />
             )}
           </button>
         </motion.div>
       </div>
-      <PostModal/>
+      <PostModal />
     </div>
   );
 };
