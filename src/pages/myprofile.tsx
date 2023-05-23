@@ -6,7 +6,6 @@ import PostComponent from "@/components/post";
 import ProfileHeader from "@/components/profileHeader";
 
 const Profile = () => {
-
   return (
     <div className="flex">
       <Sidebar />
@@ -14,7 +13,6 @@ const Profile = () => {
       <h1>POSTLAR</h1>
       {/* <PostComponent/> */}
     </div>
-
   );
 };
 
