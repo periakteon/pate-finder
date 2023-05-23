@@ -79,7 +79,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
     };
 
     checkLikeStatus();
-  }, []);
+  }, [post.id]);
 
   return (
     <>
