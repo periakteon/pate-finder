@@ -3,7 +3,8 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
-import { toast } from "react-toastify";
+import CommentsModal from "./CommentsModal";
+import { atom, useAtom } from "jotai";
 
 type PostProps = {
   post: Post;
@@ -22,9 +23,21 @@ type Post = {
   updatedAt: string;
 };
 
+export const selectedPostIdAtom = atom<number | null>(null);
+export const isCommentsModalOpen = atom<boolean>(false);
+
 const PostComponent: React.FC<PostProps> = ({ post }) => {
-  const [fullDate, setFullDate] = useState(false);
-  const [liked, setLiked] = useState(false);
+  const [fullDate, setFullDate] = useState<boolean>(false);
+  const [liked, setLiked] = useState<boolean>(false);
+  const [, setSelectedPostId] = useAtom(selectedPostIdAtom);
+  const [commentsModalOpen, setCommentsModalOpen] = useAtom(isCommentsModalOpen);
+
+  const handleComment = () => {
+    if (post) {
+      setSelectedPostId(post.id);
+      setCommentsModalOpen(true);
+    }
+  };
 
   const handleLike = async () => {
     try {
@@ -35,9 +48,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         },
         body: JSON.stringify({ postId: post.id }),
       });
-  
+
       const data = await response.json();
-  
+
       if (data.success) {
         setLiked(true);
       }
@@ -45,7 +58,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
       console.error("Bir hata oluştu:", error);
     }
   };
-  
+
   const handleUnlike = async () => {
     try {
       const response = await fetch("/api/post/unlike", {
@@ -55,9 +68,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         },
         body: JSON.stringify({ postId: post.id }),
       });
-  
+
       const data = await response.json();
-  
+
       if (data.success) {
         setLiked(false);
       }
@@ -65,7 +78,6 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
       console.error("Bir hata oluştu:", error);
     }
   };
-  
 
   useEffect(() => {
     const checkLikeStatus = async () => {
@@ -131,11 +143,17 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           />
         </div>
         <div className="flex justify-evenly">
-          <button className="flex items-center text-green-500 hover:text-green-800" onClick={liked ? handleUnlike : handleLike}>
+          <button
+            className="flex items-center text-green-500 hover:text-green-800"
+            onClick={liked ? handleUnlike : handleLike}
+          >
             <FontAwesomeIcon icon={faPaw} className="text-2xl mr-2" />
             {liked ? "Beğenmekten Vazgeç" : "Beğen"}
           </button>
-          <button className="flex items-center  text-blue-500 hover:text-blue-800 ">
+          <button
+            onClick={handleComment}
+            className="flex items-center  text-blue-500 hover:text-blue-800 "
+          >
             <FontAwesomeIcon icon={faComment} className="text-2xl mr-2" />
             Yorum
           </button>
@@ -146,6 +164,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         </div>
       </div>
       <hr className="divide-x my-4 dark:border-dark-border" />
+      {commentsModalOpen && <CommentsModal post={post} />}
     </>
   );
 };

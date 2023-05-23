@@ -39,7 +39,6 @@ const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
 function HomePage() {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -121,13 +120,6 @@ function HomePage() {
           ))}
         </ul>
       </div>
-
-      {isLoading && <p>Loading...</p>}
-      {pageNumber < totalPages && !isLoading && (
-        <button onClick={handleLoadMore} disabled={pageNumber >= totalPages}>
-          Load More
-        </button>
-      )}
 
       {showNoContentMessage && (
         <p className="text-center text-gray-400 font-bold my-5">
