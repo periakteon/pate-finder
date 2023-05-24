@@ -157,10 +157,10 @@ export const handlerPetRequestSchema = z.object({
     required_error: "Evcil hayvan cinsi gereklidir.",
     invalid_type_error: "Evcil hayvan cinsi string tipinde olmalıdır.",
   }),
-  birthdate: z.date({
-    required_error: "Evcil hayvanın doğum tarihi gereklidir.",
-    invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
-  }),
+  // birthdate: z.number({
+  //   required_error: "Evcil hayvanın doğum tarihi gereklidir.",
+  //   invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
+  // }),
   pet_photo: z
     .string({
       required_error: "Evcil hayvan görseli gereklidir.",
@@ -385,68 +385,3 @@ export const unlikeRequest = z.object({
     invalid_type_error: "Post ID'si sayı tipinde olmalıdır.",
   }),
 });
-
-export const exploreQuery = z.object({
-  page: z
-    .string({
-      invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
-      required_error: "Sayfa numarası gereklidir.",
-    })
-    .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
-    .default("1")
-    .transform(Number)
-    .refine((val) => val >= 1, {
-      message: "Sayfa numarası 1'den küçük olamaz.",
-    }),
-});
-
-export const exploreResponse = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    users: z.array(
-      z.object({
-        id: z.number(),
-        username: z.string(),
-        profile_picture: z.string().url().nullable(),
-        createdAt: z.custom((value) => transformDate.parse(value)),
-        pet: z
-          .object({
-            id: z.number(),
-            name: z.string(),
-            type: z.string(),
-            breed: z.string(),
-            pet_photo: z.string().url().nullable(),
-          })
-          .nullable(),
-      }),
-    ),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);
-
-export const searchRequest = z.object({
-  username: z.string({
-    required_error: "Kullanıcı adı gereklidir.",
-    invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
-  }),
-});
-
-export const searchResponse = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    users: z.array(
-      z.object({
-        id: z.number(),
-        username: z.string(),
-        profile_picture: z.string().url().nullable(),
-      }),
-    ),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);

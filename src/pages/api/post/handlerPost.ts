@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient, Post } from "@prisma/client";
-import { z, ZodError } from "zod";
 import authMiddleware from "../../../middleware/authMiddleware";
 import { postRequestSchema } from "@/utils/zodSchemas";
 

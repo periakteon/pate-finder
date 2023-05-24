@@ -1,9 +1,24 @@
 import { useState } from "react";
 import profileTempData from "@/utils/profileTempData";
 import Image from "next/image";
+import {
+  petNameAtom,
+  petImageAtom,
+  petBioAtom,
+  postNumberAtom,
+  followersNumberAtom,
+  followingNumberAtom,
+} from "@/pages/myprofile";
+import { useAtom } from "jotai";
 
 const ProfileHeader = () => {
   const [addPicture, setAddPicture] = useState(false);
+  const [petName] = useAtom(petNameAtom);
+  const [petImage] = useAtom(petImageAtom);
+  const [petBio] = useAtom(petBioAtom);
+  const [postNumber] = useAtom(postNumberAtom);
+  const [followersNumber] = useAtom(followersNumberAtom);
+  const [followingNumber] = useAtom(followingNumberAtom);
 
   const handleMouseOver = () => {
     setAddPicture(true);
@@ -35,21 +50,21 @@ const ProfileHeader = () => {
           </div>
         )}
       </div>
-      <h1 className="text-2xl font-bold mt-4">PetName</h1>
-      <p className="text-gray-500">Bio</p>
+      <h1 className="text-2xl font-bold mt-4">{petName}</h1>
+      <p className="text-gray-500">{petBio}</p>
       <div className="flex mt-4">
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold">Posts</h2>
-            <p className="text-gray-500">0</p>
+            <p className="text-gray-500">{postNumber}</p>
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold">Followers</h2>
-            <p className="text-gray-500">0</p>
+            <p className="text-gray-500">{followingNumber}</p>
           </div>
           <div>
             <h2 className="text-lg font-bold">Following</h2>
-            <p className="text-gray-500">0</p>
+            <p className="text-gray-500">{followersNumber}</p>
           </div>
         </div>
       </div>

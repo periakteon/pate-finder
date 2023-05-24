@@ -30,9 +30,9 @@ const Sidebar = () => {
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<User[]>([]);
-  const { resolvedTheme, theme, setTheme } = useTheme();
-  const [, setIsModalOpen] = useAtom(isModalOpenAtom);
+  const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
+  console.log("isModalOpen:", isModalOpen);
+
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -293,24 +293,21 @@ const Sidebar = () => {
             {resolvedTheme === "dark" ? (
               <FontAwesomeIcon
                 icon={faSun}
-                className={`icon-style mr-2 ${
-                  theme === "light" ? "rotate-0" : "rotate-90"
-                } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                  } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("light")}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faMoon}
-                className={`icon-style mr-2 ${
-                  theme === "dark" ? "rotate-0" : "rotate-0"
-                } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                  } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("dark")}
               />
             )}
           </button>
-          <span className="text-lg font-medium">{`${
-            resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-          }`}</span>
+          <span className="text-lg font-medium">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+            }`}</span>
         </motion.div>
       </div>
       <PostModal />

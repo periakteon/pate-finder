@@ -46,7 +46,7 @@ const handlePet = async (
     return res.status(400).json({ success: false, errors: errorMessages });
   }
 
-  const { name, breed, birthdate, pet_photo, type, bio } = parsed.data;
+  const { name, breed, pet_photo, type, bio } = parsed.data;
 
   try {
     await prisma.user.update({
@@ -59,7 +59,7 @@ const handlePet = async (
             create: {
               name,
               breed,
-              birthdate,
+
               pet_photo,
               type,
               bio,
@@ -67,7 +67,7 @@ const handlePet = async (
             update: {
               name,
               breed,
-              birthdate,
+
               pet_photo,
               type,
               bio,
