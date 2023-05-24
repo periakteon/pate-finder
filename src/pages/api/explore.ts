@@ -3,7 +3,7 @@ import { exploreResponse } from "@/utils/zodSchemas";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { exploreQuery } from '../../utils/zodSchemas';
+import { exploreQuery } from "../../utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
@@ -19,9 +19,7 @@ const explorer = async (
       .json({ success: false, errors: ["Method not allowed"] });
   }
   const userId = req.userId;
-  const parsed = await exploreQuery.safeParseAsync(
-    req.query,
-  );
+  const parsed = await exploreQuery.safeParseAsync(req.query);
 
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;

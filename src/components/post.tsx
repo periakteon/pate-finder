@@ -30,7 +30,8 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
   const [fullDate, setFullDate] = useState<boolean>(false);
   const [liked, setLiked] = useState<boolean>(false);
   const [, setSelectedPostId] = useAtom(selectedPostIdAtom);
-  const [commentsModalOpen, setCommentsModalOpen] = useAtom(isCommentsModalOpen);
+  const [commentsModalOpen, setCommentsModalOpen] =
+    useAtom(isCommentsModalOpen);
 
   const handleComment = () => {
     if (post) {

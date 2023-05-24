@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 // Prisma'dan dönen "DateTime" tarihini "yyyy-MM-dd HH:mm:ss" formatında bir string'e dönüştürüyoruz (exploreResponse'da Zod hatası almamak için)
-const transformDate = z.string().transform((value) => new Date(value).toISOString());
+const transformDate = z
+  .string()
+  .transform((value) => new Date(value).toISOString());
 
 /**
  * Follow API Schemas
@@ -291,13 +293,26 @@ export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
         id: z.number(),
         caption: z.string(),
         postImage: z.string().url(),
-        createdAt: z.date(),
-        updatedAt: z.date(),
+        createdAt: z.custom((value) => transformDate.parse(value)),
+        updatedAt: z.custom((value) => transformDate.parse(value)),
         authorId: z.number(),
         author: z.object({
           profile_picture: z.string().url().nullable(),
           username: z.string(),
         }),
+        comments: z.array(
+          z.object({
+            id: z.number(),
+            text: z.string(),
+            createdAt: z.custom((value) => transformDate.parse(value)),
+            updatedAt: z.custom((value) => transformDate.parse(value)),
+            userId: z.number(),
+            user: z.object({
+              username: z.string(),
+              profile_picture: z.string().url().nullable(),
+            }),
+          }),
+        ),
       }),
     ),
     message: z.string(),
@@ -336,10 +351,12 @@ export const likeRequest = z.object({
 });
 
 export const checkLikeRequest = z.object({
-  postId: z.string({
-    required_error: "Post ID'si gereklidir.",
-    invalid_type_error: "Post ID'si string tipinde olmalıdır.",
-  }).transform(Number),
+  postId: z
+    .string({
+      required_error: "Post ID'si gereklidir.",
+      invalid_type_error: "Post ID'si string tipinde olmalıdır.",
+    })
+    .transform(Number),
 });
 
 /**

@@ -5,12 +5,12 @@ import { checkLikeRequest } from "@/utils/zodSchemas";
 const prisma = new PrismaClient();
 
 type ResponseType =
-    | { success: true; message: string, liked: Like | null}
-    | { success: false; errors: string[] };
+  | { success: true; message: string; liked: Like | null }
+  | { success: false; errors: string[] };
 
 const handleCheckLikeRequest = async (
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
+  res: NextApiResponse<ResponseType>,
 ) => {
   if (req.method !== "GET") {
     return res
@@ -35,14 +35,18 @@ const handleCheckLikeRequest = async (
     const liked = await prisma.like.findFirst({
       where: {
         postId,
-        userId
+        userId,
       },
     });
 
-    return res.status(200).json({ success: true, message:"Kontroller yapıldı.", liked});
+    return res
+      .status(200)
+      .json({ success: true, message: "Kontroller yapıldı.", liked });
   } catch (error) {
     console.error("An error occurred:", error);
-    return res.status(500).json({ success: false, errors: ["Internal Server Error"] });
+    return res
+      .status(500)
+      .json({ success: false, errors: ["Internal Server Error"] });
   }
 };
 

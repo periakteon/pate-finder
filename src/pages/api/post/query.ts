@@ -62,8 +62,23 @@ export async function getPostsByFollowedUsers(
       authorId: true,
       author: {
         select: {
-          profile_picture: true,
           username: true,
+          profile_picture: true,
+        },
+      },
+      comments: {
+        select: {
+          id: true,
+          text: true,
+          createdAt: true,
+          updatedAt: true,
+          userId: true,
+          user: {
+            select: {
+              username: true,
+              profile_picture: true,
+            },
+          },
         },
       },
     },

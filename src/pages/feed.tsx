@@ -1,7 +1,7 @@
 import Sidebar from "@/components/sidebar";
 import { useState, useEffect } from "react";
-import { z } from "zod";
 import PostComponent from "@/components/post";
+import { infiniteScrollResponseSchema } from "@/utils/zodSchemas";
 
 type Post = {
   id: number;
@@ -14,26 +14,18 @@ type Post = {
   postImage: string;
   createdAt: string;
   updatedAt: string;
+  comments: {
+    id: number;
+    text: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+    user: {
+      username: string;
+      profile_picture: string | null;
+    };
+  }[];
 };
-
-const infiniteScrollResponseSchema = z.object({
-  success: z.boolean(),
-  posts: z.array(
-    z.object({
-      id: z.number(),
-      author: z.object({
-        username: z.string(),
-        profile_picture: z.string().nullable(),
-      }),
-      authorId: z.number(),
-      caption: z.string(),
-      postImage: z.string(),
-      createdAt: z.string(),
-      updatedAt: z.string(),
-    }),
-  ),
-  errors: z.record(z.array(z.string())).optional(),
-});
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
@@ -44,7 +36,6 @@ function HomePage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
-
   // hydration hatasını çözmek için
   const [mounted, setMounted] = useState(false);
 
@@ -56,20 +47,25 @@ function HomePage() {
         `/api/post/query?page=${pageNumber}&pageSize=${pageSize}`,
       );
       try {
-        const data = await infiniteScrollResponseSchema.parseAsync(
+        const parsed = await infiniteScrollResponseSchema.parseAsync(
           await res.json(),
         );
-
+        if (!parsed.success) {
+          console.error(parsed.errors);
+          return;
+        }
+        const data = parsed;
+        console.log("parsed data:", data);
         if (data.posts.length === 0) {
           setShowNoContentMessage(true);
           return;
         }
 
         if (data.success === true) {
-          setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+          setPosts(
+            (prevPosts: Post[]) => [...prevPosts, ...data.posts] as Post[],
+          );
           setIsLoading(false);
-        } else {
-          console.error(data.errors);
         }
       } catch (error) {
         console.error(error);

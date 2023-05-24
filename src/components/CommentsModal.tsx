@@ -21,7 +21,8 @@ type Post = {
 };
 
 const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
-  const [commentsModalOpen, setCommentsModalOpen] = useAtom(isCommentsModalOpen);
+  const [commentsModalOpen, setCommentsModalOpen] =
+    useAtom(isCommentsModalOpen);
   const [selectedPostId, setSelectedPostId] = useAtom(selectedPostIdAtom);
 
   const closeModal = () => {
@@ -57,7 +58,13 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               {author.profile_picture && (
-                <Image className="rounded-full" src={author.profile_picture} alt="Avatar" width={64} height={64} />
+                <Image
+                  className="rounded-full"
+                  src={author.profile_picture}
+                  alt="Avatar"
+                  width={64}
+                  height={64}
+                />
               )}
               <div>{author.username}</div>
             </div>
@@ -66,6 +73,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
           <div className="text-lg font-bold my-4">{caption}</div>
           <hr className="my-4 dark:border-dark-border" />
           {/* Yorumlar buraya eklenebilir */}
+          {/* TODO: Yorumlar API'dan çekilip burada map edilecek */}
           YORUMLAR
         </div>
       </div>

@@ -232,17 +232,17 @@ const Sidebar = () => {
               transition={{ duration: 0.3 }}
               className="mb-2"
             >
-            <Link href="/explore">
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                <FontAwesomeIcon
-                  icon={faPaw}
-                  className="text-2xl text-pink-600 mr-2 dark:text-white"
-                />
-                <span className="text-lg font-medium dark:text-white">
-                  Keşfet
-                </span>
-              </div>
-            </Link>
+              <Link href="/explore">
+                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <FontAwesomeIcon
+                    icon={faPaw}
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  />
+                  <span className="text-lg font-medium dark:text-white">
+                    Keşfet
+                  </span>
+                </div>
+              </Link>
             </motion.li>
             <motion.li
               initial={{ opacity: 0, y: -20 }}
