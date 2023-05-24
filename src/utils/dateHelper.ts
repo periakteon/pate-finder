@@ -1,6 +1,6 @@
 export const formatCreatedAt = (
   createdAt: string,
-  onMouseEnter: () => void,
+  onMouseEnter?: () => void,
 ): string => {
   const date = new Date(createdAt);
   const currentDate = new Date();

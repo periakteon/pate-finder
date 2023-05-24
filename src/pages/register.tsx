@@ -61,7 +61,6 @@ const Register = () => {
         router.push("/");
       }, 2000);
     }
-    console.log(data);
   };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {

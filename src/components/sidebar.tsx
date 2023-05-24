@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import defaultImage from "../../public/images/default.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -14,19 +15,24 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import PostModal from "./postModal";
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom } from "jotai";
 
 export const isModalOpenAtom = atom(false);
+
+type User = {
+  id: number;
+  username: string;
+  profile_picture: string | null;
+};
 
 const Sidebar = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const { resolvedTheme, theme, setTheme } = useTheme();
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useAtom(isModalOpenAtom);
-
-
+  const [searchResults, setSearchResults] = useState<User[]>([]);
+  const { resolvedTheme, theme, setTheme } = useTheme();
+  const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -37,10 +43,37 @@ const Sidebar = () => {
     }, 0);
   };
 
+  const searchUsers = async (query: string) => {
+    try {
+      const response = await fetch(`/api/search?username=${query}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setTimeout(() => {
+          setSearchResults(data.users);
+        }, 200);
+      }
+    } catch (error) {
+      console.log("Try Catch Error", error);
+    }
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === "") {
+      setSearchResults([]);
+    } else {
+      searchUsers(event.target.value);
+    }
+  };
+
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: Arama API'si yaz
-    console.log("Search submitted");
+    if (searchInputRef.current && searchInputRef.current.value !== "") {
+      const query = searchInputRef.current.value;
+      searchUsers(query);
+    } else {
+      setSearchResults([]);
+    }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -50,6 +83,9 @@ const Sidebar = () => {
       !searchInputRef.current.contains(event.target)
     ) {
       setSearchMode(false);
+      setTimeout(() => {
+        setSearchResults([]);
+      }, 300);
     }
   };
 
@@ -139,12 +175,13 @@ const Sidebar = () => {
                 </div>
               ) : (
                 <form
-                  onSubmit={handleSearchSubmit}
+                  onChange={handleSearchSubmit}
                   className="flex items-center"
                 >
                   <label htmlFor="searchInput" className="relative">
                     <input
                       ref={searchInputRef}
+                      onChange={handleInputChange}
                       type="text"
                       id="searchInput"
                       placeholder="Ara..."
@@ -157,6 +194,37 @@ const Sidebar = () => {
                   </label>
                 </form>
               )}
+              {/** arama sonuçları */}
+              <div>
+                {searchResults.length > 0 && (
+                  <div className="max-h-60 overflow-y-auto border-b bg-slate-600 border-gray-300">
+                    {searchResults.map((user) => (
+                      <Link href={`/profile/${user.username}`} key={user.id}>
+                        <div className="p-2 flex flex-row hover:bg-slate-500">
+                          <Image
+                            priority
+                            src={defaultImage}
+                            className="rounded-full"
+                            width={32}
+                            height={32}
+                            alt="Avatar"
+                          />
+                          <span className="ml-3 p-1">{user.username}</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+                {searchResults.length === 0 &&
+                  searchMode &&
+                  searchInputRef.current &&
+                  searchInputRef.current.value !== "" && (
+                    <div className="text-gray-500 py-2">
+                      Böyle bir kullanıcı yok
+                    </div>
+                  )}
+              </div>
+              {/** arama sonuçları */}
             </motion.li>
             <motion.li
               initial={{ opacity: 0, y: -20 }}
@@ -164,15 +232,17 @@ const Sidebar = () => {
               transition={{ duration: 0.3 }}
               className="mb-2"
             >
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                <FontAwesomeIcon
-                  icon={faPaw}
-                  className="text-2xl text-pink-600 mr-2 dark:text-white"
-                />
-                <span className="text-lg font-medium dark:text-white">
-                  Keşfet
-                </span>
-              </div>
+              <Link href="/explore">
+                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <FontAwesomeIcon
+                    icon={faPaw}
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  />
+                  <span className="text-lg font-medium dark:text-white">
+                    Keşfet
+                  </span>
+                </div>
+              </Link>
             </motion.li>
             <motion.li
               initial={{ opacity: 0, y: -20 }}
@@ -236,6 +306,8 @@ const Sidebar = () => {
               />
             )}
           </button>
+          <span className="text-lg font-medium">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+            }`}</span>
         </motion.div>
       </div>
       <PostModal />

@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+// Prisma'dan dönen "DateTime" tarihini "yyyy-MM-dd HH:mm:ss" formatında bir string'e dönüştürüyoruz (exploreResponse'da Zod hatası almamak için)
+const transformDate = z
+  .string()
+  .transform((value) => new Date(value).toISOString());
+
 /**
  * Follow API Schemas
  */
@@ -206,6 +211,19 @@ export const commentRequestSchema = z.object({
   text: z.string(),
 });
 
+export const commentResponseSchema = z.object({
+  id: z.number(),
+  text: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  userId: z.number(),
+  postId: z.number(),
+  user: z.object({
+    profile_picture: z.string().nullable(),
+    username: z.string(),
+  }),
+});
+
 /**
  * Create Post API Schema
  */
@@ -288,13 +306,26 @@ export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
         id: z.number(),
         caption: z.string(),
         postImage: z.string().url(),
-        createdAt: z.date(),
-        updatedAt: z.date(),
+        createdAt: z.custom((value) => transformDate.parse(value)),
+        updatedAt: z.custom((value) => transformDate.parse(value)),
         authorId: z.number(),
         author: z.object({
           profile_picture: z.string().url().nullable(),
           username: z.string(),
         }),
+        comments: z.array(
+          z.object({
+            id: z.number(),
+            text: z.string(),
+            createdAt: z.custom((value) => transformDate.parse(value)),
+            updatedAt: z.custom((value) => transformDate.parse(value)),
+            userId: z.number(),
+            user: z.object({
+              username: z.string(),
+              profile_picture: z.string().url().nullable(),
+            }),
+          }),
+        ),
       }),
     ),
     message: z.string(),
@@ -332,6 +363,15 @@ export const likeRequest = z.object({
   }),
 });
 
+export const checkLikeRequest = z.object({
+  postId: z
+    .string({
+      required_error: "Post ID'si gereklidir.",
+      invalid_type_error: "Post ID'si string tipinde olmalıdır.",
+    })
+    .transform(Number),
+});
+
 /**
  * Unlike API Schemas
  */
@@ -359,50 +399,64 @@ export const unlikeRequest = z.object({
   }),
 });
 
-export const getPostsRequestSchema = z.object({
+export const exploreQuery = z.object({
+  page: z
+    .string({
+      invalid_type_error: "Sayfa numarası sayı tipinde olmalıdır.",
+      required_error: "Sayfa numarası gereklidir.",
+    })
+    .min(1, { message: "Sayfa numarası 1'den küçük olamaz." })
+    .default("1")
+    .transform(Number)
+    .refine((val) => val >= 1, {
+      message: "Sayfa numarası 1'den küçük olamaz.",
+    }),
+});
+
+export const exploreResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    users: z.array(
+      z.object({
+        id: z.number(),
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+        createdAt: z.custom((value) => transformDate.parse(value)),
+        pet: z
+          .object({
+            id: z.number(),
+            name: z.string(),
+            type: z.string(),
+            breed: z.string(),
+            pet_photo: z.string().url().nullable(),
+          })
+          .nullable(),
+      }),
+    ),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const searchRequest = z.object({
   username: z.string({
-    required_error: "Kullanıcı adı zorunludur.",
+    required_error: "Kullanıcı adı gereklidir.",
     invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
   }),
 });
 
-export const myProfileResponseSchema = z.discriminatedUnion("success", [
+export const searchResponse = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    id: z.number(),
-    username: z.string(),
-    profile_picture: z.string().url().nullable(),
-    posts: z.array(
-      z.object({
-        id: z.number(),
-        caption: z.string(),
-        postImage: z.string().url(),
-        createdAt: z.date(),
-        updatedAt: z.date(),
-        authorId: z.number(),
-      }),
-    ),
-    pet: z.object({
-      id: z.number(),
-      name: z.string(),
-      profile_picture: z.string().url().nullable(),
-      createdAt: z.date(),
-      updatedAt: z.date(),
-      userId: z.number(),
-    }),
-    followedBy: z.array(
+    users: z.array(
       z.object({
         id: z.number(),
         username: z.string(),
+        profile_picture: z.string().url().nullable(),
       }),
     ),
-    following: z.array(
-      z.object({
-        id: z.number(),
-        username: z.string(),
-      }),
-    ),
-    message: z.string(),
   }),
   z.object({
     success: z.literal(false),

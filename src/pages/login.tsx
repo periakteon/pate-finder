@@ -48,7 +48,6 @@ const Login = () => {
     const parsed = await loginResponseSchema.safeParseAsync(data);
 
     if (!parsed.success) {
-      console.log("parsed error:", parsed.error);
       toast.error(`Hata: ${parsed.error}`, {
         draggable: false,
         autoClose: 2000,

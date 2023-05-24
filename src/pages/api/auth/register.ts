@@ -65,7 +65,7 @@ export default async function handleRegister(
         });
       }
     } else {
-      console.log(err);
+      console.log("Prisma Register Hatası:", err);
       return res
         .status(500)
         .json({ success: false, errors: ["Internal Server Error"] });

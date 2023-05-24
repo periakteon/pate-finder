@@ -41,7 +41,6 @@ const handleLikeRequest = async (
     });
 
     if (existingLike) {
-      // Like already exists, update the existing like
       const updatedLike = await prisma.like.update({
         where: { id: existingLike.id },
         data: {},
@@ -53,7 +52,6 @@ const handleLikeRequest = async (
         like: updatedLike,
       });
     } else {
-      // Like does not exist, create a new like
       const newLike = await prisma.like.create({
         data: {
           postId,

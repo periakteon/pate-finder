@@ -32,9 +32,6 @@ const Dropzone = () => {
   const { uploadToS3 } = useS3Upload();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
-  console.log("Files:", files);
-  console.log("URL:", selectedFileURL);
-
   const handleChangeCaption = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const value = event.target.value;
     setCaption(value);
@@ -54,7 +51,6 @@ const Dropzone = () => {
     onDrop: handleDrop,
   });
 
-  // TODO: "resolvedTheme" ile dark veya light temaya göre toast teması ayarla
   const handleSubmit = async () => {
     if (!caption || caption.trim() === "") {
       toast.error("Lütfen bir içerik girin.", {
@@ -132,7 +128,7 @@ const Dropzone = () => {
 
   return (
     <>
-      <div className="container mx-auto flex flex-col rounded-lg items-center py-8 bg-dark-background border">
+      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
         <div
           {...getRootProps()}
           className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
@@ -177,7 +173,7 @@ const Dropzone = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
+          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
             characterCount > 280 ? "border-rose-500" : "border-slate-500"
           }`}
         />
@@ -191,22 +187,22 @@ const Dropzone = () => {
         </div>
         {!uploading && (
           <button
-          onClick={handleSubmit}
-          disabled={uploading}
-          className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
-        >
-          Gönder
-        </button>
+            onClick={handleSubmit}
+            disabled={uploading}
+            className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
+          >
+            Gönder
+          </button>
         )}
         {uploading && (
           <div className="flex items-center justify-center mb-4">
-          <BeatLoader
-            cssOverride={override}
-            size={15}
-            color={"silver"}
-            loading={uploading}
-          />
-        </div>
+            <BeatLoader
+              cssOverride={override}
+              size={15}
+              color={"silver"}
+              loading={uploading}
+            />
+          </div>
         )}
       </div>
     </>

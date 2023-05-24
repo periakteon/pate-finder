@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
 import Dropzone from "./dropzone";
-import { useAtom } from 'jotai';
+import { useAtom } from "jotai";
 import { isModalOpenAtom } from "./sidebar";
 
 Modal.setAppElement("#__next");

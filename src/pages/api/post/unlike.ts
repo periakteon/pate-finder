@@ -41,7 +41,6 @@ const handleUnlikeRequest = async (
     });
 
     if (existingLike) {
-      // Unlike the post by deleting the existing like
       await prisma.like.delete({
         where: { id: existingLike.id },
       });
