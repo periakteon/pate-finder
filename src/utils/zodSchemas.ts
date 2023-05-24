@@ -211,6 +211,19 @@ export const commentRequestSchema = z.object({
   text: z.string(),
 });
 
+export const commentResponseSchema = z.object({
+  id: z.number(),
+  text: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  userId: z.number(),
+  postId: z.number(),
+  user: z.object({
+    profile_picture: z.string().nullable(),
+    username: z.string(),
+  }),
+});
+
 /**
  * Create Post API Schema
  */

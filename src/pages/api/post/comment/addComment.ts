@@ -1,13 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, Comment } from "@prisma/client";
-import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 import authMiddleware from "../../../../middleware/authMiddleware";
-import { commentRequestSchema } from "@/utils/zodSchemas";
+import {z} from "zod";
+import { commentRequestSchema, commentResponseSchema} from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 
+type CommentResponse = z.infer<typeof commentResponseSchema>;
+
 type ResponseType =
-  | { success: true; message: string; comment?: Comment }
+  | { success: true; message: string; comment?: CommentResponse }
   | { success: false; errors: string[] };
 
 async function addCommentHandler(
@@ -46,6 +48,14 @@ async function addCommentHandler(
         post: {
           connect: {
             id: postId,
+          },
+        },
+      },
+      include: {
+        user: {
+          select: {
+            profile_picture: true,
+            username: true,
           },
         },
       },
