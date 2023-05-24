@@ -21,6 +21,17 @@ type Post = {
   postImage: string;
   createdAt: string;
   updatedAt: string;
+  comments: {
+    id: number;
+    text: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+    user: {
+      username: string;
+      profile_picture: string | null;
+    };
+  }[];
 };
 
 export const selectedPostIdAtom = atom<number | null>(null);

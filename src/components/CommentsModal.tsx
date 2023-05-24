@@ -3,7 +3,8 @@ import Modal from "react-modal";
 import { useAtom } from "jotai";
 import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
 import Image from "next/image";
-import { formatFullDate } from "@/utils/dateHelper";
+import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
+import Link from "next/link";
 
 Modal.setAppElement("#__next");
 
@@ -11,13 +12,24 @@ type Post = {
   id: number;
   author: {
     username: string;
-    profile_picture?: string | null;
+    profile_picture: string | null;
   };
   authorId: number;
   caption: string;
   postImage: string;
   createdAt: string;
   updatedAt: string;
+  comments: {
+    id: number;
+    text: string;
+    createdAt: string;
+    updatedAt: string;
+    userId: number;
+    user: {
+      username: string;
+      profile_picture: string | null;
+    };
+  }[];
 };
 
 const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
@@ -30,7 +42,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
     setSelectedPostId(null);
   };
 
-  const { id, caption, postImage, createdAt, author } = post;
+  const { id, caption, postImage, createdAt, author, comments } = post;
 
   return (
     <Modal
@@ -70,11 +82,45 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
             </div>
             <div className="text-gray-500">{formatFullDate(createdAt)}</div>
           </div>
-          <div className="text-lg font-bold my-4">{caption}</div>
+          <div className="text-xl font-bold my-4">{caption}</div>
           <hr className="my-4 dark:border-dark-border" />
           {/* Yorumlar buraya eklenebilir */}
-          {/* TODO: Yorumlar API'dan çekilip burada map edilecek */}
-          YORUMLAR
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <>
+                <div key={comment.id} className="mb-2 flex items-center">
+                  <div className="rounded-full">
+                    <Image
+                      src={
+                        comment.user.profile_picture !== null
+                          ? comment.user.profile_picture
+                          : "/images/default.jpeg"
+                      }
+                      alt="Profile Picture"
+                      className="rounded-full"
+                      width={64}
+                      height={64}
+                    />
+                  </div>
+                  <div className="flex flex-col ml-2">
+                    <div className="font-bold">
+                      <Link href={`/profile/${comment.user.username}`}>
+                        {comment.user.username}
+                      </Link>
+                    </div>
+
+                    <div>{comment.text}</div>
+                    <div className="mt-auto text-sm text-gray-500">
+                      {formatCreatedAt(comment.createdAt)}
+                    </div>
+                  </div>
+                </div>
+                <hr className="my-4 dark:border-dark-border" />
+              </>
+            ))
+          ) : (
+            <div className="text-center text-slate-500">Yorum bulunamadı.</div>
+          )}
         </div>
       </div>
     </Modal>
