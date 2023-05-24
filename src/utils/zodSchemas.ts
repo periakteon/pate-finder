@@ -152,10 +152,10 @@ export const handlerPetRequestSchema = z.object({
     required_error: "Evcil hayvan cinsi gereklidir.",
     invalid_type_error: "Evcil hayvan cinsi string tipinde olmalıdır.",
   }),
-  birthdate: z.date({
-    required_error: "Evcil hayvanın doğum tarihi gereklidir.",
-    invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
-  }),
+  // birthdate: z.number({
+  //   required_error: "Evcil hayvanın doğum tarihi gereklidir.",
+  //   invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
+  // }),
   pet_photo: z
     .string({
       required_error: "Evcil hayvan görseli gereklidir.",
@@ -359,26 +359,6 @@ export const unlikeRequest = z.object({
   }),
 });
 
-export const getPostsResponseSchema = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    username: z.string(),
-    posts: z.array(
-      z.object({
-        id: z.number(),
-        caption: z.string(),
-        postImage: z.string(),
-        createdAt: z.string(),
-        updatedAt: z.string(),
-      }),
-    ),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);
-
 export const getPostsRequestSchema = z.object({
   username: z.string({
     required_error: "Kullanıcı adı zorunludur.",
@@ -389,10 +369,40 @@ export const getPostsRequestSchema = z.object({
 export const myProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    user: z.object({
+    id: z.number(),
+    username: z.string(),
+    profile_picture: z.string().url().nullable(),
+    posts: z.array(
+      z.object({
+        id: z.number(),
+        caption: z.string(),
+        postImage: z.string().url(),
+        createdAt: z.date(),
+        updatedAt: z.date(),
+        authorId: z.number(),
+      }),
+    ),
+    pet: z.object({
       id: z.number(),
-      username: z.string(),
+      name: z.string(),
+      profile_picture: z.string().url().nullable(),
+      createdAt: z.date(),
+      updatedAt: z.date(),
+      userId: z.number(),
     }),
+    followedBy: z.array(
+      z.object({
+        id: z.number(),
+        username: z.string(),
+      }),
+    ),
+    following: z.array(
+      z.object({
+        id: z.number(),
+        username: z.string(),
+      }),
+    ),
+    message: z.string(),
   }),
   z.object({
     success: z.literal(false),
