@@ -24,7 +24,6 @@ export const postsAtom = atom<Post[]>([]);
 export const postLikeNumberAtom = atom<number>(0);
 
 const Profile = () => {
-  // const [posts, setPosts] = useState<Post[]>([]);
   const [, setPetName] = useAtom(petNameAtom);
   const [, setPetImage] = useAtom(petImageAtom);
   const [, setPetBio] = useAtom(petBioAtom);

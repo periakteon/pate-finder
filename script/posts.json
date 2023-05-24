@@ -1,6 +1,5 @@
 [
   {
-<<<<<<<<< Temporary merge branch 1
     "caption": "Neque ipsam necessitatibus nulla porro similique suscipit ab soluta.",
     "postImage": "https://loremflickr.com/640/480"
   },
@@ -397,8 +396,6 @@
     "postImage": "https://loremflickr.com/640/480"
   },
   {
-    "caption": "Corrupti aliquid quisquam excepturi est consequatur eaque in voluptatum.",
-=========
     "caption": "Alias necessitatibus cum ea enim expedita hic natus.",
     "postImage": "https://loremflickr.com/640/480"
   },
@@ -796,7 +793,6 @@
   },
   {
     "caption": "Sequi dignissimos dolor officia ut consectetur.",
->>>>>>>>> Temporary merge branch 2
     "postImage": "https://loremflickr.com/640/480"
   }
 ]
