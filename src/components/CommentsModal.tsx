@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { useAtom } from "jotai";
 import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
 import Image from "next/image";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import Link from "next/link";
+import { toast } from 'react-toastify';
 
 Modal.setAppElement("#__next");
 
@@ -33,9 +34,9 @@ type Post = {
 };
 
 const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
-  const [commentsModalOpen, setCommentsModalOpen] =
-    useAtom(isCommentsModalOpen);
+  const [commentsModalOpen, setCommentsModalOpen] = useAtom(isCommentsModalOpen);
   const [selectedPostId, setSelectedPostId] = useAtom(selectedPostIdAtom);
+  const [newComment, setNewComment] = useState("");
 
   const closeModal = () => {
     setCommentsModalOpen(false);
@@ -43,6 +44,35 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
   };
 
   const { id, caption, postImage, createdAt, author, comments } = post;
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const response = await fetch("/api/post/comment/addComment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: newComment,
+        postId: id,
+      }),
+    });
+
+    if (response.ok) {
+      toast.success("Yorum başarıyla eklendi!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    } else {
+      toast.error("Yorum eklenirken bir hata oluştu!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    }
+
+    setNewComment(""); // Clear the comment input field after submission
+  };
 
   return (
     <Modal
@@ -84,7 +114,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
           </div>
           <div className="text-xl font-bold my-4">{caption}</div>
           <hr className="my-4 dark:border-dark-border" />
-          {/* Yorumlar buraya eklenebilir */}
+
           {comments.length > 0 ? (
             comments.map((comment) => (
               <>
@@ -121,6 +151,23 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
           ) : (
             <div className="text-center text-slate-500">Yorum bulunamadı.</div>
           )}
+          <form onSubmit={handleCommentSubmit}>
+            <div className="flex flex-col items-center justify-center mt-3">
+            <textarea
+              name="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Yorumunuzu buraya girin"
+              className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded"
+            ></textarea>
+            <button
+              type="submit"
+              className="w-full px-4 py-2  items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+            >
+              Yorumu Gönder
+            </button>
+            </div>
+          </form>
         </div>
       </div>
     </Modal>
