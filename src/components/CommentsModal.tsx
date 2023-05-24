@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { useAtom } from "jotai";
 import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
@@ -50,7 +50,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     const response = await fetch("/api/post/comment/addComment", {
       method: "POST",
       headers: {
@@ -61,7 +61,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
         postId: id,
       }),
     });
-  
+
     if (response.ok) {
       const responseData = await response.json();
       const newCommentData = responseData.comment;
@@ -76,7 +76,7 @@ const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
         autoClose: 1800,
       });
     }
-  
+
     setNewComment(""); // Clear the comment input field after submission
   };
 

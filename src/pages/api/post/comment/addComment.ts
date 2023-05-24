@@ -1,8 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import authMiddleware from "../../../../middleware/authMiddleware";
-import {z} from "zod";
-import { commentRequestSchema, commentResponseSchema} from "@/utils/zodSchemas";
+import { z } from "zod";
+import {
+  commentRequestSchema,
+  commentResponseSchema,
+} from "@/utils/zodSchemas";
 
 const prisma = new PrismaClient();
 

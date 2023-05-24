@@ -136,22 +136,24 @@ const Sidebar = () => {
 
         <nav>
           <ul>
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-2"
-            >
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                <FontAwesomeIcon
-                  icon={faHouse}
-                  className="text-2xl text-pink-600 mr-2 dark:text-white"
-                />
-                <span className="text-lg font-medium dark:text-white">
-                  Anasayfa
-                </span>
-              </div>
-            </motion.li>
+            <Link href="/feed">
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-2"
+              >
+                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <FontAwesomeIcon
+                    icon={faHouse}
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  />
+                  <span className="text-lg font-medium dark:text-white">
+                    Anasayfa
+                  </span>
+                </div>
+              </motion.li>
+            </Link>
             <motion.li
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -226,13 +228,13 @@ const Sidebar = () => {
               </div>
               {/** arama sonuçları */}
             </motion.li>
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-2"
-            >
-              <Link href="/explore">
+            <Link href="/explore">
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-2"
+              >
                 <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                   <FontAwesomeIcon
                     icon={faPaw}
@@ -242,24 +244,26 @@ const Sidebar = () => {
                     Keşfet
                   </span>
                 </div>
-              </Link>
-            </motion.li>
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-2"
-            >
-              <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="text-2xl text-pink-600 mr-2 dark:text-white"
-                />
-                <span className="text-lg font-medium dark:text-white">
-                  Profil
-                </span>
-              </div>
-            </motion.li>
+              </motion.li>
+            </Link>
+            <Link href="/myprofile">
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-2"
+              >
+                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  />
+                  <span className="text-lg font-medium dark:text-white">
+                    Profil
+                  </span>
+                </div>
+              </motion.li>
+            </Link>
             <motion.li
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,21 +297,24 @@ const Sidebar = () => {
             {resolvedTheme === "dark" ? (
               <FontAwesomeIcon
                 icon={faSun}
-                className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${
+                  theme === "light" ? "rotate-0" : "rotate-90"
+                } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("light")}
               />
             ) : (
               <FontAwesomeIcon
                 icon={faMoon}
-                className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
+                className={`icon-style mr-2 ${
+                  theme === "dark" ? "rotate-0" : "rotate-0"
+                } transition-transform animate-spin-slow`}
                 onClick={() => setTheme("dark")}
               />
             )}
           </button>
-          <span className="text-lg font-medium">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-            }`}</span>
+          <span className="text-lg font-medium">{`${
+            resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+          }`}</span>
         </motion.div>
       </div>
       <PostModal />

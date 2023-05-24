@@ -13,6 +13,15 @@ type Post = {
   likes: number;
   comments: number;
 };
+
+/**
+ * TODO:
+ * 1. Fetch data from /api/myProfile
+ * 2. Create a type for the data received
+ * 3. Set data to AN / ONE atom (using type)
+ * 4. Use the atom to display the data where it is needed
+ * 5. No need to create a new atom for each data
+ */
 export const petNameAtom = atom<string>("");
 export const petImageAtom = atom<string>("");
 export const petBioAtom = atom<string>("");
@@ -37,7 +46,7 @@ const Profile = () => {
     const fetchData = async () => {
       const response = await fetch("/api/myProfile");
       const data = await response.json();
-      console.log(data)
+      console.log(data);
       setPosts(data.user.posts);
       setPetName(data.user.pet.name);
       setPetImage(data.user.pet.pet_photo);
@@ -49,11 +58,13 @@ const Profile = () => {
     };
 
     fetchData();
-  }, []);
+  }, [setFollowersNumber, setFollowingNumber, setIsLoading, setPetBio, setPetImage, setPetName, setPostNumber, setPosts]);
 
   return (
     <div className="flex">
-      <Sidebar />
+      <div className="w-2/3">
+        <Sidebar />
+      </div>
       <div className="flex flex-col items-center">
         <ProfileHeader />
         <ProfilePosts />
