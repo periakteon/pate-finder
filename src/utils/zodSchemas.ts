@@ -385,3 +385,17 @@ export const getPostsRequestSchema = z.object({
     invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
   }),
 });
+
+export const myProfileResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    user: z.object({
+      id: z.number(),
+      username: z.string(),
+    }),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
