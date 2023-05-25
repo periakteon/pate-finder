@@ -4,35 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import CommentsModal from "./CommentsModal";
+import {z} from "zod";
 import { atom, useAtom } from "jotai";
+import { infinitePostType } from "@/utils/zodSchemas";
 
 type PostProps = {
-  post: Post;
+  post: PostType;
 };
 
-type Post = {
-  id: number;
-  author: {
-    username: string;
-    profile_picture: string | null;
-  };
-  authorId: number;
-  caption: string;
-  postImage: string;
-  createdAt: string;
-  updatedAt: string;
-  comments: {
-    id: number;
-    text: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: number;
-    user: {
-      username: string;
-      profile_picture: string | null;
-    };
-  }[];
-};
+type PostType = z.infer<typeof infinitePostType>
 
 export const selectedPostIdAtom = atom<number | null>(null);
 export const isCommentsModalOpen = atom<boolean>(false);

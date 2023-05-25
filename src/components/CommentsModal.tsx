@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { useAtom } from "jotai";
 import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
@@ -6,14 +6,16 @@ import Image from "next/image";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { z } from "zod";
+import { infinitePostType } from "@/utils/zodSchemas";
 
 Modal.setAppElement("#__next");
 
 type Comment = {
   id: number;
   text: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   userId: number;
   user: {
     username: string;
@@ -21,21 +23,9 @@ type Comment = {
   };
 };
 
-type Post = {
-  id: number;
-  author: {
-    username: string;
-    profile_picture: string | null;
-  };
-  authorId: number;
-  caption: string;
-  postImage: string;
-  createdAt: string;
-  updatedAt: string;
-  comments: Comment[];
-};
+type PostType = z.infer<typeof infinitePostType>
 
-const CommentsModal: React.FC<{ post: Post }> = ({ post }) => {
+const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
   const { id, caption, postImage, createdAt, author, comments } = post;
   const [commentsModalOpen, setCommentsModalOpen] =
     useAtom(isCommentsModalOpen);

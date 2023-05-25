@@ -298,36 +298,36 @@ export const infiniteScrollRequestQuerySchema = z.object({
     }),
 });
 
+export const infinitePostType = z.object({
+      id: z.number(),
+      caption: z.string(),
+      postImage: z.string().url(),
+      createdAt: z.custom((value) => transformDate.parse(value)),
+      updatedAt: z.custom((value) => transformDate.parse(value)),
+      authorId: z.number(),
+      author: z.object({
+        profile_picture: z.string().url().nullable(),
+        username: z.string(),
+      }),
+      comments: z.array(
+        z.object({
+          id: z.number(),
+          text: z.string(),
+          createdAt: z.custom((value) => transformDate.parse(value)),
+          updatedAt: z.custom((value) => transformDate.parse(value)),
+          userId: z.number(),
+          user: z.object({
+            username: z.string(),
+            profile_picture: z.string().url().nullable(),
+          }),
+        }),
+      ),
+});
+
 export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    posts: z.array(
-      z.object({
-        id: z.number(),
-        caption: z.string(),
-        postImage: z.string().url(),
-        createdAt: z.custom((value) => transformDate.parse(value)),
-        updatedAt: z.custom((value) => transformDate.parse(value)),
-        authorId: z.number(),
-        author: z.object({
-          profile_picture: z.string().url().nullable(),
-          username: z.string(),
-        }),
-        comments: z.array(
-          z.object({
-            id: z.number(),
-            text: z.string(),
-            createdAt: z.custom((value) => transformDate.parse(value)),
-            updatedAt: z.custom((value) => transformDate.parse(value)),
-            userId: z.number(),
-            user: z.object({
-              username: z.string(),
-              profile_picture: z.string().url().nullable(),
-            }),
-          }),
-        ),
-      }),
-    ),
+    posts: z.array(infinitePostType),
     message: z.string(),
   }),
 

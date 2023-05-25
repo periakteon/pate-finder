@@ -1,36 +1,14 @@
 import Sidebar from "@/components/sidebar";
 import { useState, useEffect } from "react";
 import PostComponent from "@/components/post";
-import { infiniteScrollResponseSchema } from "@/utils/zodSchemas";
-
-type Post = {
-  id: number;
-  author: {
-    username: string;
-    profile_picture: string | null;
-  };
-  authorId: number;
-  caption: string;
-  postImage: string;
-  createdAt: string;
-  updatedAt: string;
-  comments: {
-    id: number;
-    text: string;
-    createdAt: string;
-    updatedAt: string;
-    userId: number;
-    user: {
-      username: string;
-      profile_picture: string | null;
-    };
-  }[];
-};
+import { infinitePostType, infiniteScrollResponseSchema } from '../utils/zodSchemas';
+import { z } from "zod";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
+type PostType = z.infer<typeof infinitePostType>
 
 function HomePage() {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<PostType[]>([]);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,31 +20,27 @@ function HomePage() {
   useEffect(() => {
     const loadPosts = async (pageNumber: number, pageSize: number) => {
       setIsLoading(true);
-
-      const res = await fetch(
-        `/api/post/query?page=${pageNumber}&pageSize=${pageSize}`,
-      );
       try {
-        const parsed = await infiniteScrollResponseSchema.parseAsync(
+        const res = await fetch(
+          `/api/post/query?page=${pageNumber}&pageSize=${pageSize}`,
+        );
+        const parsed = await infiniteScrollResponseSchema.safeParseAsync(
           await res.json(),
         );
+        
         if (!parsed.success) {
-          console.error(parsed.errors);
-          return;
-        }
-        const data = parsed;
-        console.log("parsed data:", data);
-        if (data.posts.length === 0) {
-          setShowNoContentMessage(true);
+          console.log("Parse error");
           return;
         }
 
-        if (data.success === true) {
-          setPosts(
-            (prevPosts: Post[]) => [...prevPosts, ...data.posts] as Post[],
-          );
-          setIsLoading(false);
+        if (parsed.success) {
+          if (parsed.data.success) {
+            const { posts } = parsed.data;
+            setPosts((prevPosts) => [...prevPosts, ...posts]);
+            setIsLoading(false);
+          }
         }
+        
       } catch (error) {
         console.error(error);
       }
