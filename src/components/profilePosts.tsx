@@ -1,12 +1,16 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
-import { isLoadingAtom, postsAtom } from "@/pages/myprofile";
+import { isLoadingAtom, userAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
+
+
+
 
 const ProfilePosts = () => {
   const [isLoading] = useAtom(isLoadingAtom);
-  const [posts] = useAtom(postsAtom);
+  const [user] = useAtom(userAtom);
+  console.log(user)
 
   return (
     <div className="p-5 justify-center items-center">
@@ -32,7 +36,7 @@ const ProfilePosts = () => {
         </div>
       )}
       <div className="flex flex-wrap justify-start">
-        {posts.map((post) => (
+        {/* {pet.map((post) => (
           <div key={post.id} className="basis-1/3 p-2">
             <button className="relative w-80">
               <Image
@@ -55,7 +59,7 @@ const ProfilePosts = () => {
               </div>
             </button>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

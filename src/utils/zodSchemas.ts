@@ -467,40 +467,43 @@ export const searchResponse = z.discriminatedUnion("success", [
 export const myProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    id: z.number(),
-    username: z.string(),
-    profile_picture: z.string().url().nullable(),
-    posts: z.array(
-      z.object({
+    user: z.object({
+      id: z.number(),
+      username: z.string(),
+      profile_picture: z.string().url().nullable(),
+      posts: z.array(
+        z.object({
+          id: z.number(),
+          caption: z.string(),
+          postImage: z.string().url(),
+          createdAt: z.date(),
+          updatedAt: z.date(),
+          authorId: z.number(),
+        }),
+      ),
+      pet: z.object({
         id: z.number(),
-        caption: z.string(),
-        postImage: z.string().url(),
+        name: z.string(),
+        breed: z.string(),
+        pet_photo: z.string().url().nullable(),
         createdAt: z.date(),
         updatedAt: z.date(),
-        authorId: z.number(),
+        userId: z.number(),
       }),
-    ),
-    pet: z.object({
-      id: z.number(),
-      name: z.string(),
-      profile_picture: z.string().url().nullable(),
-      createdAt: z.date(),
-      updatedAt: z.date(),
-      userId: z.number(),
+      followedBy: z.array(
+        z.object({
+          id: z.number(),
+          username: z.string(),
+        }),
+      ),
+      following: z.array(
+        z.object({
+          id: z.number(),
+          username: z.string(),
+        }),
+      ),
+      message: z.string(),
     }),
-    followedBy: z.array(
-      z.object({
-        id: z.number(),
-        username: z.string(),
-      }),
-    ),
-    following: z.array(
-      z.object({
-        id: z.number(),
-        username: z.string(),
-      }),
-    ),
-    message: z.string(),
   }),
   z.object({
     success: z.literal(false),
