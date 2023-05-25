@@ -27,6 +27,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "pate-finder-pre-signed-url.s3.us-east-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      }
     ],
     domains: [
       `${process.env.S3_UPLOAD_BUCKET}.s3.amazonaws.com`,
