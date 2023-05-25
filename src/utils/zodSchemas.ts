@@ -518,45 +518,47 @@ export const UserProfileRequestSchema = z.object({
   }),
 });
 
+export const UserProfileSchema = z.object({
+  username: z.string(),
+  profile_picture: z.string().url().nullable(),
+  followedBy: z.array(
+    z.object({
+      follower: z.object({
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+      }),
+    }),
+  ),
+  following: z.array(
+    z.object({
+      following: z.object({
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+      }),
+    }),
+  ),
+  pet: z
+    .object({
+      name: z.string(),
+      breed: z.string(),
+      pet_photo: z.string().url().nullable(),
+      type: z.string(),
+      bio: z.string(),
+    })
+    .nullable(),
+  posts: z.array(
+    z.object({
+      caption: z.string(),
+      createdAt: z.custom((value) => transformDate.parse(value)),
+      postImage: z.string().url(),
+    }),
+  ),
+});
+
 export const UserProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    user: z.object({
-      username: z.string(),
-      profile_picture: z.string().url().nullable(),
-      followedBy: z.array(
-        z.object({
-          follower: z.object({
-            username: z.string(),
-            profile_picture: z.string().url().nullable(),
-          }),
-        }),
-      ),
-      following: z.array(
-        z.object({
-          following: z.object({
-            username: z.string(),
-            profile_picture: z.string().url().nullable(),
-          }),
-        }),
-      ),
-      pet: z
-        .object({
-          name: z.string(),
-          breed: z.string(),
-          pet_photo: z.string().url().nullable(),
-          type: z.string(),
-          bio: z.string(),
-        })
-        .nullable(),
-      posts: z.array(
-        z.object({
-          caption: z.string(),
-          createdAt: z.custom((value) => transformDate.parse(value)),
-          postImage: z.string().url(),
-        }),
-      ),
-    }),
+    user: UserProfileSchema,
   }),
   z.object({
     success: z.literal(false),
