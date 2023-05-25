@@ -299,29 +299,29 @@ export const infiniteScrollRequestQuerySchema = z.object({
 });
 
 export const infinitePostType = z.object({
+  id: z.number(),
+  caption: z.string(),
+  postImage: z.string().url(),
+  createdAt: z.custom((value) => transformDate.parse(value)),
+  updatedAt: z.custom((value) => transformDate.parse(value)),
+  authorId: z.number(),
+  author: z.object({
+    profile_picture: z.string().url().nullable(),
+    username: z.string(),
+  }),
+  comments: z.array(
+    z.object({
       id: z.number(),
-      caption: z.string(),
-      postImage: z.string().url(),
+      text: z.string(),
       createdAt: z.custom((value) => transformDate.parse(value)),
       updatedAt: z.custom((value) => transformDate.parse(value)),
-      authorId: z.number(),
-      author: z.object({
-        profile_picture: z.string().url().nullable(),
+      userId: z.number(),
+      user: z.object({
         username: z.string(),
+        profile_picture: z.string().url().nullable(),
       }),
-      comments: z.array(
-        z.object({
-          id: z.number(),
-          text: z.string(),
-          createdAt: z.custom((value) => transformDate.parse(value)),
-          updatedAt: z.custom((value) => transformDate.parse(value)),
-          userId: z.number(),
-          user: z.object({
-            username: z.string(),
-            profile_picture: z.string().url().nullable(),
-          }),
-        }),
-      ),
+    }),
+  ),
 });
 
 export const infiniteScrollResponseSchema = z.discriminatedUnion("success", [
@@ -503,6 +503,59 @@ export const myProfileResponseSchema = z.discriminatedUnion("success", [
         }),
       ),
       message: z.string(),
+    }),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const UserProfileRequestSchema = z.object({
+  username: z.string({
+    required_error: "Kullanıcı adı gereklidir.",
+    invalid_type_error: "Kullanıcı adı string tipinde olmalıdır.",
+  }),
+});
+
+export const UserProfileResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    user: z.object({
+      username: z.string(),
+      profile_picture: z.string().url().nullable(),
+      followedBy: z.array(
+        z.object({
+          follower: z.object({
+            username: z.string(),
+            profile_picture: z.string().url().nullable(),
+          }),
+        }),
+      ),
+      following: z.array(
+        z.object({
+          following: z.object({
+            username: z.string(),
+            profile_picture: z.string().url().nullable(),
+          }),
+        }),
+      ),
+      pet: z
+        .object({
+          name: z.string(),
+          breed: z.string(),
+          pet_photo: z.string().url().nullable(),
+          type: z.string(),
+          bio: z.string(),
+        })
+        .nullable(),
+      posts: z.array(
+        z.object({
+          caption: z.string(),
+          createdAt: z.custom((value) => transformDate.parse(value)),
+          postImage: z.string().url(),
+        }),
+      ),
     }),
   }),
   z.object({

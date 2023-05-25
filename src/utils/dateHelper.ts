@@ -25,7 +25,6 @@ export const formatCreatedAt = (
   }
 };
 
-
 export const formatFullDate = (createdAt: string): string => {
   const date = new Date(createdAt);
   const day = date.getDate();

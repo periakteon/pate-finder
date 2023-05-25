@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import CommentsModal from "./CommentsModal";
-import {z} from "zod";
+import { z } from "zod";
 import { atom, useAtom } from "jotai";
 import { infinitePostType } from "@/utils/zodSchemas";
 
@@ -12,7 +12,7 @@ type PostProps = {
   post: PostType;
 };
 
-type PostType = z.infer<typeof infinitePostType>
+type PostType = z.infer<typeof infinitePostType>;
 
 export const selectedPostIdAtom = atom<number | null>(null);
 export const isCommentsModalOpen = atom<boolean>(false);

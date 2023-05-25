@@ -23,7 +23,7 @@ type Comment = {
   };
 };
 
-type PostType = z.infer<typeof infinitePostType>
+type PostType = z.infer<typeof infinitePostType>;
 
 const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
   const { id, caption, postImage, createdAt, author, comments } = post;

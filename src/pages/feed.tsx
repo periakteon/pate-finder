@@ -1,11 +1,14 @@
 import Sidebar from "@/components/sidebar";
 import { useState, useEffect } from "react";
 import PostComponent from "@/components/post";
-import { infinitePostType, infiniteScrollResponseSchema } from '../utils/zodSchemas';
+import {
+  infinitePostType,
+  infiniteScrollResponseSchema,
+} from "../utils/zodSchemas";
 import { z } from "zod";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
-type PostType = z.infer<typeof infinitePostType>
+type PostType = z.infer<typeof infinitePostType>;
 
 function HomePage() {
   const [posts, setPosts] = useState<PostType[]>([]);
@@ -27,7 +30,7 @@ function HomePage() {
         const parsed = await infiniteScrollResponseSchema.safeParseAsync(
           await res.json(),
         );
-        
+
         if (!parsed.success) {
           console.log("Parse error");
           return;
@@ -40,7 +43,6 @@ function HomePage() {
             setIsLoading(false);
           }
         }
-        
       } catch (error) {
         console.error(error);
       }
