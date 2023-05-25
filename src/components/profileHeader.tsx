@@ -11,10 +11,8 @@ const ProfileHeader = () => {
   if (!user) {
     return null;
   }
-  console.log("user:", user)
-  console.log("user:", user.username)
-
-
+  console.log("user:", user);
+  console.log("user:", user.username);
 
   const handleMouseOver = () => {
     setAddPicture(true);
@@ -46,21 +44,21 @@ const ProfileHeader = () => {
           </div>
         )}
       </div>
-      <h1 className="text-2xl font-bold mt-4">{ }</h1>
-      <p className="text-gray-500">{ }</p>
+      <h1 className="text-2xl font-bold mt-4">{}</h1>
+      <p className="text-gray-500">{}</p>
       <div className="flex mt-4">
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold">Posts</h2>
-            <p className="text-gray-500">{ }</p>
+            <p className="text-gray-500">{}</p>
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold">Followers</h2>
-            <p className="text-gray-500">{ }</p>
+            <p className="text-gray-500">{}</p>
           </div>
           <div>
             <h2 className="text-lg font-bold">Following</h2>
-            <p className="text-gray-500">{ }</p>
+            <p className="text-gray-500">{}</p>
           </div>
         </div>
       </div>

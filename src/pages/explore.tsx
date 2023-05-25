@@ -1,7 +1,6 @@
 import Sidebar from "@/components/sidebar";
 import Image from "next/image";
 import defaultImage from "../../public/images/default.jpeg";
-import { z } from "zod";
 import React, { useEffect, useState } from "react";
 import { exploreResponse } from "@/utils/zodSchemas";
 import { toast } from "react-toastify";

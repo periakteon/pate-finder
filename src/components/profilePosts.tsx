@@ -4,13 +4,10 @@ import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
 import { isLoadingAtom, userAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
 
-
-
-
 const ProfilePosts = () => {
   const [isLoading] = useAtom(isLoadingAtom);
   const [user] = useAtom(userAtom);
-  console.log(user)
+  console.log(user);
 
   return (
     <div className="p-5 justify-center items-center">
