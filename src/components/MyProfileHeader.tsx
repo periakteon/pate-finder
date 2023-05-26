@@ -40,8 +40,8 @@ const MyProfileHeaderComponent = () => {
           </div>
         )}
       </div>
-      <h1 className="text-2xl font-bold mt-4">{}</h1>
-      <p className="text-gray-500">{}</p>
+      <h1 className="text-2xl font-bold mt-4">{myProfile.username}</h1>
+      <p className="text-gray-500">{myProfile.pet?.bio}</p>
       <div className="flex mt-4">
         <div className="flex text-center">
           <div className="mr-4">
