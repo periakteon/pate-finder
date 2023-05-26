@@ -6,6 +6,7 @@ import { useAtom } from "jotai";
 const MyProfileHeaderComponent = () => {
   const [addPicture, setAddPicture] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
 
   const handleMouseOver = () => {
@@ -31,6 +32,14 @@ const MyProfileHeaderComponent = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   if (!myProfile) {
     return null;
   }
@@ -38,7 +47,7 @@ const MyProfileHeaderComponent = () => {
   return (
     <div
       className={`${
-        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+        isScrolled ? "h-30 border-b-2 border-b-dark-border" : ""
       } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
@@ -69,7 +78,7 @@ const MyProfileHeaderComponent = () => {
         {myProfile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
-        {myProfile.pet?.bio}
+        {myProfile.bio}
       </p>
       <div className="flex mt-4 pb-2">
         <div className="flex text-center">

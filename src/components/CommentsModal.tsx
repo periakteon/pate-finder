@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { useAtom } from "jotai";
 import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
@@ -32,6 +32,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
   const [selectedPostId, setSelectedPostId] = useAtom(selectedPostIdAtom);
   const [commentList, setCommentList] = useState<Comment[]>(comments);
   const [newComment, setNewComment] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   const closeModal = () => {
     setCommentsModalOpen(false);
@@ -69,6 +70,14 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
 
     setNewComment(""); // Clear the comment input field after submission
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <Modal
@@ -124,10 +133,10 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           <div className="text-xl text-justify my-4">{caption}</div>
           <hr className="my-4 dark:border-dark-border" />
 
-          {commentList.length > 0 ? (
-            commentList.map((comment, id) => (
-              <>
-                <div key={id} className="mb-2 flex items-center">
+          {commentList.length > 0 && commentList ? (
+            commentList.map((comment) => (
+              <React.Fragment key={`comment-${comment.id}`}>
+                <div className="mb-2 flex items-center">
                   <div className="rounded-full">
                     <Image
                       src={
@@ -154,14 +163,17 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
                         {comment.user.username}
                       </Link>
                     </div>
-                    <div>{comment?.text}</div>
+                    <div>{comment.text}</div>
                     <div className="mt-auto text-sm text-gray-500">
                       {formatCreatedAt(comment.createdAt)}
                     </div>
                   </div>
                 </div>
-                <hr className="my-4 dark:border-dark-border" />
-              </>
+                <hr
+                  className="my-4 dark:border-dark-border"
+                  key={`hr-${comment.id}`}
+                />
+              </React.Fragment>
             ))
           ) : (
             <div className="text-center text-slate-500">Yorum bulunamadı.</div>

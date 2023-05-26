@@ -28,6 +28,7 @@ const myProfileHandler = async (
       select: {
         username: true,
         profile_picture: true,
+        bio: true,
         followedBy: {
           select: {
             follower: {

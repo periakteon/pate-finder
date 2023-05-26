@@ -521,6 +521,7 @@ export const UserProfileRequestSchema = z.object({
 export const UserProfileSchema = z.object({
   username: z.string(),
   profile_picture: z.string().url().nullable(),
+  bio: z.string().nullable(),
   followedBy: z.array(
     z.object({
       follower: z.object({

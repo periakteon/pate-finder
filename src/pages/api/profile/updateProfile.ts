@@ -14,7 +14,10 @@ const prisma = new PrismaClient();
 type ResponseType = z.infer<typeof UpdateProfileResponseSchema>;
 
 // Function to update the user and delete token if needed
-async function updateAndDeleteToken(req: NextApiRequest, res: NextApiResponse<ResponseType>) {
+async function updateAndDeleteToken(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>,
+) {
   const userId = req.userId;
   const parsed = await UpdateProfileRequestSchema.safeParseAsync(req.body);
 
@@ -47,12 +50,10 @@ async function updateAndDeleteToken(req: NextApiRequest, res: NextApiResponse<Re
       where: { username },
     });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          errors: ["Bu kullanıcı adı kullanılmaktadır."],
-        });
+      return res.status(400).json({
+        success: false,
+        errors: ["Bu kullanıcı adı kullanılmaktadır."],
+      });
     }
     updatedUserData.username = username;
   }
@@ -107,15 +108,16 @@ async function updateUser(
   try {
     await updateAndDeleteToken(req, res);
 
-    res.json({ success: true, message: "Kullanıcı bilgisi başarıyla güncellendi!" });
+    res.json({
+      success: true,
+      message: "Kullanıcı bilgisi başarıyla güncellendi!",
+    });
   } catch (error) {
     console.error("Kullanıcı güncellenirken bir hata oluştu:", error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        errors: ["Kullanıcı güncellenirken bir hata oluştu."],
-      });
+    res.status(500).json({
+      success: false,
+      errors: ["Kullanıcı güncellenirken bir hata oluştu."],
+    });
   }
 }
 
