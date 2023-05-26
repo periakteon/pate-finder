@@ -17,7 +17,7 @@ model User {
   hash            String
   salt            String
   profile_picture String?
-  phone           String?
+  bio             String?
   city            String?
   country         String?
   createdAt       DateTime @default(now())

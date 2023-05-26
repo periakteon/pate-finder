@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { atom, useAtom } from "jotai";
 import Sidebar from "@/components/sidebar";
 import {
@@ -15,6 +15,7 @@ export const myProfileAtom = atom<UserProfileType | null>(null);
 
 const MyProfile = () => {
   const [myProfile, SetMyProfile] = useAtom(myProfileAtom);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +24,6 @@ const MyProfile = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-        console.log(parsed);
 
         if (!parsed.success) {
           console.log("Parsing Error");
@@ -39,6 +39,14 @@ const MyProfile = () => {
     };
     fetchData();
   }, [SetMyProfile]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <>

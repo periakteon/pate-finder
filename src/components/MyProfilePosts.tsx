@@ -3,10 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
 import { myProfileAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
+import { useState, useEffect } from "react";
 
 const MyProfilePosts = () => {
   const [myProfile] = useAtom(myProfileAtom);
-  console.log("posts bileşeni", myProfile);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   if (!myProfile) {
     return null;

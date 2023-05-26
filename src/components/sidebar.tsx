@@ -286,7 +286,7 @@ const Sidebar = () => {
           </ul>
         </nav>
       </div>
-      <div className="flex mx-auto bottom-0 fixed">
+      <div className="flex mx-auto bottom-0">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

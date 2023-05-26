@@ -6,8 +6,8 @@ import { useAtom } from "jotai";
 const MyProfileHeaderComponent = () => {
   const [addPicture, setAddPicture] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
-  console.log("Header gelen veri:", myProfile);
 
   const handleMouseOver = () => {
     setAddPicture(true);
@@ -32,6 +32,14 @@ const MyProfileHeaderComponent = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   if (!myProfile) {
     return null;
   }
@@ -39,7 +47,7 @@ const MyProfileHeaderComponent = () => {
   return (
     <div
       className={`${
-        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+        isScrolled ? "h-30 border-b-2 border-b-dark-border" : ""
       } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
@@ -70,13 +78,13 @@ const MyProfileHeaderComponent = () => {
         {myProfile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
-        {myProfile.pet?.bio}
+        {myProfile.bio}
       </p>
       <div className="flex mt-4 pb-2">
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Posts
+              Gönderiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.posts.length}
@@ -84,7 +92,7 @@ const MyProfileHeaderComponent = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Followers
+              Takipçiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.followedBy.length}
@@ -92,7 +100,7 @@ const MyProfileHeaderComponent = () => {
           </div>
           <div>
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Following
+              Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.following.length}
