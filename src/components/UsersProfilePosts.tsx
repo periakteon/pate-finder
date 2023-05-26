@@ -12,7 +12,7 @@ const UsersProfilePostsComponent = () => {
   }
   return (
     <div className="p-5 justify-center items-center">
-      <div className="flex flex-wrap justify-start">
+      <div className="flex flex-wrap justify-start ">
         {profile.posts.map((post, id) => (
           <div key={id} className="basis-1/3 p-2">
             <button className="relative w-80">
