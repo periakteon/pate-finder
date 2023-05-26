@@ -1,11 +1,10 @@
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
-import { isLoadingAtom, userAtom } from "@/pages/myprofile";
+import { userAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
 
 const ProfilePosts = () => {
-  const [isLoading] = useAtom(isLoadingAtom);
   const [user] = useAtom(userAtom);
   console.log(user);
 
