@@ -91,7 +91,7 @@ const IndexPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row text-black">
+    <div className="flex md:flex-row text-black">
       <div className="md:w-64">
         <Sidebar />
       </div>
