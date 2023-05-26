@@ -585,3 +585,26 @@ export const UserProfileResponseSchema = z.discriminatedUnion("success", [
     errors: z.array(z.string()),
   }),
 ]);
+
+export const UpdateProfileRequestSchema = z.object({
+  username: z
+    .string({ invalid_type_error: "Kullanıcı adı string tipinde olmalıdır" })
+    .optional(),
+  email: z
+    .string({ invalid_type_error: "E-mail string tipinde olmalıdır" })
+    .optional(),
+  password: z.union([z.string(), z.number()]).optional(),
+  profile_picture: z.string().url().optional(),
+  bio: z.string().optional(),
+});
+
+export const UpdateProfileResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);

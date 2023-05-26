@@ -7,7 +7,6 @@ const MyProfileHeaderComponent = () => {
   const [addPicture, setAddPicture] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
-  console.log("Header gelen veri:", myProfile);
 
   const handleMouseOver = () => {
     setAddPicture(true);
@@ -76,7 +75,7 @@ const MyProfileHeaderComponent = () => {
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Posts
+              Gönderiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.posts.length}
@@ -84,7 +83,7 @@ const MyProfileHeaderComponent = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Followers
+              Takipçiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.followedBy.length}
@@ -92,7 +91,7 @@ const MyProfileHeaderComponent = () => {
           </div>
           <div>
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Following
+              Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.following.length}

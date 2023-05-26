@@ -26,8 +26,7 @@ const ProfilePage = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-        console.log("response:", res);
-        console.log("parsed", parsed);
+
         if (!parsed.success) {
           console.log("Parsing Error");
         }

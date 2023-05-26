@@ -6,7 +6,7 @@ import { useAtom } from "jotai";
 
 const UsersProfilePostsComponent = () => {
   const [profile] = useAtom(profileAtom);
-  console.log("users profile", profile);
+
   if (!profile) {
     return null;
   }

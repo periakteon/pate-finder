@@ -23,7 +23,6 @@ const MyProfile = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-        console.log(parsed);
 
         if (!parsed.success) {
           console.log("Parsing Error");
