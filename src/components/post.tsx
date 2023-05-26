@@ -7,6 +7,7 @@ import CommentsModal from "./CommentsModal";
 import { z } from "zod";
 import { atom, useAtom } from "jotai";
 import { infinitePostType } from "@/utils/zodSchemas";
+import Link from "next/link";
 
 type PostProps = {
   post: PostType;
@@ -89,6 +90,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
     <>
       <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
         <div className="flex items-center mb-4">
+        <Link href={`/profile/${post.author.username}`}>
           <div className="w-12 h-12 mr-4">
             {post.author.profile_picture === null ? (
               <Image
@@ -110,7 +112,10 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
               />
             )}
           </div>
-          <div className="font-semibold text-md">{post.author.username}</div>
+          </Link>
+          <Link href={`/profile/${post.author.username}`}>
+            <div className="font-semibold text-md">{post.author.username}</div>
+          </Link>
           <div
             className="text-gray-400 text-sm ml-auto"
             onMouseEnter={() => setFullDate(true)}
@@ -124,7 +129,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         <h2 className="text-lg font-semibold mb-2 whitespace-normal text-justify">
           {post.caption}
         </h2>
-        <div className="relative flex justify-center aspect-w-1 aspect-h-1 mb-4">
+        <div onClick={handleComment} className="cursor-pointer relative flex justify-center aspect-w-1 aspect-h-1 mb-4">
           <Image
             priority
             className="flex  object-cover rounded-lg"

@@ -43,9 +43,8 @@ const MyProfile = () => {
   return (
     <>
       <div className="flex">
-        
-          <Sidebar />
-        
+        <Sidebar />
+
         <div className="flex flex-col items-center">
           <MyProfileHeaderComponent />
           <MyProfilePosts />

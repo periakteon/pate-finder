@@ -80,7 +80,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
       <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700 relative">
+        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -94,21 +94,34 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
         </div>
         <div className="w-2/5 flex flex-col justify-start p-4">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              {author.profile_picture && (
-                <Image
-                  className="rounded-full"
-                  src={author.profile_picture === null ? "/images/default.jpeg" : author.profile_picture}
-                  alt="Avatar"
-                  width={64}
-                  height={64}
-                />
-              )}
-              <div>{author.username}</div>
-            </div>
+            <Link
+              onClick={() =>
+                setTimeout(() => {
+                  closeModal();
+                }, 200)
+              }
+              href={`/profile/${author.username}`}
+            >
+              <div className="flex items-center space-x-2">
+                {author.profile_picture && (
+                  <Image
+                    className="rounded-full"
+                    src={
+                      author.profile_picture === null
+                        ? "/images/default.jpeg"
+                        : author.profile_picture
+                    }
+                    alt="Avatar"
+                    width={64}
+                    height={64}
+                  />
+                )}
+                <div className="font-bold text-xl">{author.username}</div>
+              </div>
+            </Link>
             <div className="text-gray-500">{formatFullDate(createdAt)}</div>
           </div>
-          <div className="text-xl font-bold my-4">{caption}</div>
+          <div className="text-xl text-justify my-4">{caption}</div>
           <hr className="my-4 dark:border-dark-border" />
 
           {commentList.length > 0 ? (
@@ -130,7 +143,14 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
                   </div>
                   <div className="flex flex-col ml-4">
                     <div className="font-bold">
-                      <Link href={`/profile/${comment.user.username}`}>
+                      <Link
+                        onClick={() =>
+                          setTimeout(() => {
+                            closeModal();
+                          }, 200)
+                        }
+                        href={`/profile/${comment.user.username}`}
+                      >
                         {comment.user.username}
                       </Link>
                     </div>
