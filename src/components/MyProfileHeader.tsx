@@ -72,7 +72,7 @@ const MyProfileHeaderComponent = () => {
       <p className="text-gray-500 transition-transform duration-300">
         {myProfile.pet?.bio}
       </p>
-      <div className="flex mt-4">
+      <div className="flex mt-4 pb-2">
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
