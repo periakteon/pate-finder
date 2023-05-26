@@ -4,18 +4,8 @@ import { profileAtom } from "@/pages/profile/[username]";
 import { useAtom } from "jotai";
 
 const UsersProfileHeaderComponent = () => {
-  const [addPicture, setAddPicture] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [profile, setprofile] = useAtom(profileAtom);
-  console.log("Header gelen veri:", profile);
-
-  const handleMouseOver = () => {
-    setAddPicture(true);
-  };
-
-  const handleMouseOut = () => {
-    setAddPicture(false);
-  };
 
   const handleScroll = () => {
     if (window.pageYOffset > 0) {
@@ -44,26 +34,14 @@ const UsersProfileHeaderComponent = () => {
     >
       {!isScrolled && (
         <div
-          className={`relative rounded-full overflow-hidden ${
-            addPicture ? "scale-95" : ""
-          } transition-transform duration-300`}
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
+          className={`relative rounded-full overflow-hidden transition-transform duration-300`}
         >
           <Image
             src={profile.profile_picture || "/images/default.jpeg"}
             width={175}
             height={175}
             alt="profile picture"
-            className={`filter ${addPicture ? "opacity-50" : ""}`}
           />
-          {addPicture && (
-            <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <button className="bg-white rounded-full text-sm text-purple-500 px-4 py-2">
-                Fotoğraf Ekle
-              </button>
-            </div>
-          )}
         </div>
       )}
       <h1 className="text-2xl font-bold mt-4 transition-transform duration-300">
