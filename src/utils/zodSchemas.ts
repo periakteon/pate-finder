@@ -548,12 +548,33 @@ export const UserProfileSchema = z.object({
     .nullable(),
   posts: z.array(
     z.object({
+      id: z.number(),
       caption: z.string(),
       createdAt: z.custom((value) => transformDate.parse(value)),
       postImage: z.string().url(),
+      likes: z.array(
+        z.object({
+          id: z.number(),
+          user: z.object({
+            username: z.string(),
+            profile_picture: z.string().url().nullable(),
+          }),
+        }),
+      ),
+      comments: z.array(
+        z.object({
+          id: z.number(),
+          text: z.string(),
+          user: z.object({
+            username: z.string(),
+            profile_picture: z.string().url().nullable(),
+          }),
+        }),
+      ),
     }),
   ),
 });
+
 
 export const UserProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
