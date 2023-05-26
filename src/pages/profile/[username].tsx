@@ -7,7 +7,8 @@ import {
   UserProfileSchema,
 } from "@/utils/zodSchemas";
 import { z } from "zod";
-import UsersProfile from "@/components/UsersProfile";
+import UsersProfileHeader from "@/components/UsersProfileHeader";
+import UsersProfilePosts from "@/components/UsersProfilePosts";
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
@@ -16,7 +17,7 @@ export const profileAtom = atom<UserProfileType | null>(null);
 const ProfilePage = () => {
   const router = useRouter();
   const { username } = router.query;
-  const [profile, setProfile] = useAtom(profileAtom);
+  const [, setProfile] = useAtom(profileAtom);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +26,8 @@ const ProfilePage = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-
+        console.log("response:", res)
+        console.log("parsed", parsed)
         if (!parsed.success) {
           console.log("Parsing Error");
         }
@@ -43,10 +45,15 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="flex flex-row">
+      <div className="flex">
+      <div className="w-2/3">
         <Sidebar />
-        <UsersProfile />
       </div>
+      <div className="flex flex-col items-center">
+        <UsersProfileHeader />
+        <UsersProfilePosts />
+      </div>
+    </div>
     </>
   );
 };

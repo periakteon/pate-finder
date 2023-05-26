@@ -72,9 +72,33 @@ export default async function handler(
         },
         posts: {
           select: {
+            id: true,
             caption: true,
             createdAt: true,
             postImage: true,
+            likes: {
+              select: {
+                id: true,
+                user: {
+                  select: {
+                    username: true,
+                    profile_picture: true,
+                  },
+                },
+              },
+            },
+            comments: {
+              select: {
+                id: true,
+                text: true,
+                user: {
+                  select: {
+                    username: true,
+                    profile_picture: true,
+                  },
+                },
+              },
+            },
           },
         },
       },

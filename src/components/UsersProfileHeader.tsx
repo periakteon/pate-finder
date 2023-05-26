@@ -1,18 +1,11 @@
 import { useState } from "react";
-import profileTempData from "@/utils/profileTempData";
 import Image from "next/image";
-import { userAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
+import { profileAtom } from "@/pages/profile/[username]";
 
-const ProfileHeader = () => {
+const UsersProfileHeader = () => {
   const [addPicture, setAddPicture] = useState(false);
-  const [user] = useAtom(userAtom);
-
-  if (!user) {
-    return null;
-  }
-  console.log("user:", user);
-  console.log("user:", user.username);
+  const [profile] = useAtom(profileAtom);
 
   const handleMouseOver = () => {
     setAddPicture(true);
@@ -22,6 +15,10 @@ const ProfileHeader = () => {
     setAddPicture(false);
   };
 
+  if (!profile) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col items-center">
       <div
@@ -30,7 +27,7 @@ const ProfileHeader = () => {
         onMouseOut={handleMouseOut}
       >
         <Image
-          src={profileTempData.profilePicture}
+          src={profile.profile_picture || "/images/default.jpeg"}
           width={175}
           height={175}
           alt="profile picture"
@@ -44,21 +41,21 @@ const ProfileHeader = () => {
           </div>
         )}
       </div>
-      <h1 className="text-2xl font-bold mt-4">{}</h1>
-      <p className="text-gray-500">{}</p>
+      <h1 className="text-2xl font-bold mt-4">{profile.username}</h1>
+      <p className="text-gray-500">{profile.pet?.bio}</p>
       <div className="flex mt-4">
         <div className="flex text-center">
           <div className="mr-4">
             <h2 className="text-lg font-bold">Posts</h2>
-            <p className="text-gray-500">{}</p>
+            <p className="text-gray-500">{profile.posts.length}</p>
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold">Followers</h2>
-            <p className="text-gray-500">{}</p>
+            <p className="text-gray-500">{profile.followedBy.length}</p>
           </div>
           <div>
             <h2 className="text-lg font-bold">Following</h2>
-            <p className="text-gray-500">{}</p>
+            <p className="text-gray-500">{profile.following.length}</p>
           </div>
         </div>
       </div>
@@ -66,4 +63,4 @@ const ProfileHeader = () => {
   );
 };
 
-export default ProfileHeader;
+export default UsersProfileHeader;
