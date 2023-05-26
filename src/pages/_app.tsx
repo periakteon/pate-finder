@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute="class">
         <ToastContainer theme={`${theme === "dark" ? "dark" : "light"}`} />
         <main
-          className={`${poppins.className} bg-gray-100 dark:bg-dark-background`}
+          className={`${poppins.className} bg-gray-100 dark:bg-dark-background min-w-fit h-fit`}
         >
           <Component {...pageProps} />
         </main>

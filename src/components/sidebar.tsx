@@ -110,8 +110,8 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between w-64 h-screen sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border">
-      <div className="p-4 overflow-y-auto max-h-screen">
+    <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between w-64 h-screen sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border h-fit h-auto">
+      <div className="p-4 overflow-y-auto max-h-screen ">
         <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
           <Link href="/feed">
             <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -286,7 +286,7 @@ const Sidebar = () => {
           </ul>
         </nav>
       </div>
-      <div className="p-4 mx-auto">
+      <div className="mx-auto fixed bottom-0">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
