@@ -1,60 +1,58 @@
-import Sidebar from "@/components/sidebar";
-import ProfileHeader from "@/components/profileHeader";
-import ProfilePosts from "@/components/profilePosts";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { atom, useAtom } from "jotai";
-import { myProfileResponseSchema } from "@/utils/zodSchemas";
+import Sidebar from "@/components/sidebar";
+import {
+  UserProfileResponseSchema,
+  UserProfileSchema,
+} from "@/utils/zodSchemas";
 import { z } from "zod";
+import MyProfileHeaderComponent from "@/components/MyProfileHeader";
+import MyProfilePosts from "@/components/MyProfilePosts";
 
-type User = z.infer<typeof myProfileResponseSchema>;
+type UserProfileType = z.infer<typeof UserProfileSchema>;
 
-export const isLoadingAtom = atom<boolean>(true);
-export const userAtom = atom<User | null>(null);
+export const myProfileAtom = atom<UserProfileType | null>(null);
 
-const Profile = () => {
-  const [, setIsLoading] = useAtom(isLoadingAtom);
-  const [user, setUser] = useAtom(userAtom);
+const MyProfile = () => {
+  const [myProfile, SetMyProfile] = useAtom(myProfileAtom);
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        const response = await fetch("/api/myProfile");
-        const data = await response.json();
-        setIsLoading(false);
-        console.log(data);
-        if (!data.success) {
-          console.error(data.errors);
-          return;
-        }
-        setUser(data.user);
-      };
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/profile/myprofile");
+        const parsed = await UserProfileResponseSchema.safeParseAsync(
+          await res.json(),
+        );
+        console.log(parsed);
 
-      fetchData();
-    } catch (error) {
-      console.error("Bir hata oluştu:", error);
-    }
-  }, [setUser, setIsLoading]);
-  // console.log("user:", user)
+        if (!parsed.success) {
+          console.log("Parsing Error");
+        }
+
+        if (parsed.success && parsed.data.success) {
+          const { user } = parsed.data;
+          SetMyProfile(user);
+        }
+      } catch (error) {
+        console.log("Fetch error");
+      }
+    };
+    fetchData();
+  }, [SetMyProfile]);
 
   return (
-    <div className="flex">
-      <div className="w-2/3">
-        <Sidebar />
+    <>
+      <div className="flex">
+        <div className="w-2/3">
+          <Sidebar />
+        </div>
+        <div className="flex flex-col items-center">
+          <MyProfileHeaderComponent />
+          <MyProfilePosts />
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <ProfileHeader />
-        {/* <ProfilePosts /> */}
-      </div>
-    </div>
+    </>
   );
 };
 
-export default Profile;
-/**
- * TODO:
- * 1. Fetch data from /api/myProfile
- * 2. Create a type for the data received
- * 3. Set data to AN / ONE atom (using type)
- * 4. Use the atom to display the data where it is needed
- * 5. No need to create a new atom for each data
- */
+export default MyProfile;

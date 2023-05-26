@@ -79,8 +79,8 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
-      <div className="w-2/3 h-full bg-dark-dropzone flex">
-        <div className="w-2/3 bg-dark-secondary border-r-2 border-r-slate-700 relative">
+      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
+        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700 relative">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -98,7 +98,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               {author.profile_picture && (
                 <Image
                   className="rounded-full"
-                  src={author.profile_picture}
+                  src={author.profile_picture === null ? "/images/default.jpeg" : author.profile_picture}
                   alt="Avatar"
                   width={64}
                   height={64}
@@ -157,7 +157,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2  items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
               >
                 Yorumu Gönder
               </button>
