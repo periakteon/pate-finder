@@ -7,8 +7,8 @@ import {
   UserProfileSchema,
 } from "@/utils/zodSchemas";
 import { z } from "zod";
-import UsersProfileHeader from "@/components/UsersProfileHeader";
-import UsersProfilePosts from "@/components/UsersProfilePosts";
+import UsersProfileHeaderComponent from "@/components/UsersProfileHeader";
+import UsersProfilePostsComponent from "@/components/UsersProfilePosts";
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
@@ -26,8 +26,8 @@ const ProfilePage = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-        console.log("response:", res)
-        console.log("parsed", parsed)
+        console.log("response:", res);
+        console.log("parsed", parsed);
         if (!parsed.success) {
           console.log("Parsing Error");
         }
@@ -46,14 +46,14 @@ const ProfilePage = () => {
   return (
     <>
       <div className="flex">
-      <div className="w-2/3">
-        <Sidebar />
+        <div className="w-2/3">
+          <Sidebar />
+        </div>
+        <div className="flex flex-col items-center">
+          <UsersProfileHeaderComponent />
+          <UsersProfilePostsComponent />
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <UsersProfileHeader />
-        <UsersProfilePosts />
-      </div>
-    </div>
     </>
   );
 };

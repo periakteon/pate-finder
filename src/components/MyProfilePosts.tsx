@@ -5,10 +5,10 @@ import { myProfileAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
 
 const MyProfilePosts = () => {
-  const [myProfile,] = useAtom(myProfileAtom);
+  const [myProfile] = useAtom(myProfileAtom);
   console.log("posts bileşeni", myProfile);
 
-  if(!myProfile) {
+  if (!myProfile) {
     return null;
   }
 
@@ -28,7 +28,7 @@ const MyProfilePosts = () => {
               <div className="absolute bottom-0 rounded-t-lg left-0 p-2 bg-black bg-opacity-50 w-18 justify-start">
                 <div className="flex flex-row text-green-600 hover:text-green-800">
                   <FontAwesomeIcon icon={faPaw} className="text-l mr-2 " />
-                  <div>{post.likes.length || 0}</div>
+                  <div>{post.likes.length || 0}</div>
                 </div>
 
                 <div className="flex flex-row text-blue-600 hover:text-blue-800">

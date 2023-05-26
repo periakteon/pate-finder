@@ -71,6 +71,9 @@ export default async function handler(
           },
         },
         posts: {
+          orderBy: {
+            createdAt: "desc",
+          },
           select: {
             id: true,
             caption: true,
