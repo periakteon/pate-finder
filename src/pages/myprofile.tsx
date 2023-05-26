@@ -9,8 +9,6 @@ import { z } from "zod";
 import MyProfileHeaderComponent from "@/components/MyProfileHeader";
 import MyProfilePosts from "@/components/MyProfilePosts";
 
-
-
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
 export const myProfileAtom = atom<UserProfileType | null>(null);
@@ -25,7 +23,7 @@ const MyProfile = () => {
         const parsed = await UserProfileResponseSchema.safeParseAsync(
           await res.json(),
         );
-        console.log(parsed)
+        console.log(parsed);
 
         if (!parsed.success) {
           console.log("Parsing Error");
@@ -45,14 +43,14 @@ const MyProfile = () => {
   return (
     <>
       <div className="flex">
-      <div className="w-2/3">
-        <Sidebar />
+        <div className="w-2/3">
+          <Sidebar />
+        </div>
+        <div className="flex flex-col items-center">
+          <MyProfileHeaderComponent />
+          <MyProfilePosts />
+        </div>
       </div>
-      <div className="flex flex-col items-center">
-        <MyProfileHeaderComponent />
-        <MyProfilePosts />
-      </div>
-    </div>
     </>
   );
 };

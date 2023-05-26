@@ -575,7 +575,6 @@ export const UserProfileSchema = z.object({
   ),
 });
 
-
 export const UserProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),

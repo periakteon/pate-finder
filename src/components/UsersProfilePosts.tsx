@@ -4,9 +4,9 @@ import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
 import { profileAtom } from "@/pages/profile/[username]";
 import { useAtom } from "jotai";
 
-const UsersProfilePosts = () => {
+const UsersProfilePostsComponent = () => {
   const [profile] = useAtom(profileAtom);
-  console.log("users profile", profile)
+  console.log("users profile", profile);
   if (!profile) {
     return null;
   }
@@ -26,7 +26,7 @@ const UsersProfilePosts = () => {
               <div className="absolute bottom-0 rounded-t-lg left-0 p-2 bg-black bg-opacity-50 w-18 justify-start">
                 <div className="flex flex-row text-green-600 hover:text-green-800">
                   <FontAwesomeIcon icon={faPaw} className="text-l mr-2 " />
-                  <div>{post.likes.length || 0}</div>
+                  <div>{post.likes.length || 0}</div>
                 </div>
 
                 <div className="flex flex-row text-blue-600 hover:text-blue-800">
@@ -42,4 +42,4 @@ const UsersProfilePosts = () => {
   );
 };
 
-export default UsersProfilePosts;
+export default UsersProfilePostsComponent;

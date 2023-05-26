@@ -58,6 +58,9 @@ const myProfileHandler = async (
           },
         },
         posts: {
+          orderBy: {
+            createdAt: "desc",
+          },
           select: {
             id: true,
             caption: true,
