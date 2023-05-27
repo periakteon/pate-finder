@@ -4,17 +4,17 @@ import { myProfileAtom } from "@/pages/myprofile";
 import { useAtom } from "jotai";
 
 const MyProfileHeaderComponent = () => {
-  const [addPicture, setAddPicture] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
 
   const handleMouseOver = () => {
-    setAddPicture(true);
+    setEditProfile(true);
   };
 
   const handleMouseOut = () => {
-    setAddPicture(false);
+    setEditProfile(false);
   };
 
   const handleScroll = () => {
@@ -53,7 +53,7 @@ const MyProfileHeaderComponent = () => {
       {!isScrolled && (
         <div
           className={`relative rounded-full overflow-hidden ${
-            addPicture ? "scale-95" : ""
+            editProfile ? "scale-95" : ""
           } transition-transform duration-300`}
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
@@ -63,12 +63,12 @@ const MyProfileHeaderComponent = () => {
             width={175}
             height={175}
             alt="profile picture"
-            className={`filter ${addPicture ? "opacity-50" : ""}`}
+            className={`filter ${editProfile ? "opacity-50" : ""}`}
           />
-          {addPicture && (
-            <div className="absolute top-3/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <button className="bg-white rounded-full text-sm text-purple-500 px-4 py-2">
-                Fotoğraf Ekle
+          {editProfile && (
+            <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <button className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse">
+                Profilini Düzenle
               </button>
             </div>
           )}

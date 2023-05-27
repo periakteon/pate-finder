@@ -1,4 +1,4 @@
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/Sidebar/sidebar";
 import Image from "next/image";
 import defaultImage from "../../public/images/default.jpeg";
 import React, { useEffect, useState } from "react";

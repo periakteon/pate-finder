@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import defaultImage from "../../public/images/default.jpeg";
+import defaultImage from "../../../public/images/default.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
-import PostModal from "./postModal";
+import PostModal from "../Post/postModal";
 import { atom, useAtom } from "jotai";
 
 export const isModalOpenAtom = atom(false);

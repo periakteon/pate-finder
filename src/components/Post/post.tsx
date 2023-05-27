@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaw,
+  faComment,
+  faShare,
+  faHeartCrack,
+} from "@fortawesome/free-solid-svg-icons";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import CommentsModal from "./CommentsModal";
 import { z } from "zod";
@@ -114,7 +119,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
             </div>
           </Link>
           <Link href={`/profile/${post.author.username}`}>
-            <div className="font-semibold text-md">{post.author.username}</div>
+            <div className="font-semibold text-xl">{post.author.username}</div>
           </Link>
           <div
             className="text-gray-400 text-sm ml-auto"
@@ -147,7 +152,10 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
             className="flex items-center text-green-500 hover:text-green-800"
             onClick={liked ? handleUnlike : handleLike}
           >
-            <FontAwesomeIcon icon={faPaw} className="text-2xl mr-2" />
+            <FontAwesomeIcon
+              icon={liked ? faHeartCrack : faPaw}
+              className="text-2xl mr-2"
+            />
             {liked ? "Beğenmekten Vazgeç" : "Beğen"}
           </button>
           <button
@@ -156,10 +164,6 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
           >
             <FontAwesomeIcon icon={faComment} className="text-2xl mr-2" />
             Yorum
-          </button>
-          <button className="flex items-center text-purple-500 hover:text-purple-800 ">
-            <FontAwesomeIcon icon={faShare} className="text-2xl mr-2" />
-            Paylaş
           </button>
         </div>
       </div>

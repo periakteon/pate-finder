@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { atom, useAtom } from "jotai";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/Sidebar/sidebar";
 import {
   UserProfileResponseSchema,
   UserProfileSchema,
 } from "@/utils/zodSchemas";
 import { z } from "zod";
-import UsersProfileHeaderComponent from "@/components/UsersProfileHeader";
-import UsersProfilePostsComponent from "@/components/UsersProfilePosts";
+import UsersProfileHeaderComponent from "@/components/Profile/UsersProfileHeader";
+import UsersProfilePostsComponent from "@/components/Profile/UsersProfilePosts";
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 

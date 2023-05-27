@@ -1,6 +1,6 @@
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/Sidebar/sidebar";
 import { useState, useEffect } from "react";
-import PostComponent from "@/components/post";
+import PostComponent from "@/components/Post/post";
 import {
   infinitePostType,
   infiniteScrollResponseSchema,
