@@ -2,16 +2,59 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
 import { myProfileAtom } from "@/pages/myprofile";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import { useState, useEffect } from "react";
+import MyProfilePostModal from "./MyProfilePostModal";
+import { infinitePostType } from "@/utils/zodSchemas";
+import { z } from "zod";
+
+type MyProfilePostType = z.infer<typeof infinitePostType>;
+
+export const selectedProfilePostIdAtom = atom<number | null>(null);
+export const selectedProfilePostAtom = atom<any | null>(null); // Yeni state
+export const isProfilePostModalOpenAtom = atom<boolean>(false);
 
 const MyProfilePosts = () => {
   const [myProfile] = useAtom(myProfileAtom);
   const [mounted, setMounted] = useState(false);
+  const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(
+    selectedProfilePostIdAtom,
+  );
+  const [selectedProfilePost, setSelectedProfilePost] = useAtom(
+    selectedProfilePostAtom,
+  );
+  const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
+    isProfilePostModalOpenAtom,
+  );
+  console.log("selected profile post ID:", selectedProfilePostId);
+  console.log("selected POST:", selectedProfilePost),
+    console.log("isProfilePostModalOpen:", isProfilePostModalOpen);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (selectedProfilePostId !== null) {
+      const post =
+        myProfile &&
+        myProfile.posts.find((p) => p.id === selectedProfilePostId);
+      setSelectedProfilePost(post);
+      setIsProfilePostModalOpen(true);
+    } else {
+      setIsProfilePostModalOpen(false);
+      setSelectedProfilePost(null);
+    }
+  }, [
+    selectedProfilePostId,
+    myProfile,
+    setIsProfilePostModalOpen,
+    setSelectedProfilePost,
+  ]);
+
+  const handleComment = (postId: number) => {
+    setSelectedProfilePostId(postId);
+  };
 
   if (!mounted) {
     return null;
@@ -26,7 +69,10 @@ const MyProfilePosts = () => {
       <div className="flex flex-wrap justify-center p-2">
         {myProfile.posts.map((post, id) => (
           <div key={id} className="basis-1/3 p-2 justify-center flex">
-            <button className="relative w-80">
+            <button
+              className="relative w-80"
+              onClick={() => handleComment(post.id)}
+            >
               <Image
                 src={post.postImage}
                 alt="post image"
@@ -49,6 +95,7 @@ const MyProfilePosts = () => {
           </div>
         ))}
       </div>
+      {isProfilePostModalOpen && <MyProfilePostModal />}
     </div>
   );
 };

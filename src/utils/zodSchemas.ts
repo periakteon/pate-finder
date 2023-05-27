@@ -562,10 +562,16 @@ export const UserProfileSchema = z.object({
           }),
         }),
       ),
+      author: z.object({
+        username: z.string(),
+        profile_picture: z.string().url().nullable(),
+        id: z.number(),
+      }),
       comments: z.array(
         z.object({
           id: z.number(),
           text: z.string(),
+          createdAt: z.custom((value) => transformDate.parse(value)),
           user: z.object({
             username: z.string(),
             profile_picture: z.string().url().nullable(),
