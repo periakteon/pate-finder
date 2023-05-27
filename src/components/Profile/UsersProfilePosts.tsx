@@ -3,11 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faComment } from "@fortawesome/free-solid-svg-icons";
 import { profileAtom } from "@/pages/profile/[username]";
 import { useAtom } from "jotai";
+import { useState, useEffect } from "react";
 
 const UsersProfilePostsComponent = () => {
   const [profile] = useAtom(profileAtom);
+  const [mounted, setMounted] = useState(false);
 
-  if (!profile) {
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!profile || !mounted) {
     return null;
   }
   return (

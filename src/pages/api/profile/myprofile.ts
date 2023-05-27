@@ -78,10 +78,18 @@ const myProfileHandler = async (
                 },
               },
             },
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profile_picture: true,
+              },
+            },
             comments: {
               select: {
                 id: true,
                 text: true,
+                createdAt: true,
                 user: {
                   select: {
                     username: true,

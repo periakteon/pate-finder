@@ -91,10 +91,18 @@ export default async function handler(
                 },
               },
             },
+            author: {
+              select: {
+                id: true,
+                username: true,
+                profile_picture: true,
+              },
+            },
             comments: {
               select: {
                 id: true,
                 text: true,
+                createdAt: true,
                 user: {
                   select: {
                     username: true,

@@ -52,7 +52,6 @@ const MyProfile = () => {
     <>
       <div className="flex">
         <Sidebar />
-
         <div className="flex flex-col items-center">
           <MyProfileHeaderComponent />
           <MyProfilePosts />

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { useAtom } from "jotai";
-import { isCommentsModalOpen, selectedPostIdAtom } from "./post";
 import Image from "next/image";
 import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { z } from "zod";
-import { infinitePostType } from "@/utils/zodSchemas";
+import {
+  selectedProfilePostIdAtom,
+  isProfilePostModalOpenAtom,
+  selectedProfilePostAtom,
+} from "./MyProfilePosts";
+import { myProfileAtom } from "@/pages/myprofile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,53 +28,24 @@ type Comment = {
   };
 };
 
-type PostType = z.infer<typeof infinitePostType>;
-
-const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
-  const { id, caption, postImage, createdAt, author, comments } = post;
-  const [commentsModalOpen, setCommentsModalOpen] =
-    useAtom(isCommentsModalOpen);
-  const [selectedPostId, setSelectedPostId] = useAtom(selectedPostIdAtom);
-  const [commentList, setCommentList] = useState<Comment[]>(comments);
+const MyProfilePostModal: React.FC = () => {
+  const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
+    isProfilePostModalOpenAtom,
+  );
+  const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(
+    selectedProfilePostIdAtom,
+  );
+  const [selectedProfilePost] = useAtom(selectedProfilePostAtom);
+  const [myProfile] = useAtom(myProfileAtom);
+  const { id, caption, postImage, createdAt, author, comments } =
+    selectedProfilePost || {};
+  const [commentList, setCommentList] = useState<Comment[]>(comments || []);
   const [newComment, setNewComment] = useState("");
-  const [mounted, setMounted] = useState(false);
   const [liked, setLiked] = useState(false);
 
   const closeModal = () => {
-    setCommentsModalOpen(false);
-    setSelectedPostId(null);
-  };
-
-  const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const response = await fetch("/api/post/comment/addComment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: newComment,
-        postId: id,
-      }),
-    });
-
-    if (response.ok) {
-      const responseData = await response.json();
-      const newCommentData = responseData.comment;
-      setCommentList((prevCommentList) => [...prevCommentList, newCommentData]);
-      toast.success("Yorum başarıyla eklendi!", {
-        draggable: false,
-        autoClose: 1800,
-      });
-    } else {
-      toast.error("Yorum eklenirken bir hata oluştu!", {
-        draggable: false,
-        autoClose: 1800,
-      });
-    }
-
-    setNewComment("");
+    setIsProfilePostModalOpen(false);
+    setSelectedProfilePostId(null);
   };
 
   const handleLike = async () => {
@@ -114,6 +88,38 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
     }
   };
 
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const response = await fetch("/api/post/comment/addComment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: newComment,
+        postId: id,
+      }),
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      const newCommentData = responseData.comment;
+      setCommentList((prevCommentList) => [...prevCommentList, newCommentData]);
+      toast.success("Yorum başarıyla eklendi!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    } else {
+      toast.error("Yorum eklenirken bir hata oluştu!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    }
+
+    setNewComment("");
+  };
+
   useEffect(() => {
     const checkLikeStatus = async () => {
       try {
@@ -136,24 +142,20 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
     }
   };
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
+  if (!selectedProfilePost) {
     return null;
   }
 
   return (
     <Modal
-      isOpen={commentsModalOpen && selectedPostId === id}
+      isOpen={isProfilePostModalOpen && selectedProfilePostId === id}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
+      className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
+      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll custom-scrollbar">
         <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
@@ -207,7 +209,9 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               {liked ? "Beğenmekten Vazgeç" : "Beğen"}
             </button>
           </div>
-          <div className="text-gray-500">{formatFullDate(createdAt)}</div>
+          <div className="text-gray-500 flex justify-start mt-2">
+            {formatFullDate(createdAt)}
+          </div>
           <hr className="my-4 dark:border-dark-border" />
 
           {commentList.length > 0 && commentList ? (
@@ -215,17 +219,26 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <React.Fragment key={`comment-${comment.id}`}>
                 <div className="mb-2 flex items-center">
                   <div className="rounded-full">
-                    <Image
-                      src={
-                        comment.user.profile_picture !== null
-                          ? comment.user.profile_picture
-                          : "/images/default.jpeg"
+                    <Link
+                      onClick={() =>
+                        setTimeout(() => {
+                          closeModal();
+                        }, 200)
                       }
-                      alt="Profile Picture"
-                      className="rounded-full"
-                      width={48}
-                      height={48}
-                    />
+                      href={`/profile/${comment.user.username}`}
+                    >
+                      <Image
+                        src={
+                          comment.user.profile_picture !== null
+                            ? comment.user.profile_picture
+                            : "/images/default.jpeg"
+                        }
+                        alt="Profile Picture"
+                        className="rounded-full"
+                        width={48}
+                        height={48}
+                      />
+                    </Link>
                   </div>
                   <div className="flex flex-col ml-4">
                     <div className="font-bold">
@@ -278,4 +291,4 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
   );
 };
 
-export default CommentsModal;
+export default MyProfilePostModal;

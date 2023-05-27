@@ -57,9 +57,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
     }
   };
 
-  const handleUnlike = async () => {
+  const handleDislike = async () => {
     try {
-      const response = await fetch("/api/post/unlike", {
+      const response = await fetch("/api/post/dislike", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -150,7 +150,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         <div className="flex justify-evenly">
           <button
             className="flex items-center text-green-500 hover:text-green-800"
-            onClick={liked ? handleUnlike : handleLike}
+            onClick={liked ? handleDislike : handleLike}
           >
             <FontAwesomeIcon
               icon={liked ? faHeartCrack : faPaw}
