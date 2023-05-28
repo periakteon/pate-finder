@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { infinitePostType } from "@/utils/zodSchemas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
+import { faPaw, faHeartCrack, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
 
@@ -167,6 +167,14 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           </div>
         </div>
         <div className="w-2/5 flex flex-col justify-start p-4">
+        <button
+            className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
+            onClick={closeModal}
+          >
+            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </button>
           <div className="flex items-center space-x-4">
             <Link
               onClick={() =>

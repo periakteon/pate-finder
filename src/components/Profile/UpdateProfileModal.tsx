@@ -7,6 +7,8 @@ import { useS3Upload } from "next-s3-upload";
 import { myProfileAtom } from "@/pages/myprofile";
 import { isUpdateProfileModalOpenAtom } from "./MyProfileHeader";
 import { UpdateProfileRequestSchema } from "@/utils/zodSchemas";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { BeatLoader } from "react-spinners";
 
 Modal.setAppElement("#__next");
@@ -110,7 +112,9 @@ const UpdateProfileModal: React.FC = () => {
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const errorMessage = error.issues.map((issue) => issue.message).join(" ");
+        const errorMessage = error.issues
+          .map((issue) => issue.message)
+          .join(" ");
         toast.error(`Profil güncellenirken bir hata oluştu: ${errorMessage}`, {
           draggable: false,
           autoClose: 1800,
@@ -132,8 +136,17 @@ const UpdateProfileModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="w-1/3 h-5/6 bg-dark-dropzone flex overflow-y-scroll rounded-xl">
-        <div className="flex flex-col items-center justify-center w-full p-4">
+        <div className="flex flex-col items-center justify-center w-full p-4 relative">
           <h2 className="text-xl font-semibold mb-4">Profilini Düzenle</h2>
+          <button
+            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+            onClick={() => setIsUpdateProfileModalOpen(false)}
+          >
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="text-xl hover:scale-110 transition-transform"
+            />
+          </button>
           <form className="w-full max-w-sm">
             <div className="mb-4">
               <label
