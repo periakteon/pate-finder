@@ -5,7 +5,7 @@ import { useAtom } from "jotai";
 
 const UsersProfileHeaderComponent = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [profile, setprofile] = useAtom(profileAtom);
+  const [profile] = useAtom(profileAtom);
 
   const handleScroll = () => {
     if (window.pageYOffset > 0) {

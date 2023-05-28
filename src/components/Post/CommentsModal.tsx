@@ -9,7 +9,11 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { infinitePostType } from "@/utils/zodSchemas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faHeartCrack, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaw,
+  faHeartCrack,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
 
@@ -167,7 +171,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           </div>
         </div>
         <div className="w-2/5 flex flex-col justify-start p-4">
-        <button
+          <button
             className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
             onClick={closeModal}
           >
@@ -276,6 +280,11 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
                 name="text"
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    handleCommentSubmit(e);
+                  }
+                }}
                 placeholder="Yorumunuzu buraya girin"
                 className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded"
               ></textarea>

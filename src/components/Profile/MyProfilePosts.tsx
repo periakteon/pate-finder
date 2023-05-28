@@ -5,10 +5,6 @@ import { myProfileAtom } from "@/pages/myprofile";
 import { atom, useAtom } from "jotai";
 import { useState, useEffect } from "react";
 import MyProfilePostModal from "./MyProfilePostModal";
-import { infinitePostType } from "@/utils/zodSchemas";
-import { z } from "zod";
-
-type MyProfilePostType = z.infer<typeof infinitePostType>;
 
 export const selectedProfilePostIdAtom = atom<number | null>(null);
 export const selectedProfilePostAtom = atom<any | null>(null);
@@ -20,16 +16,10 @@ const MyProfilePosts = () => {
   const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(
     selectedProfilePostIdAtom,
   );
-  const [selectedProfilePost, setSelectedProfilePost] = useAtom(
-    selectedProfilePostAtom,
-  );
+  const [, setSelectedProfilePost] = useAtom(selectedProfilePostAtom);
   const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
     isProfilePostModalOpenAtom,
   );
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (selectedProfilePostId !== null) {
@@ -49,17 +39,21 @@ const MyProfilePosts = () => {
     setSelectedProfilePost,
   ]);
 
-  const handleComment = (postId: number) => {
-    setSelectedProfilePostId(postId);
-  };
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!myProfile) {
+    return null;
+  }
 
   if (!mounted) {
     return null;
   }
 
-  if (!myProfile) {
-    return null;
-  }
+  const handleComment = (postId: number) => {
+    setSelectedProfilePostId(postId);
+  };
 
   return (
     <div className="p-5 justify-center items-center">
