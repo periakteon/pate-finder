@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { infinitePostType } from "@/utils/zodSchemas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
+import { faPaw, faHeartCrack, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
 
@@ -167,6 +167,14 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           </div>
         </div>
         <div className="w-2/5 flex flex-col justify-start p-4">
+        <button
+            className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
+            onClick={closeModal}
+          >
+            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </button>
           <div className="flex items-center space-x-4">
             <Link
               onClick={() =>
@@ -195,18 +203,16 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
             </Link>
           </div>
           <div className="text-xl text-justify my-4">{caption}</div>
-          <div className="flex items-center mt-auto">
-            <button
-              className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
-              onClick={handleLikeButtonClick}
-            >
-              <FontAwesomeIcon
-                icon={liked ? faHeartCrack : faPaw}
-                className="text-2xl mr-2"
-              />
-              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
-            </button>
-          </div>
+          <button
+            className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
+            onClick={handleLikeButtonClick}
+          >
+            <FontAwesomeIcon
+              icon={liked ? faHeartCrack : faPaw}
+              className="text-2xl mr-2"
+            />
+            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+          </button>
           <div className="text-gray-500">{formatFullDate(createdAt)}</div>
           <hr className="my-4 dark:border-dark-border" />
 
@@ -214,19 +220,28 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
             commentList.map((comment) => (
               <React.Fragment key={`comment-${comment.id}`}>
                 <div className="mb-2 flex items-center">
-                  <div className="rounded-full">
-                    <Image
-                      src={
-                        comment.user.profile_picture !== null
-                          ? comment.user.profile_picture
-                          : "/images/default.jpeg"
-                      }
-                      alt="Profile Picture"
-                      className="rounded-full"
-                      width={48}
-                      height={48}
-                    />
-                  </div>
+                  <Link
+                    onClick={() =>
+                      setTimeout(() => {
+                        closeModal();
+                      }, 200)
+                    }
+                    href={`/profile/${comment.user.username}`}
+                  >
+                    <div className="rounded-full">
+                      <Image
+                        src={
+                          comment.user.profile_picture !== null
+                            ? comment.user.profile_picture
+                            : "/images/default.jpeg"
+                        }
+                        alt="Profile Picture"
+                        className="rounded-full"
+                        width={48}
+                        height={48}
+                      />
+                    </div>
+                  </Link>
                   <div className="flex flex-col ml-4">
                     <div className="font-bold">
                       <Link

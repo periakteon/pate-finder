@@ -1,13 +1,23 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { myProfileAtom } from "@/pages/myprofile";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
+import UpdateProfileModal from "./UpdateProfileModal";
 
-const MyProfileHeaderComponent = () => {
+export const isUpdateProfileModalOpenAtom = atom<boolean>(false);
+
+const MyProfileHeaderComponent: React.FC = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
+  const [IsUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useAtom(
+    isUpdateProfileModalOpenAtom,
+  );
+
+  const openModal = () => {
+    setIsUpdateProfileModalOpen(true);
+  };
 
   const handleMouseOver = () => {
     setEditProfile(true);
@@ -67,7 +77,10 @@ const MyProfileHeaderComponent = () => {
           />
           {editProfile && (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              <button className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse">
+              <button
+                onClick={openModal}
+                className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse"
+              >
                 Profilini Düzenle
               </button>
             </div>
@@ -108,6 +121,7 @@ const MyProfileHeaderComponent = () => {
           </div>
         </div>
       </div>
+      {IsUpdateProfileModalOpen && <UpdateProfileModal />}
     </div>
   );
 };

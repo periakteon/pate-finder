@@ -12,7 +12,11 @@ import {
 } from "./MyProfilePosts";
 import { myProfileAtom } from "@/pages/myprofile";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPaw,
+  faHeartCrack,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
 
@@ -155,7 +159,7 @@ const MyProfilePostModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll custom-scrollbar">
+      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
         <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
@@ -169,6 +173,14 @@ const MyProfilePostModal: React.FC = () => {
           </div>
         </div>
         <div className="w-2/5 flex flex-col justify-start p-4">
+          <button
+            className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
+            onClick={closeModal}
+          >
+            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </button>
           <div className="flex items-center space-x-4">
             <Link
               onClick={() =>
@@ -178,7 +190,7 @@ const MyProfilePostModal: React.FC = () => {
               }
               href={`/profile/${author.username}`}
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex justify-start items-center space-x-2">
                 {author.profile_picture && (
                   <Image
                     className="rounded-full"
@@ -192,23 +204,21 @@ const MyProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-                <div className="font-bold text-xl">{author.username}</div>
+                <div className="flex font-bold text-xl">{author.username}</div>
               </div>
             </Link>
           </div>
           <div className="text-xl text-justify my-4">{caption}</div>
-          <div className="flex items-center mt-auto">
-            <button
-              className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
-              onClick={handleLikeButtonClick}
-            >
-              <FontAwesomeIcon
-                icon={liked ? faHeartCrack : faPaw}
-                className="text-2xl mr-2"
-              />
-              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
-            </button>
-          </div>
+          <button
+            className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
+            onClick={handleLikeButtonClick}
+          >
+            <FontAwesomeIcon
+              icon={liked ? faHeartCrack : faPaw}
+              className="text-2xl mr-2"
+            />
+            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+          </button>
           <div className="text-gray-500 flex justify-start mt-2">
             {formatFullDate(createdAt)}
           </div>

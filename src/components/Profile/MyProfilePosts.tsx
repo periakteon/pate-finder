@@ -11,7 +11,7 @@ import { z } from "zod";
 type MyProfilePostType = z.infer<typeof infinitePostType>;
 
 export const selectedProfilePostIdAtom = atom<number | null>(null);
-export const selectedProfilePostAtom = atom<any | null>(null); // Yeni state
+export const selectedProfilePostAtom = atom<any | null>(null);
 export const isProfilePostModalOpenAtom = atom<boolean>(false);
 
 const MyProfilePosts = () => {
@@ -26,9 +26,6 @@ const MyProfilePosts = () => {
   const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
     isProfilePostModalOpenAtom,
   );
-  console.log("selected profile post ID:", selectedProfilePostId);
-  console.log("selected POST:", selectedProfilePost),
-    console.log("isProfilePostModalOpen:", isProfilePostModalOpen);
 
   useEffect(() => {
     setMounted(true);

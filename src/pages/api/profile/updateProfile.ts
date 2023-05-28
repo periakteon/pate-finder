@@ -6,6 +6,7 @@ import crypto from "crypto";
 import {
   UpdateProfileRequestSchema,
   UpdateProfileResponseSchema,
+  UpdatedUserSchema,
 } from "@/utils/zodSchemas";
 import { z } from "zod";
 
@@ -13,112 +14,110 @@ const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof UpdateProfileResponseSchema>;
 
-// Function to update the user and delete token if needed
 async function updateAndDeleteToken(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
-  const userId = req.userId;
-  const parsed = await UpdateProfileRequestSchema.safeParseAsync(req.body);
+  try {
+    const userId = req.userId;
+    const parsed = await UpdateProfileRequestSchema.safeParseAsync(req.body);
 
-  if (!parsed.success) {
-    const errorMap = parsed.error.flatten().fieldErrors;
-    const errorMessages = Object.values(errorMap).flatMap(
-      (errors) => errors ?? [],
-    );
+    if (!parsed.success) {
+      const errorMap = parsed.error.flatten().fieldErrors;
+      const errorMessages = Object.values(errorMap).flatMap(
+        (errors) => errors ?? [],
+      );
 
-    return res.status(400).json({ success: false, errors: errorMessages });
-  }
+      return res.status(400).json({ success: false, errors: errorMessages });
+    }
 
-  const { username, email, password, profile_picture, bio } = parsed.data;
-  let hash, salt;
+    const { username, email, password, profile_picture, bio } = parsed.data;
+    let hash, salt;
 
-  if (password) {
-    const randomBytes = crypto.randomBytes(16).toString("hex");
-    const { salt: newSalt, hash: newPasswordHash } = hashPassword(
-      password,
-      randomBytes,
-    );
-    salt = newSalt;
-    hash = newPasswordHash;
-  }
+    if (password) {
+      const randomBytes = crypto.randomBytes(16).toString("hex");
+      const { salt: newSalt, hash: newPasswordHash } = hashPassword(
+        password,
+        randomBytes,
+      );
+      salt = newSalt;
+      hash = newPasswordHash;
+    }
 
-  const updatedUserData: any = {};
+    const updatedUserData = UpdatedUserSchema.parse({});
 
-  if (username !== undefined) {
-    const existingUser = await prisma.user.findUnique({
-      where: { username },
-    });
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        errors: ["Bu kullanıcı adı kullanılmaktadır."],
+    if (username !== undefined && username !== null) {
+      const existingUser = await prisma.user.findUnique({
+        where: { username },
       });
+
+      if (existingUser && existingUser.id !== userId) {
+        return res.status(400).json({
+          success: false,
+          errors: ["Bu kullanıcı adı kullanılmaktadır."],
+        });
+      }
+      updatedUserData.username = username;
     }
-    updatedUserData.username = username;
-  }
 
-  if (email !== undefined) {
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, errors: ["Bu e-mail kullanılmaktadır."] });
+    if (email !== undefined && email !== null) {
+      const existingUser = await prisma.user.findUnique({
+        where: { email },
+      });
+      if (existingUser && existingUser.id !== userId) {
+        return res
+          .status(400)
+          .json({ success: false, errors: ["Bu e-mail kullanılmaktadır."] });
+      }
+      updatedUserData.email = email;
     }
-    updatedUserData.email = email;
-  }
 
-  if (salt && hash) {
-    updatedUserData.salt = salt;
-    updatedUserData.hash = hash;
-  }
+    if (salt && hash) {
+      updatedUserData.salt = salt;
+      updatedUserData.hash = hash;
+    }
 
-  if (profile_picture !== undefined) {
-    updatedUserData.profile_picture = profile_picture;
-  }
+    if (profile_picture !== undefined && profile_picture !== null) {
+      updatedUserData.profile_picture = profile_picture;
+    }
 
-  if (bio !== undefined) {
-    updatedUserData.bio = bio;
-  }
+    if (bio !== undefined && bio !== null) {
+      updatedUserData.bio = bio;
+    }
 
-  const updatedUser = await prisma.user.update({
-    where: { id: userId },
-    data: updatedUserData,
-  });
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: updatedUserData,
+    });
 
-  if (password || email) {
-    // Delete token from cookie
-    res.setHeader(
-      "Set-Cookie",
-      `token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict`,
-    );
+    if (password || email) {
+      res.setHeader(
+        "Set-Cookie",
+        `token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict`,
+      );
+    }
+
+    return res.json({
+      success: true,
+      message: "Kullanıcı bilgisi başarıyla güncellendi!",
+    });
+  } catch (error) {
+    console.error("Kullanıcı güncellenirken bir hata oluştu:", error);
+    return res.status(500).json({
+      success: false,
+      errors: ["Kullanıcı güncellenirken bir hata oluştu."],
+    });
   }
 }
 
-async function updateUser(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>,
-) {
+async function updateUser(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "PUT") {
     return res
       .status(405)
       .json({ success: false, errors: ["Method not allowed"] });
   }
 
-  try {
-    await updateAndDeleteToken(req, res);
-
-    res.json({
-      success: true,
-      message: "Kullanıcı bilgisi başarıyla güncellendi!",
-    });
-  } catch (error) {
-    console.error("Kullanıcı güncellenirken bir hata oluştu:", error);
-    res.status(500).json({
-      success: false,
-      errors: ["Kullanıcı güncellenirken bir hata oluştu."],
-    });
-  }
+  await updateAndDeleteToken(req, res);
 }
 
 export default authMiddleware(updateUser);
