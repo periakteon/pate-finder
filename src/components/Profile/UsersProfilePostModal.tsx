@@ -6,16 +6,16 @@ import { formatCreatedAt, formatFullDate } from "@/utils/dateHelper";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import {
-  selectedProfilePostIdAtom,
-  isProfilePostModalOpenAtom,
-  selectedProfilePostAtom,
-} from "./MyProfilePosts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
   faPaw,
   faHeartCrack,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  selectedUserProfilePostAtom,
+  selectedUserProfilePostIdAtom,
+  isUserProfilePostModalOpenAtom,
+} from "./UsersProfilePosts";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 Modal.setAppElement("#__next");
 
@@ -31,23 +31,24 @@ type Comment = {
   };
 };
 
-const MyProfilePostModal: React.FC = () => {
-  const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
-    isProfilePostModalOpenAtom,
+const UsersProfilePostModal: React.FC = () => {
+  const [selectedUserProfilePost] = useAtom(selectedUserProfilePostAtom);
+  const [selectedUserProfilePostId, setSelectedUserProfilePostId] = useAtom(
+    selectedUserProfilePostIdAtom,
   );
-  const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(
-    selectedProfilePostIdAtom,
+  const [isUserProfilePostModalOpen, setIsUserProfilePostModalOpen] = useAtom(
+    isUserProfilePostModalOpenAtom,
   );
-  const [selectedProfilePost] = useAtom(selectedProfilePostAtom);
   const { id, caption, postImage, createdAt, author, comments } =
-    selectedProfilePost || {};
+    selectedUserProfilePost || {};
+  console.log(selectedUserProfilePost);
   const [commentList, setCommentList] = useState<Comment[]>(comments || []);
   const [newComment, setNewComment] = useState<any>("");
   const [liked, setLiked] = useState<boolean>(false);
 
   const closeModal = () => {
-    setIsProfilePostModalOpen(false);
-    setSelectedProfilePostId(null);
+    setIsUserProfilePostModalOpen(false);
+    setSelectedUserProfilePostId(null);
   };
 
   const handleLike = async () => {
@@ -60,9 +61,7 @@ const MyProfilePostModal: React.FC = () => {
         body: JSON.stringify({ postId: id }),
       });
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.ok) {
         setLiked(true);
       } else {
         toast.error("Beğenirken bir hata oluştu!", {
@@ -71,7 +70,7 @@ const MyProfilePostModal: React.FC = () => {
         });
         setLiked(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Bir hata oluştu:", error);
     }
   };
@@ -86,12 +85,16 @@ const MyProfilePostModal: React.FC = () => {
         body: JSON.stringify({ postId: id }),
       });
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.ok) {
         setLiked(false);
+      } else {
+        toast.error("Beğenirken bir hata oluştu!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setLiked(true);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Bir hata oluştu:", error);
     }
   };
@@ -160,13 +163,13 @@ const MyProfilePostModal: React.FC = () => {
     checkLikeStatus();
   }, [id]);
 
-  if (!selectedProfilePost) {
+  if (!selectedUserProfilePost) {
     return null;
   }
 
   return (
     <Modal
-      isOpen={isProfilePostModalOpen && selectedProfilePostId === id}
+      isOpen={isUserProfilePostModalOpen && selectedUserProfilePostId === id}
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
@@ -320,4 +323,4 @@ const MyProfilePostModal: React.FC = () => {
   );
 };
 
-export default MyProfilePostModal;
+export default UsersProfilePostModal;
