@@ -178,7 +178,7 @@ const MyProfilePostModal: React.FC = () => {
               }
               href={`/profile/${author.username}`}
             >
-              <div className="flex items-center space-x-2">
+              <div className="flex justify-start items-center space-x-2">
                 {author.profile_picture && (
                   <Image
                     className="rounded-full"
@@ -197,18 +197,16 @@ const MyProfilePostModal: React.FC = () => {
             </Link>
           </div>
           <div className="text-xl text-justify my-4">{caption}</div>
-          <div className="flex items-center mt-auto">
-            <button
-              className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
-              onClick={handleLikeButtonClick}
-            >
-              <FontAwesomeIcon
-                icon={liked ? faHeartCrack : faPaw}
-                className="text-2xl mr-2"
-              />
-              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
-            </button>
-          </div>
+          <button
+            className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
+            onClick={handleLikeButtonClick}
+          >
+            <FontAwesomeIcon
+              icon={liked ? faHeartCrack : faPaw}
+              className="text-2xl mr-2"
+            />
+            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+          </button>
           <div className="text-gray-500 flex justify-start mt-2">
             {formatFullDate(createdAt)}
           </div>

@@ -50,7 +50,7 @@ const MyProfile = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-row">
         <Sidebar />
         <div className="flex flex-col items-center">
           <MyProfileHeaderComponent />
