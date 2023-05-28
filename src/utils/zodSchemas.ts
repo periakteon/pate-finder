@@ -599,22 +599,20 @@ export const UpdatedUserSchema = z.object({
   email: z.string().optional(),
   salt: z.string().optional(),
   hash: z.string().optional(),
-  profile_picture: z.string().optional(),
+  profile_picture: z.string().url().optional(),
   bio: z.string().optional(),
 });
 
 export const UpdateProfileRequestSchema = z.object({
-  username: z
-    .string({ invalid_type_error: "Kullanıcı adı string tipinde olmalıdır" })
-    .optional()
-    .nullable(),
+  username: z.union([z.string(), z.number()]).optional().nullable(),
   email: z
     .string({ invalid_type_error: "E-mail string tipinde olmalıdır" })
+    .email({ message: "Geçerli bir e-mail adresi giriniz." })
     .optional()
     .nullable(),
   password: z.union([z.string(), z.number()]).optional().nullable(),
   profile_picture: z.string().url().optional().nullable(),
-  bio: z.string().optional().nullable(),
+  bio: z.union([z.string(), z.number()]).optional().nullable(),
 });
 
 export const UpdateProfileResponseSchema = z.discriminatedUnion("success", [

@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties, ChangeEvent } from "react";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import { useAtom } from "jotai";
 import { z } from "zod";
-import Image from "next/image";
+import { useS3Upload } from "next-s3-upload";
 import { myProfileAtom } from "@/pages/myprofile";
 import { isUpdateProfileModalOpenAtom } from "./MyProfileHeader";
 import { UpdateProfileRequestSchema } from "@/utils/zodSchemas";
+import { BeatLoader } from "react-spinners";
 
 Modal.setAppElement("#__next");
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "black",
+};
 
 type UpdatedProfileType = z.infer<typeof UpdateProfileRequestSchema>;
 
@@ -17,16 +24,21 @@ const UpdateProfileModal: React.FC = () => {
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useAtom(
     isUpdateProfileModalOpenAtom,
   );
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { uploadToS3 } = useS3Upload();
+  const [files, setFiles] = useState<File[]>([]);
+  const [selectedFileURL, setSelectedFileURL] = useState<string>("");
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [username, setUsername] = useState<any>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<any>("");
   const [profilePicture, setProfilePicture] = useState("");
-  const [bio, setBio] = useState<string>("");
+  const [bio, setBio] = useState<any>("");
 
   useEffect(() => {
     if (myProfile) {
       setUsername(myProfile.username);
       setEmail(myProfile.email);
+      setProfilePicture(myProfile.profile_picture || "");
       setBio(myProfile.bio || "");
     }
   }, [myProfile]);
@@ -35,9 +47,26 @@ const UpdateProfileModal: React.FC = () => {
     return null;
   }
 
+  const onProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFiles([file]);
+      setSelectedFileURL(URL.createObjectURL(file));
+    }
+  };
+
   const handleUpdateProfile = async () => {
     try {
+      setUploading(true);
+
       const updatedFields: UpdatedProfileType = {};
+
+      if (files.length > 0) {
+        const file = files[0];
+        const { url } = await uploadToS3(file);
+        setSelectedFileURL(url);
+        updatedFields.profile_picture = url;
+      }
 
       if (username !== myProfile.username) {
         updatedFields.username = username;
@@ -55,12 +84,15 @@ const UpdateProfileModal: React.FC = () => {
         updatedFields.bio = bio;
       }
 
+      const parsedFields = UpdateProfileRequestSchema.parse(updatedFields);
+      console.log("parsed fields:", parsedFields);
+
       const response = await fetch("/api/profile/updateProfile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedFields),
+        body: JSON.stringify(parsedFields),
       });
 
       if (response.ok) {
@@ -77,12 +109,16 @@ const UpdateProfileModal: React.FC = () => {
         });
       }
     } catch (error) {
-      console.log("Profil güncellenirken bir hata oluştu:", error);
-      toast.error("Profil güncellenirken bir hata oluştu.", {
-        draggable: false,
-        autoClose: 1800,
-      });
-      return;
+      if (error instanceof z.ZodError) {
+        const errorMessage = error.issues.map((issue) => issue.message).join(" ");
+        toast.error(`Profil güncellenirken bir hata oluştu: ${errorMessage}`, {
+          draggable: false,
+          autoClose: 1800,
+        });
+        return;
+      }
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -102,7 +138,7 @@ const UpdateProfileModal: React.FC = () => {
             <div className="mb-4">
               <label
                 htmlFor="username"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-500 font-medium mb-1"
               >
                 Kullanıcı Adı
               </label>
@@ -117,7 +153,7 @@ const UpdateProfileModal: React.FC = () => {
             <div className="mb-4">
               <label
                 htmlFor="email"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-500 font-medium mb-1"
               >
                 E-posta Adresi
               </label>
@@ -132,7 +168,7 @@ const UpdateProfileModal: React.FC = () => {
             <div className="mb-4">
               <label
                 htmlFor="password"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-500 font-medium mb-1"
               >
                 Şifre
               </label>
@@ -147,7 +183,7 @@ const UpdateProfileModal: React.FC = () => {
             <div className="mb-4">
               <label
                 htmlFor="profilePicture"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-500 font-medium mb-1"
               >
                 Profil Resmi
               </label>
@@ -156,18 +192,13 @@ const UpdateProfileModal: React.FC = () => {
                 id="profilePicture"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
                 accept="image/*"
-                onChange={(e) => {
-                  // Resim seçildiğinde yapılacak işlemler burada gerçekleştirilebilir
-                  // Örneğin, resmi yüklemek için bir API isteği yapabilirsiniz
-                  const file = e.target.files[0];
-                  setProfilePicture(file);
-                }}
+                onChange={onProfilePictureChange}
               />
             </div>
             <div className="mb-4">
               <label
                 htmlFor="bio"
-                className="block text-gray-700 font-medium mb-1"
+                className="block text-gray-500 font-medium mb-1"
               >
                 Bio
               </label>
@@ -179,13 +210,25 @@ const UpdateProfileModal: React.FC = () => {
               />
             </div>
             <div className="flex justify-end">
-              <button
-                type="button"
-                className="px-4 py-2 rounded-md bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors duration-200"
-                onClick={handleUpdateProfile}
-              >
-                Kaydet
-              </button>
+              {uploading ? (
+                <div className="flex mx-auto items-center justify-center mb-4">
+                  <BeatLoader
+                    cssOverride={override}
+                    size={15}
+                    color={"silver"}
+                    loading={uploading}
+                  />
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded-md bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors duration-200"
+                  onClick={handleUpdateProfile}
+                  disabled={uploading}
+                >
+                  Kaydet
+                </button>
+              )}
             </div>
           </form>
         </div>

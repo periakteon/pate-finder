@@ -15,8 +15,6 @@ const MyProfileHeaderComponent: React.FC = () => {
     isUpdateProfileModalOpenAtom,
   );
 
-  console.log("modal açık mı la:", IsUpdateProfileModalOpen);
-
   const openModal = () => {
     setIsUpdateProfileModalOpen(true);
   };

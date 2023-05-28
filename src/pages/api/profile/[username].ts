@@ -42,6 +42,7 @@ export default async function handler(
         username: true,
         profile_picture: true,
         bio: true,
+        email: true,
         followedBy: {
           select: {
             follower: {

@@ -26,9 +26,6 @@ const MyProfilePosts = () => {
   const [isProfilePostModalOpen, setIsProfilePostModalOpen] = useAtom(
     isProfilePostModalOpenAtom,
   );
-  console.log("selected profile post ID:", selectedProfilePostId);
-  console.log("selected POST:", selectedProfilePost),
-    console.log("isProfilePostModalOpen:", isProfilePostModalOpen);
 
   useEffect(() => {
     setMounted(true);
