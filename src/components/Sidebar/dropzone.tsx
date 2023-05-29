@@ -128,7 +128,19 @@ const Dropzone = () => {
 
   return (
     <>
+    <button
+                    className="text-black background-transparent font-bold uppercase p-2 mr-7 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-slate-600 hover:text-white rounded-md bg-slate-200 absolute top-72 right-80"
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    X
+                  </button>
       <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
+      
+                  <button
+                  className="absolute top-0 right-0 cursor-pointer bg-gray-800 hover:bg-opacity-60 rounded-full text-white p-1" type="button"
+                  onClick={() => setIsModalOpen(false)}
+                ></button>
         <div
           {...getRootProps()}
           className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
@@ -139,6 +151,7 @@ const Dropzone = () => {
           onDragEnter={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
         >
+          
           <input {...getInputProps()} />
           {!files.length ? (
             <>
@@ -167,6 +180,7 @@ const Dropzone = () => {
                   <FontAwesomeIcon icon={faTimes} />
                 </div>
               </div>
+              
             </>
           )}
         </div>
@@ -204,6 +218,7 @@ const Dropzone = () => {
             />
           </div>
         )}
+        
       </div>
     </>
   );
