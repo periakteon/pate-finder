@@ -604,15 +604,15 @@ export const UpdatedUserSchema = z.object({
 });
 
 export const UpdateProfileRequestSchema = z.object({
-  username: z.union([z.string(), z.number()]).optional().nullable(),
+  username: z.string().optional().nullable(),
   email: z
     .string({ invalid_type_error: "E-mail string tipinde olmalıdır" })
     .email({ message: "Geçerli bir e-mail adresi giriniz." })
     .optional()
     .nullable(),
-  password: z.union([z.string(), z.number()]).optional().nullable(),
+  password: z.string().optional().nullable(),
   profile_picture: z.string().url().optional().nullable(),
-  bio: z.union([z.string(), z.number()]).optional().nullable(),
+  bio: z.string().optional().nullable(),
 });
 
 export const UpdateProfileResponseSchema = z.discriminatedUnion("success", [
