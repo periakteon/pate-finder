@@ -85,7 +85,7 @@ async function updateAndDeleteToken(
       updatedUserData.bio = bio;
     }
 
-    const updatedUser = await prisma.user.update({
+    await prisma.user.update({
       where: { id: userId },
       data: updatedUserData,
     });
