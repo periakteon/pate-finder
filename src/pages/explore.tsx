@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
-
 type UserData = {
   id: number;
   username: string;
@@ -100,10 +99,6 @@ const IndexPage: React.FC = () => {
   }, []);
 
   return (
-
-    
-
-
     <div className="flex md:flex-row text-black">
       <div className="">
         <Sidebar />
@@ -114,42 +109,51 @@ const IndexPage: React.FC = () => {
             Kullanıcıları Keşfet
           </h1>
           <div className="space-y-4">
-            
             <Card className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
-            {data.map((user, id) => (
-              <div key={id}
-              className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
-              <List>
-                <a href={`/profile/${user.username}`}>
-                <ListItem>
-                  <ListItemPrefix>
-                    <div className="flex flex-col md:flex-row items-center space-x-4">
-                  <Image
-                    src={user.profile_picture || defaultImage}
-                    alt="Profile Picture"
-                    className="w-16 h-16 md:w-32 md:h-32 rounded-full"
-                    width={64}
-                    height={64}
-                  />
-                  </div>
-                  </ListItemPrefix>
-                  <div>
-                    <Typography variant="h6" color="blue-gray">
-                    <div>
-                    <h2 className="text-2xl font-bold">{user.username}</h2>
-                    <p>Created At: {formatCreatedAt(user.createdAt)}</p>
-                  </div>
-                    </Typography>
-                    <Typography variant="small" color="gray" className="font-normal">
-                    <p className="mt-2">
-                  {user.pet ? `Pet: ${user.pet}` : "No pet"}
-                </p>
-                    </Typography>
-                  </div>
-                </ListItem>
-                </a>
-              </List>
-              </div>
+              {data.map((user, id) => (
+                <div
+                  key={id}
+                  className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:hover:border-gray-400 dark:text-white m-4 rounded shadow"
+                >
+                  <List>
+                    <a href={`/profile/${user.username}`}>
+                      <ListItem>
+                        <ListItemPrefix>
+                          <div className="flex flex-col md:flex-row items-center space-x-4">
+                            <Image
+                              src={user.profile_picture || defaultImage}
+                              alt="Profile Picture"
+                              className="w-16 h-16 md:w-32 md:h-32 rounded-full"
+                              width={64}
+                              height={64}
+                            />
+                          </div>
+                        </ListItemPrefix>
+                        <div>
+                          <Typography variant="h6" color="blue-gray">
+                            <div>
+                              <h2 className="text-2xl font-bold">
+                                {user.username}
+                              </h2>
+                              <p>
+                                Created At: {formatCreatedAt(user.createdAt)}
+                              </p>
+                            </div>
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="font-normal"
+                          >
+                            <p className="mt-2">
+                              {user.pet ? `Pet: ${user.pet}` : "No pet"}
+                            </p>
+                          </Typography>
+                        </div>
+                      </ListItem>
+                    </a>
+                  </List>
+                </div>
               ))}
             </Card>
           </div>

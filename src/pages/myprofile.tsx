@@ -52,7 +52,7 @@ const MyProfile = () => {
     <>
       <div className="flex">
         <div className="w-2/3">
-        <Sidebar />
+          <Sidebar />
         </div>
         <div className="flex flex-col items-center">
           <MyProfileHeaderComponent />

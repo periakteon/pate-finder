@@ -48,7 +48,7 @@ const UsersProfileHeaderComponent = () => {
         {profile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
-        {profile.pet?.bio}
+        {profile.bio}
       </p>
       <div className=" pb-2">
         <div className="flex text-center">
@@ -68,12 +68,30 @@ const UsersProfileHeaderComponent = () => {
               {profile.followedBy.length}
             </p>
           </div>
-          <div>
+          <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
               Following
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.following.length}
+            </p>
+          </div>
+          <div className="mr-4">
+            <h2 className="text-lg font-bold transition-transform duration-300">
+              Pet
+            </h2>
+            <p className="text-gray-500 transition-transform duration-300">
+              {profile.pet && profile.pet.pet_photo ? (
+                <Image
+                  src={profile.pet.pet_photo}
+                  className="rounded-full"
+                  width={64}
+                  height={64}
+                  alt="Pet Photo"
+                />
+              ) : (
+                "0"
+              )}{" "}
             </p>
           </div>
         </div>

@@ -111,12 +111,30 @@ const MyProfileHeaderComponent: React.FC = () => {
               {myProfile.followedBy.length}
             </p>
           </div>
-          <div>
+          <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
               Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {myProfile.following.length}
+            </p>
+          </div>
+          <div className="mr-4">
+            <h2 className="text-lg font-bold transition-transform duration-300">
+              Pet
+            </h2>
+            <p className="text-gray-500 transition-transform duration-300">
+              {myProfile.pet && myProfile.pet.pet_photo ? (
+                <Image
+                  src={myProfile.pet.pet_photo}
+                  className="rounded-full"
+                  width={64}
+                  height={64}
+                  alt="Pet Photo"
+                />
+              ) : (
+                "0"
+              )}
             </p>
           </div>
         </div>
