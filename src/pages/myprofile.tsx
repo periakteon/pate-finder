@@ -8,6 +8,7 @@ import {
 import { z } from "zod";
 import MyProfileHeaderComponent from "@/components/Profile/MyProfileHeader";
 import MyProfilePosts from "@/components/Profile/MyProfilePosts";
+import { toast } from "react-toastify";
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
@@ -26,8 +27,7 @@ const MyProfile = () => {
         );
 
         if (!parsed.success) {
-          // TODO: Handle errors
-          console.log("Parsing Error");
+          throw new Error(parsed.error.toString());
         }
 
         if (parsed.success && parsed.data.success) {
@@ -35,7 +35,10 @@ const MyProfile = () => {
           SetMyProfile(user);
         }
       } catch (error) {
-        console.log("Fetch error");
+        toast.error(`Hata: ${error}`, {
+          draggable: false,
+          autoClose: 2000,
+        });
       }
     };
 
@@ -46,7 +49,6 @@ const MyProfile = () => {
     setMounted(true);
   }, []);
 
-  // TODO: Check this
   return (
     <div className={`${mounted ? "block" : "hidden"} w-full h-full`}>
       <div className="flex">

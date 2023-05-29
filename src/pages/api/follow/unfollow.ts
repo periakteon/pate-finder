@@ -31,20 +31,15 @@ const handleUnfollowRequest = async (
   const followerId = req.userId;
   const { followingId } = parsed.data;
 
-  try {
-    await prisma.follow.delete({
-      where: {
-        followerId_followingId: {
-          followerId: Number(followerId),
-          followingId: Number(followingId),
-        },
+  await prisma.follow.delete({
+    where: {
+      followerId_followingId: {
+        followerId: Number(followerId),
+        followingId: Number(followingId),
       },
-    });
-    res.status(200).json({ success: true, message: "Takipten çıkıldı." });
-  } catch (errors) {
-    // TODO: WTF
-    res.status(405).json({ success: false, errors: ["Method not allowed"] });
-  }
+    },
+  });
+  return res.status(200).json({ success: true, message: "Takipten çıkıldı." });
 };
 
 export default authMiddleware(handleUnfollowRequest);
