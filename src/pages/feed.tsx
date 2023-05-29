@@ -27,23 +27,26 @@ function HomePage() {
         const res = await fetch(
           `/api/post/query?page=${pageNumber}&pageSize=${pageSize}`,
         );
-        const parsed = await infiniteScrollResponseSchema.safeParseAsync(
-          await res.json(),
-        );
+        const json = await res.json();
+
+        const parsed = await infiniteScrollResponseSchema.safeParseAsync(json);
 
         if (!parsed.success) {
+          // TODO: throw error
           console.log("Parse error");
           return;
         }
 
         if (parsed.success) {
           if (parsed.data.success) {
-            const { posts } = parsed.data;
-            setPosts((prevPosts) => [...prevPosts, ...posts]);
+            const { posts: newPosts } = parsed.data;
+
+            setPosts((prevPosts) => [...prevPosts, ...newPosts]);
             setIsLoading(false);
           }
         }
       } catch (error) {
+        // TODO: handle error
         console.error(error);
       }
     };
@@ -51,39 +54,37 @@ function HomePage() {
     loadPosts(pageNumber, pageSize);
   }, [pageNumber, pageSize]);
 
-  const handleLoadMore = () => {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  };
-
-  const handleScroll = () => {
-    const bottom =
-      Math.ceil(window.innerHeight + window.scrollY) >=
-      document.documentElement.scrollHeight;
-
-    if (bottom && !isLoading && !showNoContentMessage) {
-      handleLoadMore();
-    }
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      const bottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight;
+
+      if (bottom && !isLoading && !showNoContentMessage) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }),
-    [];
+  });
+
+  // HATIRA MODE ON
+  [];
+  {
+  }
+  // HATIRA MODE OFF
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-
+  // TODO: Check tht if it works
   return (
-    <>
+    <div className={`${mounted ? "flex" : "hidden"}`}>
       <div className="flex flex-row">
         <Sidebar />
         <ul className="px-8">
@@ -98,7 +99,7 @@ function HomePage() {
           Gösterilecek yeni içerik yok.
         </p>
       )}
-    </>
+    </div>
   );
 }
 

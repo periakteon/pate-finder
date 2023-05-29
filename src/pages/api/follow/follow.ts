@@ -60,6 +60,7 @@ const handleFollowRequest = async (
           .status(200)
           .json({ success: true, message: "Zaten takip ediyorsunuz!" });
       }
+
       res.status(500).json({ success: false, error: [JSON.stringify(error)] });
     }
   }

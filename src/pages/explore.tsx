@@ -31,37 +31,35 @@ const IndexPage: React.FC = () => {
   const [data, setData] = useState<UserData[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  // NICE TO HAVE: use date-fns
   const formatCreatedAt = (createdAt: string | null) => {
     if (!createdAt) {
       return "";
     }
+
     const date = new Date(createdAt);
+
     return date.toLocaleDateString();
   };
 
+  // TODO: Do this in everywhere
   const fetchData = async (page: number) => {
     try {
       const response = await fetch(`/api/explore?page=${page}`);
+
       if (!response.ok) {
         throw new Error("Failed to fetch data from API");
       }
+
       const data = await response.json();
       const parsed = await exploreResponse.safeParseAsync(data);
 
       if (!parsed.success) {
-        toast.error(`Hata: ${parsed.error}`, {
-          draggable: false,
-          autoClose: 2000,
-        });
-        return;
+        throw new Error(parsed.error.toString());
       }
 
       if (!parsed.data.success) {
-        toast.error(`Hata: ${parsed.data.errors}`, {
-          draggable: false,
-          autoClose: 2000,
-        });
-        return;
+        throw new Error(parsed.data.errors.toString());
       }
 
       if (parsed.data.success) {
@@ -69,12 +67,11 @@ const IndexPage: React.FC = () => {
         setData((prevData) => [...prevData, ...newUsers]);
       }
     } catch (error) {
-      console.error(error);
+      toast.error(`Hata: ${error}`, {
+        draggable: false,
+        autoClose: 2000,
+      });
     }
-  };
-
-  const loadMoreData = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
   };
 
   useEffect(() => {
@@ -88,11 +85,12 @@ const IndexPage: React.FC = () => {
       const scrollTop = document.documentElement.scrollTop;
 
       if (windowHeight + scrollTop >= documentHeight) {
-        loadMoreData();
+        setCurrentPage((prevPage) => prevPage + 1);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };

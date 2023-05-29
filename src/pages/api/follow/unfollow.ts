@@ -42,6 +42,7 @@ const handleUnfollowRequest = async (
     });
     res.status(200).json({ success: true, message: "Takipten çıkıldı." });
   } catch (errors) {
+    // TODO: WTF
     res.status(405).json({ success: false, errors: ["Method not allowed"] });
   }
 };

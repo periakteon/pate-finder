@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -36,8 +34,9 @@ const Login = () => {
     }
   }, [nextUrl]);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,6 +51,7 @@ const Login = () => {
         draggable: false,
         autoClose: 2000,
       });
+
       return;
     }
 
@@ -67,11 +67,12 @@ const Login = () => {
         draggable: false,
         autoClose: 1800,
       });
+
       setTimeout(() => {
         router.push(nextUrl ?? "/");
       }, 2000);
     }
-  }
+  };
 
   const [showEmailError, setShowEmailError] = useState(false);
   const [showPasswordError, setShowPasswordError] = useState(false);

@@ -26,6 +26,7 @@ const MyProfile = () => {
         );
 
         if (!parsed.success) {
+          // TODO: Handle errors
           console.log("Parsing Error");
         }
 
@@ -37,6 +38,7 @@ const MyProfile = () => {
         console.log("Fetch error");
       }
     };
+
     fetchData();
   }, [SetMyProfile]);
 
@@ -44,12 +46,9 @@ const MyProfile = () => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-
+  // TODO: Check this
   return (
-    <>
+    <div className={`${mounted ? "block" : "hidden"} w-full h-full`}>
       <div className="flex">
         <div className="w-2/3">
           <Sidebar />
@@ -59,7 +58,7 @@ const MyProfile = () => {
           <MyProfilePosts />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
