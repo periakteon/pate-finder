@@ -99,7 +99,7 @@ async function updateAndDeleteToken(
 
     return res.json({
       success: true,
-      message: "Kullanıcı bilgisi başarıyla güncellendi!",
+      updatedUser: updatedUserData,
     });
   } catch (error) {
     console.error("Kullanıcı güncellenirken bir hata oluştu:", error);

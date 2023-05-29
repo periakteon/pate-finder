@@ -618,7 +618,7 @@ export const UpdateProfileRequestSchema = z.object({
 export const UpdateProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
-    message: z.string(),
+    updatedUser: UpdatedUserSchema,
   }),
   z.object({
     success: z.literal(false),

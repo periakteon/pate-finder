@@ -43,6 +43,10 @@ const MyProfileHeaderComponent: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    setMyProfile(myProfile);
+  }, [myProfile, setMyProfile]);
+
+  useEffect(() => {
     setMounted(true);
   }, []);
 

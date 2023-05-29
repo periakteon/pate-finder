@@ -6,7 +6,10 @@ import { z } from "zod";
 import { useS3Upload } from "next-s3-upload";
 import { myProfileAtom } from "@/pages/myprofile";
 import { isUpdateProfileModalOpenAtom } from "./MyProfileHeader";
-import { UpdateProfileRequestSchema } from "@/utils/zodSchemas";
+import {
+  UpdateProfileRequestSchema,
+  UpdatedUserSchema,
+} from "@/utils/zodSchemas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { BeatLoader } from "react-spinners";
@@ -22,7 +25,7 @@ const override: CSSProperties = {
 type UpdatedProfileType = z.infer<typeof UpdateProfileRequestSchema>;
 
 const UpdateProfileModal: React.FC = () => {
-  const [myProfile] = useAtom(myProfileAtom);
+  const [myProfile, setMyProfile] = useAtom(myProfileAtom);
   const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useAtom(
     isUpdateProfileModalOpenAtom,
   );
@@ -30,15 +33,15 @@ const UpdateProfileModal: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedFileURL, setSelectedFileURL] = useState<string>("");
   const [uploading, setUploading] = useState<boolean>(false);
-  const [username, setUsername] = useState<any>("");
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string | null | undefined>(null);
+  const [email, setEmail] = useState<string | null | undefined>(null);
   const [password, setPassword] = useState<any>("");
-  const [profilePicture, setProfilePicture] = useState("");
-  const [bio, setBio] = useState<any>("");
+  const [, setProfilePicture] = useState("");
+  const [bio, setBio] = useState<string | null | undefined>(null);
 
   useEffect(() => {
     if (myProfile) {
-      setUsername(myProfile.username);
+      setUsername(myProfile.username || "");
       setEmail(myProfile.email);
       setProfilePicture(myProfile.profile_picture || "");
       setBio(myProfile.bio || "");
@@ -87,8 +90,6 @@ const UpdateProfileModal: React.FC = () => {
       }
 
       const parsedFields = UpdateProfileRequestSchema.parse(updatedFields);
-      console.log("parsed fields:", parsedFields);
-
       const response = await fetch("/api/profile/updateProfile", {
         method: "PUT",
         headers: {
@@ -97,18 +98,24 @@ const UpdateProfileModal: React.FC = () => {
         body: JSON.stringify(parsedFields),
       });
 
-      if (response.ok) {
-        toast.success("Profil başarıyla güncellendi!", {
+      const responseData = await response.json();
+
+      if (!responseData.success) {
+        toast.error(responseData.message, {
+          draggable: false,
+          autoClose: 1800,
+        });
+        return;
+      }
+
+      if (responseData.success) {
+        const updatedData = responseData.updatedUser;
+        setMyProfile((prevProfile) => ({ ...prevProfile, ...updatedData }));
+        toast.success("Profil başarıyla güncellendi.", {
           draggable: false,
           autoClose: 1800,
         });
         setIsUpdateProfileModalOpen(false);
-        return;
-      } else {
-        toast.error("Profil güncellenirken bir hata oluştu.", {
-          draggable: false,
-          autoClose: 1800,
-        });
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -159,7 +166,7 @@ const UpdateProfileModal: React.FC = () => {
                 type="text"
                 id="username"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                value={username}
+                value={username || ""}
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -174,7 +181,7 @@ const UpdateProfileModal: React.FC = () => {
                 type="email"
                 id="email"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                value={email}
+                value={email || ""}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -189,7 +196,7 @@ const UpdateProfileModal: React.FC = () => {
                 type="password"
                 id="password"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                value={password}
+                value={password || ""}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
@@ -218,7 +225,7 @@ const UpdateProfileModal: React.FC = () => {
               <textarea
                 id="bio"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
-                value={bio}
+                value={bio || ""}
                 onChange={(e) => setBio(e.target.value || "")}
               />
             </div>
