@@ -199,10 +199,10 @@ const Sidebar = () => {
               {/** arama sonuçları */}
               <div>
                 {searchResults.length > 0 && (
-                  <div className="max-h-60 overflow-y-auto border-b bg-slate-100 border-gray-300 rounded-lg mt-1">
+                  <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-500 bg-slate-100 border-gray-300 rounded-lg mt-1">
                     {searchResults.map((user) => (
                       <Link href={`/profile/${user.username}`} key={user.id}>
-                        <div className="p-2 flex flex-row hover:bg-slate-200 bg-slate-300 rounded-lg m-1">
+                        <div className="p-2 flex flex-row hover:bg-slate-200 dark:hover:bg-slate-300 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
                           <Image
                             priority
                             src={defaultImage}
@@ -211,7 +211,7 @@ const Sidebar = () => {
                             height={32}
                             alt="Avatar"
                           />
-                          <span className="ml-3 p-1">{user.username}</span>
+                          <span className="ml-3 p-1 dark:text-white dark:hover:text-black">{user.username}</span>
                         </div>
                       </Link>
                     ))}
