@@ -113,7 +113,7 @@ const IndexPage: React.FC = () => {
               {data.map((user, id) => (
                 <div
                   key={id}
-                  className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow"
+                  className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:hover:border-gray-400 dark:text-white m-4 rounded shadow"
                 >
                   <List>
                     <a href={`/profile/${user.username}`}>

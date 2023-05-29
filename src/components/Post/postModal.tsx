@@ -15,8 +15,8 @@ const PostModal: React.FC = () => {
       onRequestClose={() => setIsModalOpen(false)}
       shouldCloseOnOverlayClick={true}
       contentLabel="Post Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
+      className="fixed inset-0 flex items-center justify-center overflow-auto z-[155]"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[155]"
     >
       <Dropzone />
     </Modal>

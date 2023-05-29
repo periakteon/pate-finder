@@ -33,6 +33,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "placedog.net",
+        port: "",
+        pathname: "/**",
+      },
     ],
     domains: [
       `${process.env.S3_UPLOAD_BUCKET}.s3.amazonaws.com`,
