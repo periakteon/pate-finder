@@ -6,6 +6,7 @@ import {
   infiniteScrollResponseSchema,
 } from "../utils/zodSchemas";
 import { z } from "zod";
+import { toast } from "react-toastify";
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 type PostType = z.infer<typeof infinitePostType>;
@@ -32,9 +33,7 @@ function HomePage() {
         const parsed = await infiniteScrollResponseSchema.safeParseAsync(json);
 
         if (!parsed.success) {
-          // TODO: throw error
-          console.log("Parse error");
-          return;
+          throw new Error(parsed.error.toString());
         }
 
         if (parsed.success) {
@@ -46,8 +45,10 @@ function HomePage() {
           }
         }
       } catch (error) {
-        // TODO: handle error
-        console.error(error);
+        toast.error(`Hata: ${error}`, {
+          draggable: false,
+          autoClose: 2000,
+        });
       }
     };
 
@@ -72,17 +73,10 @@ function HomePage() {
     };
   });
 
-  // HATIRA MODE ON
-  [];
-  {
-  }
-  // HATIRA MODE OFF
-
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // TODO: Check tht if it works
   return (
     <div className={`${mounted ? "flex" : "hidden"}`}>
       <div className="flex flex-row">

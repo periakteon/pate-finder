@@ -37,40 +37,37 @@ const Login = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await response.json();
-    const parsed = await loginResponseSchema.safeParseAsync(data);
-
-    if (!parsed.success) {
-      toast.error(`Hata: ${parsed.error}`, {
-        draggable: false,
-        autoClose: 2000,
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
-      return;
-    }
+      const data = await response.json();
+      const parsed = await loginResponseSchema.safeParseAsync(data);
 
-    if (!parsed.data.success) {
-      toast.error(`Hata: ${parsed.data.errors}`, {
-        draggable: false,
-        autoClose: 2000,
-      });
-    } else {
-      // parametrede halihazırda nextUrl varsa ona yönlendir (örnek: .../login?nextUrl=%2Fmyprofile)
-      // const nextUrl = searchParams.get("nextUrl")
-      toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
-        draggable: false,
-        autoClose: 1800,
-      });
+      if (!parsed.success) {
+        throw new Error(parsed.error.toString());
+      }
 
-      setTimeout(() => {
-        router.push(nextUrl ?? "/");
-      }, 2000);
+      if (!parsed.data.success) {
+        throw new Error(parsed.data.errors.toString());
+      } else {
+        // parametrede halihazırda nextUrl varsa ona yönlendir (örnek: .../login?nextUrl=%2Fmyprofile)
+        // const nextUrl = searchParams.get("nextUrl")
+        toast.success("Giriş Başarılı! Yönlendiriliyorsunuz.", {
+          draggable: false,
+          autoClose: 1800,
+        });
+
+        setTimeout(() => {
+          router.push(nextUrl ?? "/");
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error("Bir hata oluştu:", error);
+      toast.error(error.message);
     }
   };
 
