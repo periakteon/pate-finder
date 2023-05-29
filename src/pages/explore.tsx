@@ -4,6 +4,15 @@ import defaultImage from "../../public/images/default.jpeg";
 import React, { useEffect, useState } from "react";
 import { exploreResponse } from "@/utils/zodSchemas";
 import { toast } from "react-toastify";
+import {
+  List,
+  ListItem,
+  ListItemPrefix,
+  Avatar,
+  Card,
+  Typography,
+} from "@material-tailwind/react";
+
 
 type UserData = {
   id: number;
@@ -91,22 +100,30 @@ const IndexPage: React.FC = () => {
   }, []);
 
   return (
+
+    
+
+
     <div className="flex md:flex-row text-black">
       <div className="">
         <Sidebar />
       </div>
       <div className="w-full min-h-screen p-8">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl text-center font-bold mb-4 dark:text-white">
+          <h1 className="text-4xl text-center font-bold mb-4 dark:text-white py-10">
             Kullanıcıları Keşfet
           </h1>
           <div className="space-y-4">
+            
+            <Card className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
             {data.map((user, id) => (
-              <div
-                key={id}
-                className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white p-4 rounded shadow"
-              >
-                <div className="flex flex-col md:flex-row items-center space-x-4">
+              <div key={id}
+              className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
+              <List>
+                <a href={`/profile/${user.username}`}>
+                <ListItem>
+                  <ListItemPrefix>
+                    <div className="flex flex-col md:flex-row items-center space-x-4">
                   <Image
                     src={user.profile_picture || defaultImage}
                     alt="Profile Picture"
@@ -114,16 +131,27 @@ const IndexPage: React.FC = () => {
                     width={64}
                     height={64}
                   />
+                  </div>
+                  </ListItemPrefix>
                   <div>
+                    <Typography variant="h6" color="blue-gray">
+                    <div>
                     <h2 className="text-2xl font-bold">{user.username}</h2>
                     <p>Created At: {formatCreatedAt(user.createdAt)}</p>
                   </div>
-                </div>
-                <p className="mt-2">
+                    </Typography>
+                    <Typography variant="small" color="gray" className="font-normal">
+                    <p className="mt-2">
                   {user.pet ? `Pet: ${user.pet}` : "No pet"}
                 </p>
+                    </Typography>
+                  </div>
+                </ListItem>
+                </a>
+              </List>
               </div>
-            ))}
+              ))}
+            </Card>
           </div>
         </div>
       </div>
