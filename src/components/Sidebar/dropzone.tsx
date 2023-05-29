@@ -129,13 +129,14 @@ const Dropzone = () => {
   return (
     <>
       <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
-        <button
-          className="text-black background-transparent font-bold uppercase p-2 mr-5 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 hover:bg-slate-600 hover:text-white rounded-md bg-slate-200 relative left-44"
-          type="button"
-          onClick={() => setIsModalOpen(false)}
-        >
-          X
-        </button>
+      <button
+            className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </button>
         <div
           {...getRootProps()}
           className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
