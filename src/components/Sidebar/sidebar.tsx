@@ -199,10 +199,10 @@ const Sidebar = () => {
               {/** arama sonuçları */}
               <div>
                 {searchResults.length > 0 && (
-                  <div className="max-h-60 overflow-y-auto border-b bg-slate-600 border-gray-300">
+                  <div className="max-h-60 overflow-y-auto border-b bg-slate-100 border-gray-300 rounded-lg mt-1">
                     {searchResults.map((user) => (
                       <Link href={`/profile/${user.username}`} key={user.id}>
-                        <div className="p-2 flex flex-row hover:bg-slate-500">
+                        <div className="p-2 flex flex-row hover:bg-slate-200 bg-slate-300 rounded-lg m-1">
                           <Image
                             priority
                             src={defaultImage}
