@@ -57,6 +57,7 @@ const myProfileHandler = async (
             pet_photo: true,
             type: true,
             bio: true,
+            age: true,
           },
         },
         posts: {

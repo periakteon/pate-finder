@@ -70,6 +70,7 @@ export default async function handler(
             pet_photo: true,
             type: true,
             bio: true,
+            age: true,
           },
         },
         posts: {

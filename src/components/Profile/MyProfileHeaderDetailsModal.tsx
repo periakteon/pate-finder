@@ -6,6 +6,7 @@ import { isHeaderDetailsModalOpenAtom } from "./MyProfileHeader";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 Modal.setAppElement("#__next");
 
@@ -26,15 +27,21 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
     return myProfile.followedBy.map((follower) => (
       <div key={follower.follower.username} className="flex items-center my-3">
         <div className="mr-2">
-          <Image
-            src={follower.follower.profile_picture || "/images/default.jpeg"}
-            alt="Profile Picture"
-            width={64}
-            height={64}
-            className="rounded-full"
-          />
+          <Link href={`/profile/${follower.follower.username}`}>
+            <Image
+              src={follower.follower.profile_picture || "/images/default.jpeg"}
+              alt="Profile Picture"
+              width={64}
+              height={64}
+              className="rounded-full"
+            />
+          </Link>
         </div>
-        <h3 className="">{follower.follower.username}</h3>
+        <div>
+          <Link href={`/profile/${follower.follower.username}`}>
+            <h3 className="">{follower.follower.username}</h3>
+          </Link>
+        </div>
       </div>
     ));
   };
@@ -43,15 +50,21 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
     return myProfile.following.map((followed) => (
       <div key={followed.following.username} className="flex items-center my-3">
         <div className="mr-2">
-          <Image
-            src={followed.following.profile_picture || "/images/default.jpeg"}
-            alt="Profile Picture"
-            width={64}
-            height={64}
-            className="rounded-full"
-          />
+          <Link href={`/profile/${followed.following.username}`}>
+            <Image
+              src={followed.following.profile_picture || "/images/default.jpeg"}
+              alt="Profile Picture"
+              width={64}
+              height={64}
+              className="rounded-full"
+            />
+          </Link>
         </div>
-        <h3>{followed.following.username}</h3>
+        <div>
+          <Link href={`/profile/${followed.following.username}`}>
+            <h3>{followed.following.username}</h3>
+          </Link>
+        </div>
       </div>
     ));
   };
@@ -62,21 +75,39 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
     }
 
     return (
-      <div className="flex items-center my-3">
-        <div className="mr-2">
+      <div className="flex flex-col items-center my-3">
+        <div className="relative w-32 h-32">
           <Image
             src={myProfile.pet.pet_photo || "/images/default.jpeg"}
             alt="Pet Photo"
-            width={64}
-            height={64}
+            layout="fill"
+            objectFit="cover"
             className="rounded-full"
           />
         </div>
-        <div>
-          <h3>{myProfile.pet.name}</h3>
-          <p>Breed: {myProfile.pet.breed}</p>
-          <p>Type: {myProfile.pet.type}</p>
-          <p>Bio: {myProfile.pet.bio}</p>
+        <div className="mt-4">
+          <h3 className="text-2xl font-bold text-center mb-3">
+            {myProfile.pet.name}
+          </h3>
+          <p className="text-gray-600 mb-2">
+            <span className="font-bold text-black dark:text-white">Yaş:</span>{" "}
+            <span className="text-gray-800 dark:text-gray-300">
+              {myProfile.pet.age ? myProfile.pet.age : "Belirtilmedi"}
+            </span>
+          </p>
+          <p className="text-gray-600 mb-2">
+            <span className="font-bold text-black dark:text-white">Tür:</span>{" "}
+            <span className="text-gray-800 dark:text-gray-300">
+              {myProfile.pet.type}
+            </span>
+          </p>
+          <p className="text-gray-600 mb-2">
+            <span className="font-bold text-black dark:text-white">Cins:</span>{" "}
+            <span className="text-gray-800 dark:text-gray-300">
+              {myProfile.pet.breed}
+            </span>
+          </p>
+          <p className="text-black dark:text-white">{myProfile.pet.bio}</p>
         </div>
       </div>
     );
