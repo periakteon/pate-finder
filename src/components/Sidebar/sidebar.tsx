@@ -295,7 +295,7 @@ const Sidebar = () => {
                   icon={faPlus}
                   className="text-2xl text-pink-600 mr-2 dark:text-white"
                 />
-                <button className="text-lg font-medium dark:text-white">
+                <button className="text-lg font-medium dark:text-white whitespace-nowrap">
                   Gönderi Ekle
                 </button>
               </div>
