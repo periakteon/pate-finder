@@ -4,6 +4,8 @@ import { useAtom } from "jotai";
 import { myProfileAtom } from "@/pages/myprofile";
 import { isHeaderDetailsModalOpenAtom } from "./MyProfileHeader";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
 
@@ -77,6 +79,14 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
+      <button
+            className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
+            onClick={() => setIsHeaderDetailsModalOpen(false)}
+          >
+            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+              <FontAwesomeIcon icon={faTimes} />
+            </span>
+          </button>
         <div className="w-full">
           <div className="flex justify-center mb-4">
             <button
