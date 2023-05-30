@@ -101,7 +101,7 @@ const IndexPage: React.FC = () => {
         <Sidebar />
       </div>
       <div className="w-full min-h-screen p-8">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto ps-5">
           <h1 className="text-4xl text-center font-bold mb-4 dark:text-white py-10">
             Kullanıcıları Keşfet
           </h1>
