@@ -122,7 +122,7 @@ const Sidebar = () => {
       <div className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? '' : 'transform -translate-x-full'}`} style={{ position: 'absolute', left: 0 }}>
     
 
-      <div className="p-4 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
+      <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
         <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
           <Link href="/feed">
             <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">

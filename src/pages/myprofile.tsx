@@ -52,7 +52,7 @@ const MyProfile = () => {
   return (
     <div className={`${mounted ? "block" : "hidden"} w-full h-full`}>
       <div className="flex">
-        <div className="w-2/3">
+        <div className="">
           <Sidebar />
         </div>
         <div className="flex flex-col items-center">

@@ -45,7 +45,7 @@ const ProfilePage = () => {
   return (
     <>
       <div className="flex">
-        <div className="w-2/3">
+        <div className="">
           <Sidebar />
         </div>
         <div className="flex flex-col items-center">
