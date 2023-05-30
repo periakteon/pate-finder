@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { profileAtom } from "@/pages/profile/[username]";
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
+import UsersProfileHeaderDetailsModal from "./UsersProfileHeaderDetailsModal";
+
+export const isUserHeaderDetailsModalOpenAtom = atom<boolean>(false);
 
 const UsersProfileHeaderComponent: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [profile] = useAtom(profileAtom);
+  const [isUserHeaderDetailsModalOpen, setIsUserHeaderDetailsModalOpen] =
+    useAtom(isUserHeaderDetailsModalOpenAtom);
 
   const handleScroll = () => {
     if (window.pageYOffset > 0) {
@@ -51,7 +56,10 @@ const UsersProfileHeaderComponent: React.FC = () => {
         {profile.bio}
       </p>
       <div className=" pb-2">
-        <div className="flex text-center">
+        <div
+          className="flex text-center"
+          onClick={() => setIsUserHeaderDetailsModalOpen(true)}
+        >
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
               Posts
@@ -96,6 +104,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </div>
         </div>
       </div>
+      {isUserHeaderDetailsModalOpen && <UsersProfileHeaderDetailsModal />}
     </div>
   );
 };

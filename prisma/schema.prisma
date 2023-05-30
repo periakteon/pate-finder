@@ -36,8 +36,8 @@ model Pet {
   id        Int       @id @default(autoincrement())
   name      String
   breed     String
-  age       String?
-  pet_photo String?
+  age       String
+  pet_photo String
   type      String
   bio       String
   createdAt DateTime  @default(now())
