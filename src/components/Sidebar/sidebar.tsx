@@ -110,7 +110,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between w-64 sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border h-screen">
+    <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border h-screen w-32 md:w-32 lg:w-48">
       <div className="p-4 overflow-y-auto max-h-screen h-auto">
         <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
           <Link href="/feed">
