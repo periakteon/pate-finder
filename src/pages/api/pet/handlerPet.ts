@@ -3,11 +3,10 @@
  * @api {post} /api/pet/handlerPet Pet Oluşturma
   "name": "Fido",
   "breed": "Golden Retriever",
-  "age": 3,
+  "age": "3",
   "pet_photo": "https://example.com/fido.jpg",
   "type": "Dog",
   "bio": "I'm a friendly and active dog who loves playing fetch!",
-  "ownerId": 12345
     }
  */
 
@@ -28,7 +27,7 @@ const handlePet = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
-  if (req.method !== "POST") {
+  if (req.method !== "POST" || "PUT") {
     return res
       .status(405)
       .json({ success: false, errors: ["Method not allowed"] });
@@ -46,7 +45,7 @@ const handlePet = async (
     return res.status(400).json({ success: false, errors: errorMessages });
   }
 
-  const { name, breed, pet_photo, type, bio } = parsed.data;
+  const { name, age, breed, pet_photo, type, bio } = parsed.data;
 
   try {
     await prisma.user.update({
@@ -58,8 +57,8 @@ const handlePet = async (
           upsert: {
             create: {
               name,
+              age,
               breed,
-
               pet_photo,
               type,
               bio,
@@ -67,7 +66,7 @@ const handlePet = async (
             update: {
               name,
               breed,
-
+              age,
               pet_photo,
               type,
               bio,

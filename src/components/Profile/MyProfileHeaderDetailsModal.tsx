@@ -150,7 +150,7 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
               className={`${
                 activeTab === "followers"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                  : "bg-dark-border text-slate-300"
               } px-4 py-2 rounded-tl-lg h-full flex-1`}
               onClick={() => setActiveTab("followers")}
             >
@@ -160,7 +160,7 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
               className={`${
                 activeTab === "following"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                  : "bg-dark-border text-slate-300"
               } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("following")}
             >
@@ -170,7 +170,7 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
               className={`${
                 activeTab === "pet"
                   ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-700"
+                  : "bg-dark-border text-slate-300"
               } px-4 py-2 rounded-tr-lg h-full flex-1`}
               onClick={() => setActiveTab("pet")}
             >

@@ -157,10 +157,9 @@ export const handlerPetRequestSchema = z.object({
     required_error: "Evcil hayvan cinsi gereklidir.",
     invalid_type_error: "Evcil hayvan cinsi string tipinde olmalıdır.",
   }),
-  // birthdate: z.number({
-  //   required_error: "Evcil hayvanın doğum tarihi gereklidir.",
-  //   invalid_type_error: "Evcil hayvan doğum tarihi date tipinde olmalıdır.",
-  // }),
+  age: z.string({
+    invalid_type_error: "Evcil hayvanın yaşı string tipinde olmalıdır",
+  }),
   pet_photo: z
     .string({
       required_error: "Evcil hayvan görseli gereklidir.",
