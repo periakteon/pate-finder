@@ -10,7 +10,7 @@ export const selectedProfilePostIdAtom = atom<number | null>(null);
 export const selectedProfilePostAtom = atom<any | null>(null);
 export const isProfilePostModalOpenAtom = atom<boolean>(false);
 
-const MyProfilePosts = () => {
+const MyProfilePosts: React.FC = () => {
   const [myProfile] = useAtom(myProfileAtom);
   const [mounted, setMounted] = useState(false);
   const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(

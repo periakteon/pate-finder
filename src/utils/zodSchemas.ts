@@ -546,6 +546,7 @@ export const UserProfileSchema = z.object({
       pet_photo: z.string().url().nullable(),
       type: z.string(),
       bio: z.string(),
+      age: z.string().nullable(),
     })
     .nullable(),
   posts: z.array(
