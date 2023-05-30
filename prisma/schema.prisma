@@ -10,25 +10,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Pet {
-  id               Int      @id @default(autoincrement())
-  owner_first_name String
-  owner_last_name  String
-  owner_email      String   @unique
-  hash             String
-  name             String
-  breed            String
-  age              Int
-  profile_picture  String
-  pet_type         String
-  bio              String
-  phone            String
-  city             String
-  country          String
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+model User {
+  id              Int      @id @default(autoincrement())
+  username        String   @unique
+  email           String   @unique
+  hash            String
+  salt            String
+  profile_picture String?
+  bio             String?
+  city            String?
+  country         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  posts Post[]
+  followedBy Follow[] @relation("following")
+  following  Follow[] @relation("follower")
+
+  pet      Pet?
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
+}
+
+model Pet {
+  id        Int       @id @default(autoincrement())
+  name      String
+  breed     String
+  age       String
+  pet_photo String
+  type      String
+  bio       String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
 }
 
 model Post {
@@ -38,6 +54,45 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  pet   Pet @relation(fields: [petId], references: [id])
-  petId Int
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int // Kullanıcının kimlik numarasını tutar
+
+  comments Comment[]
+  likes    Like[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Follow {
+  id          Int  @id @default(autoincrement())
+  follower    User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId Int
+
+  @@unique([followerId, followingId])
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  post   Post @relation(fields: [postId], references: [id])
+  postId Int
+
+  @@unique([postId, userId])
 }

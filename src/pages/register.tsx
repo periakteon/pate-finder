@@ -1,10 +1,13 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
-  //TODO: Make register operation. use /api/register
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -18,6 +21,47 @@ const Register = () => {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [showConfirmPasswordError, setShowConfirmPasswordError] =
     useState(false);
+  const [showError, setShowError] = useState("");
+
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!formData.termsAccepted) {
+      alert("Lütfen hüküm ve koşulları kabul edin.");
+      return;
+    }
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    if (data.success === false) {
+      toast.error(`Hata: ${data.errors}`, {
+        draggable: false,
+        autoClose: 3000,
+      });
+    } else if (data.success === false && data.errors["errorMessage"]) {
+      // sistemde e-mail kayıtlıysa hatayı göstermek için
+      const errorMessage =
+        data.errors["errorMessage"] || "Bilinmeyen bir hata oluştu.";
+      toast.error(`Hata: ${errorMessage}}`, {
+        draggable: false,
+        autoClose: 3000,
+      });
+    } else {
+      toast.success("Üye kaydı başarılı! Yönlendiriliyorsunuz.", {
+        draggable: false,
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    }
+  };
 
   const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.name) {
@@ -53,27 +97,21 @@ const Register = () => {
   const { showCheckboxError, handleCheckboxChange } = useCheckboxValidation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+    <main className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}
         height={125}
         alt="logo"
-        className="flex self-start"
+        className="flex self-start absolute top-0 left-0 mt-5 ml-5"
       />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              console.log(formData);
-            }}
-          >
+          <form onSubmit={handleSubmit}>
             <h2 className="text-4xl font-bold mb-10 flex justify-center">
               Kayıt Ol
             </h2>
-
             <div className={`relative ${showUsernameError ? "mb-2" : "mb-7"}`}>
               <input
                 type="text"
@@ -93,10 +131,11 @@ const Register = () => {
               />
               <label
                 htmlFor="username"
-                className={`absolute transition-all ${formData.username.length === 0 && !formData.username
+                className={`absolute transition-all ${
+                  formData.username.length === 0 && !formData.username
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Kullanıcı Adı
               </label>
@@ -126,10 +165,11 @@ const Register = () => {
               />
               <label
                 htmlFor="email"
-                className={`absolute transition-all ${formData.email.length === 0 && !formData.email
+                className={`absolute transition-all ${
+                  formData.email.length === 0 && !formData.email
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Email
               </label>
@@ -157,10 +197,11 @@ const Register = () => {
               />
               <label
                 htmlFor="password"
-                className={`absolute transition-all ${formData.password.length === 0 && !formData.password
+                className={`absolute transition-all ${
+                  formData.password.length === 0 && !formData.password
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Parola
               </label>
@@ -170,8 +211,9 @@ const Register = () => {
             )}
 
             <div
-              className={`relative ${showConfirmPasswordError ? "mb-2" : "mb-7"
-                }`}
+              className={`relative ${
+                showConfirmPasswordError ? "mb-2" : "mb-7"
+              }`}
             >
               <input
                 type="password"
@@ -191,11 +233,12 @@ const Register = () => {
               />
               <label
                 htmlFor="confirmPassword"
-                className={`absolute transition-all ${formData.confirmPassword.length === 0 &&
-                    !formData.confirmPassword
+                className={`absolute transition-all ${
+                  formData.confirmPassword.length === 0 &&
+                  !formData.confirmPassword
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Parola
               </label>
@@ -203,9 +246,7 @@ const Register = () => {
             {showConfirmPasswordError && (
               <div className="text-rose-500 mb-6">Parola boş bırakılamaz.</div>
             )}
-
-            <div className="relative h-24">
-              {/* TODO: Use modal for terms and conditions, and width expansion on unclick, and disable button */}
+            <div className="relative mb-7">
               <Link href="#">
                 <label
                   htmlFor="termsAccepted"
@@ -233,22 +274,31 @@ const Register = () => {
               </Link>
               {showCheckboxError && (
                 <div className="text-rose-500">
-                  Üye olmak için şartları kabul etmelisiniz.
+                  Şartları kabul etmeniz gerekmektedir.
                 </div>
               )}
             </div>
             <div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-rose-700 to-purple-700 hover:from-rose-500 hover:to-purple-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                disabled={!formData.termsAccepted}
+                className="w-full bg-gradient-to-r from-rose-700 to-purple-700 hover:from-rose-500 hover:to-purple-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 Kayıt Ol
               </button>
             </div>
+            <div className="p-2 flex flex-col items-center mt-4">
+              <div className="text-sm  text-gray-500">Hesabınız var mı?</div>
+              <Link href="/login">
+                <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out">
+                  Giriş Yap
+                </div>
+              </Link>
+            </div>
           </form>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
