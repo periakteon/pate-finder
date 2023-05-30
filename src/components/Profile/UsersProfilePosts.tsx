@@ -20,7 +20,7 @@ type Comment = {
 export const selectedUserProfilePostIdAtom = atom<number | null>(null);
 export const selectedUserProfilePostAtom = atom<any | null>(null);
 export const isUserProfilePostModalOpenAtom = atom<boolean>(false);
-export const commentListAtom = atom<Comment[]>([])
+export const commentListAtom = atom<Comment[]>([]);
 
 const UsersProfilePostsComponent = () => {
   const [profile] = useAtom(profileAtom);
@@ -28,7 +28,9 @@ const UsersProfilePostsComponent = () => {
   const [selectedUserProfilePostId, setSelectedUserProfilePostId] = useAtom(
     selectedUserProfilePostIdAtom,
   );
-  const [selectedUserProfilePost, setSelectedUserProfilePost] = useAtom(selectedUserProfilePostAtom);
+  const [selectedUserProfilePost, setSelectedUserProfilePost] = useAtom(
+    selectedUserProfilePostAtom,
+  );
   const [isUserProfilePostModalOpen, setIsUserProfilePostModalOpen] = useAtom(
     isUserProfilePostModalOpenAtom,
   );
@@ -40,10 +42,10 @@ const UsersProfilePostsComponent = () => {
         profile &&
         profile.posts.find((p) => p.id === selectedUserProfilePostId);
 
-        if (post) {
-          const comments = post.comments;
-          setCommmentList(comments);
-        }
+      if (post) {
+        const comments = post.comments;
+        setCommmentList(comments);
+      }
 
       setSelectedUserProfilePost(post);
       setIsUserProfilePostModalOpen(true);
@@ -55,7 +57,8 @@ const UsersProfilePostsComponent = () => {
     selectedUserProfilePostId,
     profile,
     setIsUserProfilePostModalOpen,
-    setSelectedUserProfilePost, setCommmentList
+    setSelectedUserProfilePost,
+    setCommmentList,
   ]);
 
   useEffect(() => {
