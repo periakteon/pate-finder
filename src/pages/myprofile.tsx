@@ -14,7 +14,7 @@ type UserProfileType = z.infer<typeof UserProfileSchema>;
 
 export const myProfileAtom = atom<UserProfileType | null>(null);
 
-const MyProfile = () => {
+const MyProfile: React.FC = () => {
   const [myProfile, SetMyProfile] = useAtom(myProfileAtom);
   const [mounted, setMounted] = useState(false);
 

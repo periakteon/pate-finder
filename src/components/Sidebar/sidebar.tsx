@@ -112,230 +112,236 @@ const Sidebar = () => {
 
   return (
     <div>
-      <div className="block absolute  lg:hidden" >
-        <div className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]" onClick={() => setSidebarOpen(!sidebarOpen)}>
+      <div className="block absolute  lg:hidden">
+        <div
+          className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+        >
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
-      <div className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? '' : 'transform -translate-x-full'}`} style={{ position: 'absolute', left: 0 }}>
-    
-
-      <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
-        <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
-          <Link href="/feed">
-            <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
-              <Image
-                priority={true}
-                src={
-                  isDarkTheme
-                    ? "/logo/png/logo-no-background.png"
-                    : "/logo/png/logo-no-background-pink.png"
-                }
-                width={125}
-                height={125}
-                alt="logo"
-                style={{
-                  width: "125px",
-                  height: "125px",
-                }}
-              />
-            </div>
-          </Link>
-        </div>
-
-        <nav>
-          <ul>
+      <div
+        className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${
+          sidebarOpen ? "" : "transform -translate-x-full"
+        }`}
+        style={{ position: "absolute", left: 0 }}
+      >
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
+          <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
-              <motion.li
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mb-2"
-              >
-                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                  <FontAwesomeIcon
-                    icon={faHouse}
-                    className="text-2xl text-pink-600 mr-2 dark:text-white"
-                  />
-                  <span className="text-lg font-medium dark:text-white">
-                    Anasayfa
-                  </span>
-                </div>
-              </motion.li>
+              <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
+                <Image
+                  priority={true}
+                  src={
+                    isDarkTheme
+                      ? "/logo/png/logo-no-background.png"
+                      : "/logo/png/logo-no-background-pink.png"
+                  }
+                  width={125}
+                  height={125}
+                  alt="logo"
+                  style={{
+                    width: "125px",
+                    height: "125px",
+                  }}
+                />
+              </div>
             </Link>
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-2"
-            >
-              {!searchMode ? (
-                <div
-                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
-                  onClick={handleSearchClick}
+          </div>
+
+          <nav>
+            <ul>
+              <Link href="/feed">
+                <motion.li
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mb-2"
                 >
-                  <label htmlFor="searchInput">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
-                      icon={faMagnifyingGlass}
+                      icon={faHouse}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
                     />
-                  </label>
-                  <span className="text-lg font-medium dark:text-white">
-                    Ara
-                  </span>
-                </div>
-              ) : (
-                <form
-                  onChange={handleSearchSubmit}
-                  className="flex items-center"
-                >
-                  <label htmlFor="searchInput" className="relative">
-                    <input
-                      ref={searchInputRef}
-                      onChange={handleInputChange}
-                      type="text"
-                      id="searchInput"
-                      placeholder="Ara..."
-                      className="w-full p-3 pr-10 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
-                    />
-                    <FontAwesomeIcon
-                      icon={faMagnifyingGlass}
-                      className="absolute right-3 top-4 text-pink-600 dark:text-white"
-                    />
-                  </label>
-                </form>
-              )}
-              {/** arama sonuçları */}
-              <div>
-                {searchResults.length > 0 && (
-                  <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
-                    {searchResults.map((user) => (
-                      <Link href={`/profile/${user.username}`} key={user.id}>
-                        <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
-                          <Image
-                            priority
-                            src={
-                              user.profile_picture
-                                ? user.profile_picture
-                                : defaultImage
-                            }
-                            className="rounded-full"
-                            width={32}
-                            height={32}
-                            alt="Avatar"
-                          />
-                          <span className="ml-3 p-1 dark:text-white">
-                            {user.username}
-                          </span>
-                        </div>
-                      </Link>
-                    ))}
+                    <span className="text-lg font-medium dark:text-white">
+                      Anasayfa
+                    </span>
                   </div>
+                </motion.li>
+              </Link>
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-2"
+              >
+                {!searchMode ? (
+                  <div
+                    className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                    onClick={handleSearchClick}
+                  >
+                    <label htmlFor="searchInput">
+                      <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className="text-2xl text-pink-600 mr-2 dark:text-white"
+                      />
+                    </label>
+                    <span className="text-lg font-medium dark:text-white">
+                      Ara
+                    </span>
+                  </div>
+                ) : (
+                  <form
+                    onChange={handleSearchSubmit}
+                    className="flex items-center"
+                  >
+                    <label htmlFor="searchInput" className="relative">
+                      <input
+                        ref={searchInputRef}
+                        onChange={handleInputChange}
+                        type="text"
+                        id="searchInput"
+                        placeholder="Ara..."
+                        className="w-full p-3 pr-10 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                      />
+                      <FontAwesomeIcon
+                        icon={faMagnifyingGlass}
+                        className="absolute right-3 top-4 text-pink-600 dark:text-white"
+                      />
+                    </label>
+                  </form>
                 )}
-                {searchResults.length === 0 &&
-                  searchMode &&
-                  searchInputRef.current &&
-                  searchInputRef.current.value !== "" && (
-                    <div className="text-gray-500 py-2">
-                      Böyle bir kullanıcı yok
+                {/** arama sonuçları */}
+                <div>
+                  {searchResults.length > 0 && (
+                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
+                      {searchResults.map((user) => (
+                        <Link href={`/profile/${user.username}`} key={user.id}>
+                          <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
+                            <Image
+                              priority
+                              src={
+                                user.profile_picture
+                                  ? user.profile_picture
+                                  : defaultImage
+                              }
+                              className="rounded-full"
+                              width={32}
+                              height={32}
+                              alt="Avatar"
+                            />
+                            <span className="ml-3 p-1 dark:text-white">
+                              {user.username}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
                   )}
-              </div>
-              {/** arama sonuçları */}
-            </motion.li>
-            <Link href="/explore">
+                  {searchResults.length === 0 &&
+                    searchMode &&
+                    searchInputRef.current &&
+                    searchInputRef.current.value !== "" && (
+                      <div className="text-gray-500 py-2">
+                        Böyle bir kullanıcı yok
+                      </div>
+                    )}
+                </div>
+                {/** arama sonuçları */}
+              </motion.li>
+              <Link href="/explore">
+                <motion.li
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mb-2"
+                >
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                    <FontAwesomeIcon
+                      icon={faPaw}
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"
+                    />
+                    <span className="text-lg font-medium dark:text-white">
+                      Keşfet
+                    </span>
+                  </div>
+                </motion.li>
+              </Link>
+              <Link href="/myprofile">
+                <motion.li
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mb-2"
+                >
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"
+                    />
+                    <span className="text-lg font-medium dark:text-white">
+                      Profil
+                    </span>
+                  </div>
+                </motion.li>
+              </Link>
               <motion.li
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
                 className="mb-2"
               >
-                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                <div
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                >
                   <FontAwesomeIcon
-                    icon={faPaw}
+                    icon={faPlus}
                     className="text-2xl text-pink-600 mr-2 dark:text-white"
                   />
-                  <span className="text-lg font-medium dark:text-white">
-                    Keşfet
-                  </span>
+                  <button className="text-lg font-medium dark:text-white whitespace-nowrap">
+                    Gönderi Ekle
+                  </button>
                 </div>
               </motion.li>
-            </Link>
-            <Link href="/myprofile">
-              <motion.li
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mb-2"
-              >
-                <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="text-2xl text-pink-600 mr-2 dark:text-white"
-                  />
-                  <span className="text-lg font-medium dark:text-white">
-                    Profil
-                  </span>
-                </div>
-              </motion.li>
-            </Link>
-            <motion.li
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-2"
-            >
-              <div
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
-              >
+            </ul>
+          </nav>
+        </div>
+        <div className="flex mx-auto bottom-0 fixed">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+          >
+            <button className="transition-all cursor-pointer">
+              {resolvedTheme === "dark" ? (
                 <FontAwesomeIcon
-                  icon={faPlus}
-                  className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  icon={faSun}
+                  className={`icon-style mr-2 ${
+                    theme === "light" ? "rotate-0" : "rotate-90"
+                  } transition-transform animate-spin-slow`}
+                  onClick={() => setTheme("light")}
                 />
-                <button className="text-lg font-medium dark:text-white whitespace-nowrap">
-                  Gönderi Ekle
-                </button>
-              </div>
-            </motion.li>
-          </ul>
-        </nav>
+              ) : (
+                <FontAwesomeIcon
+                  icon={faMoon}
+                  className={`icon-style mr-2 ${
+                    theme === "dark" ? "rotate-0" : "rotate-0"
+                  } transition-transform animate-spin-slow`}
+                  onClick={() => setTheme("dark")}
+                />
+              )}
+            </button>
+            <span className="text-lg font-medium">{`${
+              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+            }`}</span>
+          </motion.div>
+        </div>
+        <PostModal />
       </div>
-      <div className="flex mx-auto bottom-0 fixed">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
-        >
-          <button className="transition-all cursor-pointer">
-            {resolvedTheme === "dark" ? (
-              <FontAwesomeIcon
-                icon={faSun}
-                className={`icon-style mr-2 ${
-                  theme === "light" ? "rotate-0" : "rotate-90"
-                } transition-transform animate-spin-slow`}
-                onClick={() => setTheme("light")}
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faMoon}
-                className={`icon-style mr-2 ${
-                  theme === "dark" ? "rotate-0" : "rotate-0"
-                } transition-transform animate-spin-slow`}
-                onClick={() => setTheme("dark")}
-              />
-            )}
-          </button>
-          <span className="text-lg font-medium">{`${
-            resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-          }`}</span>
-        </motion.div>
-      </div>
-      <PostModal />
-    </div>
     </div>
   );
 };

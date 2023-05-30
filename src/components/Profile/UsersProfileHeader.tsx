@@ -3,7 +3,7 @@ import Image from "next/image";
 import { profileAtom } from "@/pages/profile/[username]";
 import { useAtom } from "jotai";
 
-const UsersProfileHeaderComponent = () => {
+const UsersProfileHeaderComponent: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [profile] = useAtom(profileAtom);
 

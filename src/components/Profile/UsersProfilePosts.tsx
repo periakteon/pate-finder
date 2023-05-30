@@ -22,7 +22,7 @@ export const selectedUserProfilePostAtom = atom<any | null>(null);
 export const isUserProfilePostModalOpenAtom = atom<boolean>(false);
 export const commentListAtom = atom<Comment[]>([]);
 
-const UsersProfilePostsComponent = () => {
+const UsersProfilePostsComponent: React.FC = () => {
   const [profile] = useAtom(profileAtom);
   const [mounted, setMounted] = useState(false);
   const [selectedUserProfilePostId, setSelectedUserProfilePostId] = useAtom(

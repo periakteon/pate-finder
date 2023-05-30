@@ -3,40 +3,34 @@ import Image from "next/image";
 import { myProfileAtom } from "@/pages/myprofile";
 import { atom, useAtom } from "jotai";
 import UpdateProfileModal from "./UpdateProfileModal";
+import MyProfileHeaderDetailsModal from "./MyProfileHeaderDetailsModal";
 
 export const isUpdateProfileModalOpenAtom = atom<boolean>(false);
+export const isHeaderDetailsModalOpenAtom = atom<boolean>(false);
 
 const MyProfileHeaderComponent: React.FC = () => {
   const [editProfile, setEditProfile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [myProfile, setMyProfile] = useAtom(myProfileAtom);
-  const [IsUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useAtom(
+  const [isUpdateProfileModalOpen, setIsUpdateProfileModalOpen] = useAtom(
     isUpdateProfileModalOpenAtom,
   );
-
-  const openModal = () => {
-    setIsUpdateProfileModalOpen(true);
-  };
-
-  const handleMouseOver = () => {
-    setEditProfile(true);
-  };
-
-  const handleMouseOut = () => {
-    setEditProfile(false);
-  };
-
-  const handleScroll = () => {
-    if (window.pageYOffset > 0) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
+  const [isHeaderDetailsModalOpen, setIsHeaderDetailsModalOpen] = useAtom(
+    isHeaderDetailsModalOpenAtom,
+  );
 
   useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -69,8 +63,8 @@ const MyProfileHeaderComponent: React.FC = () => {
           className={`relative rounded-full overflow-hidden ${
             editProfile ? "scale-95" : ""
           } transition-transform duration-300`}
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
+          onMouseOver={() => setEditProfile(true)}
+          onMouseOut={() => setEditProfile(false)}
         >
           <Image
             src={myProfile.profile_picture || "/images/default.jpeg"}
@@ -82,7 +76,7 @@ const MyProfileHeaderComponent: React.FC = () => {
           {editProfile && (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <button
-                onClick={openModal}
+                onClick={() => setIsUpdateProfileModalOpen(true)}
                 className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse"
               >
                 Profilini Düzenle
@@ -98,7 +92,10 @@ const MyProfileHeaderComponent: React.FC = () => {
         {myProfile.bio}
       </p>
       <div className="flex mt-4 pb-2">
-        <div className="flex text-center">
+        <div
+          className="flex text-center"
+          onClick={() => setIsHeaderDetailsModalOpen(true)}
+        >
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
               Gönderiler
@@ -143,7 +140,8 @@ const MyProfileHeaderComponent: React.FC = () => {
           </div>
         </div>
       </div>
-      {IsUpdateProfileModalOpen && <UpdateProfileModal />}
+      {isUpdateProfileModalOpen && <UpdateProfileModal />}
+      {isHeaderDetailsModalOpen && <MyProfileHeaderDetailsModal />}
     </div>
   );
 };
