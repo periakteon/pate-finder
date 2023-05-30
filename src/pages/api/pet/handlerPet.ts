@@ -1,17 +1,5 @@
-/**
- * 
- * @api {post} /api/pet/handlerPet Pet Oluşturma
-  "name": "Fido",
-  "breed": "Golden Retriever",
-  "age": "3",
-  "pet_photo": "https://example.com/fido.jpg",
-  "type": "Dog",
-  "bio": "I'm a friendly and active dog who loves playing fetch!",
-    }
- */
-
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, Pet } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import authMiddleware from "@/middleware/authMiddleware";
 import { z } from "zod";
 import {
@@ -27,7 +15,7 @@ const handlePet = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) => {
-  if (req.method !== "POST" || "PUT") {
+  if (req.method !== "POST") {
     return res
       .status(405)
       .json({ success: false, errors: ["Method not allowed"] });
@@ -48,35 +36,35 @@ const handlePet = async (
   const { name, age, breed, pet_photo, type, bio } = parsed.data;
 
   try {
-    await prisma.user.update({
+    const petResponse = await prisma.pet.upsert({
       where: {
-        id: userId,
+        userId,
       },
-      data: {
-        pet: {
-          upsert: {
-            create: {
-              name,
-              age,
-              breed,
-              pet_photo,
-              type,
-              bio,
-            },
-            update: {
-              name,
-              breed,
-              age,
-              pet_photo,
-              type,
-              bio,
-            },
-          },
+      create: {
+        name,
+        age,
+        breed,
+        pet_photo,
+        type,
+        bio,
+        user: {
+          connect: { id: userId },
         },
+      },
+      update: {
+        name,
+        breed,
+        age,
+        pet_photo,
+        type,
+        bio,
+      },
+      include: {
+        user: true,
       },
     });
 
-    return res.status(200).json({ success: true, message: "İşlem başarılı!" });
+    return res.status(200).json({ success: true, pet: petResponse });
   } catch (error) {
     return res.status(500).json({
       success: false,

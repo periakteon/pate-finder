@@ -105,48 +105,8 @@ export const registerResponse = z.discriminatedUnion("success", [
 ]);
 
 /**
- * Get Pets API Schemas
- */
-export const getPetByUserRequest = z.object({
-  userId: z
-    .string({
-      invalid_type_error: "Kullanıcı ID'si sayı olmalıdır.",
-      required_error: "Kullanıcı ID'si gereklidir.",
-    })
-    .transform(Number),
-});
-
-export const getPetByUserResponse = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    pet: z.object({
-      id: z.number(),
-      name: z.string(),
-      breed: z.string(),
-      type: z.string(),
-      birthdate: z.date(),
-    }),
-    message: z.string(),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);
-
-/**
  * Create Pet Schemas
  */
-export const handlerPetResponse = z.discriminatedUnion("success", [
-  z.object({
-    success: z.literal(true),
-    message: z.string(),
-  }),
-  z.object({
-    success: z.literal(false),
-    errors: z.array(z.string()),
-  }),
-]);
 
 export const handlerPetRequestSchema = z.object({
   name: z.string({
@@ -158,6 +118,7 @@ export const handlerPetRequestSchema = z.object({
     invalid_type_error: "Evcil hayvan cinsi string tipinde olmalıdır.",
   }),
   age: z.string({
+    required_error: "Evcil hayvan yaşı gereklidir",
     invalid_type_error: "Evcil hayvanın yaşı string tipinde olmalıdır",
   }),
   pet_photo: z
@@ -175,6 +136,17 @@ export const handlerPetRequestSchema = z.object({
     invalid_type_error: "Evcil hayvan biyografisi string tipinde olmalıdır.",
   }),
 });
+
+export const handlerPetResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    pet: handlerPetRequestSchema,
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
 
 /**
  * Fetch All Pets Schema
@@ -427,7 +399,7 @@ export const exploreResponse = z.discriminatedUnion("success", [
             name: z.string(),
             type: z.string(),
             breed: z.string(),
-            pet_photo: z.string().url().nullable(),
+            pet_photo: z.string().url(),
           })
           .nullable(),
       }),
@@ -484,7 +456,7 @@ export const myProfileResponseSchema = z.discriminatedUnion("success", [
         id: z.number(),
         name: z.string(),
         breed: z.string(),
-        pet_photo: z.string().url().nullable(),
+        pet_photo: z.string().url(),
         createdAt: z.date(),
         updatedAt: z.date(),
         userId: z.number(),
@@ -542,10 +514,10 @@ export const UserProfileSchema = z.object({
     .object({
       name: z.string(),
       breed: z.string(),
-      pet_photo: z.string().url().nullable(),
+      pet_photo: z.string().url(),
       type: z.string(),
       bio: z.string(),
-      age: z.string().nullable(),
+      age: z.string(),
     })
     .nullable(),
   posts: z.array(
