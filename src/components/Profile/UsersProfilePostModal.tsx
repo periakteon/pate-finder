@@ -14,6 +14,7 @@ import {
   selectedUserProfilePostAtom,
   selectedUserProfilePostIdAtom,
   isUserProfilePostModalOpenAtom,
+  commentListAtom,
 } from "./UsersProfilePosts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -41,8 +42,7 @@ const UsersProfilePostModal: React.FC = () => {
   );
   const { id, caption, postImage, createdAt, author, comments } =
     selectedUserProfilePost || {};
-  console.log(selectedUserProfilePost);
-  const [commentList, setCommentList] = useState<Comment[]>(comments || []);
+  const [commentList, setCommentList] = useAtom(commentListAtom)
   const [newComment, setNewComment] = useState<any>("");
   const [liked, setLiked] = useState<boolean>(false);
 
@@ -101,7 +101,7 @@ const UsersProfilePostModal: React.FC = () => {
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch("/api/post/comment/addComment", {
         method: "POST",
@@ -114,13 +114,18 @@ const UsersProfilePostModal: React.FC = () => {
         }),
       });
 
+      if (!response.ok) {
+        throw new Error("Bir hata oluştu!");
+      }
+  
       if (response.ok) {
         const responseData = await response.json();
         const newCommentData = responseData.comment;
-        setCommentList((prevCommentList) => [
-          ...prevCommentList,
-          newCommentData,
-        ]);
+        
+        if (responseData.success) {
+          setCommentList((prevCommentList) => [...prevCommentList, newCommentData]);
+        }
+        
         toast.success("Yorum başarıyla eklendi!", {
           draggable: false,
           autoClose: 1800,
@@ -137,9 +142,10 @@ const UsersProfilePostModal: React.FC = () => {
         autoClose: 1800,
       });
     }
-
+  
     setNewComment("");
   };
+  
 
   const handleLikeButtonClick = () => {
     if (liked) {

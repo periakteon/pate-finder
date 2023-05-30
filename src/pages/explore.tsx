@@ -42,7 +42,6 @@ const IndexPage: React.FC = () => {
     return date.toLocaleDateString();
   };
 
-  // TODO: Do this in everywhere
   const fetchData = async (page: number) => {
     try {
       const response = await fetch(`/api/explore?page=${page}`);

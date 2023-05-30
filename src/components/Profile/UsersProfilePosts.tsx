@@ -6,9 +6,21 @@ import { atom, useAtom } from "jotai";
 import { useState, useEffect } from "react";
 import UsersProfilePostModal from "./UsersProfilePostModal";
 
+type Comment = {
+  id: number;
+  text: string;
+  createdAt?: string;
+  updatedAt?: string;
+  user: {
+    username: string;
+    profile_picture: string | null;
+  };
+};
+
 export const selectedUserProfilePostIdAtom = atom<number | null>(null);
 export const selectedUserProfilePostAtom = atom<any | null>(null);
 export const isUserProfilePostModalOpenAtom = atom<boolean>(false);
+export const commentListAtom = atom<Comment[]>([])
 
 const UsersProfilePostsComponent = () => {
   const [profile] = useAtom(profileAtom);
@@ -16,16 +28,23 @@ const UsersProfilePostsComponent = () => {
   const [selectedUserProfilePostId, setSelectedUserProfilePostId] = useAtom(
     selectedUserProfilePostIdAtom,
   );
-  const [, setSelectedUserProfilePost] = useAtom(selectedUserProfilePostAtom);
+  const [selectedUserProfilePost, setSelectedUserProfilePost] = useAtom(selectedUserProfilePostAtom);
   const [isUserProfilePostModalOpen, setIsUserProfilePostModalOpen] = useAtom(
     isUserProfilePostModalOpenAtom,
   );
+  const [commentList, setCommmentList] = useAtom(commentListAtom);
 
   useEffect(() => {
     if (selectedUserProfilePostId !== null) {
       const post =
         profile &&
         profile.posts.find((p) => p.id === selectedUserProfilePostId);
+
+        if (post) {
+          const comments = post.comments;
+          setCommmentList(comments);
+        }
+
       setSelectedUserProfilePost(post);
       setIsUserProfilePostModalOpen(true);
     } else {
@@ -36,7 +55,7 @@ const UsersProfilePostsComponent = () => {
     selectedUserProfilePostId,
     profile,
     setIsUserProfilePostModalOpen,
-    setSelectedUserProfilePost,
+    setSelectedUserProfilePost, setCommmentList
   ]);
 
   useEffect(() => {
