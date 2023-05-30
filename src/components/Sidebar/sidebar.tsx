@@ -33,6 +33,7 @@ const Sidebar = () => {
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -110,8 +111,17 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-violet-50 border-r-2 border-r-pink-200 flex flex-col rounded-md justify-between w-64 sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border h-screen">
-      <div className="p-4 overflow-y-auto max-h-screen h-auto">
+    <div>
+      <div className="block absolute z-[110] md:hidden" >
+        <div className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
+          <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
+          <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
+        </div>
+      </div>
+      <div className={`bg-violet-50 border-r-2 border-r-pink-200 md:flex flex-col rounded-md justify-between sticky top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 ${sidebarOpen ? 'hidden' : 'flex'}`}>
+
+      <div className="p-4 overflow-y-auto max-h-screen h-auto mt-20 fixed h-screen">
         <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
           <Link href="/feed">
             <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -292,7 +302,7 @@ const Sidebar = () => {
           </ul>
         </nav>
       </div>
-      <div className="flex mx-auto bottom-0">
+      <div className="flex mx-auto bottom-0 fixed">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -324,6 +334,7 @@ const Sidebar = () => {
         </motion.div>
       </div>
       <PostModal />
+    </div>
     </div>
   );
 };
