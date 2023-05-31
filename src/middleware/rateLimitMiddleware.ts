@@ -46,7 +46,9 @@ export default function rateLimitMiddleware(handler: NextApiHandler) {
 
       userRequestCounts.count++;
 
-      const user = await prisma.user.findUnique({ where: { id: Number(userId) } });
+      const user = await prisma.user.findUnique({
+        where: { id: Number(userId) },
+      });
       if (user && user.postCount >= MAX_REQUESTS_PER_HOUR) {
         return res.status(429).json({
           success: false,

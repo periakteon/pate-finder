@@ -52,6 +52,7 @@ const IndexPage: React.FC = () => {
 
       const data = await response.json();
       const parsed = await exploreResponse.safeParseAsync(data);
+      console.log("data", data);
 
       if (!parsed.success) {
         throw new Error(parsed.error.toString());
@@ -133,7 +134,7 @@ const IndexPage: React.FC = () => {
                                 {user.username}
                               </h2>
                               <p>
-                                Created At: {formatCreatedAt(user.createdAt)}
+                                Kayıt Tarihi: {formatCreatedAt(user.createdAt)}
                               </p>
                             </div>
                           </Typography>
@@ -142,9 +143,20 @@ const IndexPage: React.FC = () => {
                             color="gray"
                             className="font-normal"
                           >
-                            <p className="mt-2">
-                              {user.pet ? `Pet: ${user.pet}` : "No pet"}
-                            </p>
+                            <span className="mt-2">
+                              {user.pet ? (
+                                <span className="font-bold text-2xl text-black dark:text-white">
+                                  Pet:
+                                </span>
+                              ) : (
+                                <span className="text-rose-600 font-bold">
+                                  Pet bulunamadı
+                                </span>
+                              )}
+                              <span className="font-bold text-2xl text-slate-300">
+                                {user.pet && ` ${user.pet.name}`}
+                              </span>
+                            </span>
                           </Typography>
                         </div>
                       </ListItem>
