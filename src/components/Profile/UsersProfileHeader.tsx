@@ -33,9 +33,8 @@ const UsersProfileHeaderComponent: React.FC = () => {
 
   return (
     <div
-      className={`${
-        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
-      } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      className={`${isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+        } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div
@@ -62,7 +61,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
         >
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Posts
+              Gönderiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.posts.length}
@@ -70,7 +69,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Followers
+              Takipçiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.followedBy.length}
@@ -78,7 +77,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Following
+              Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.following.length}
