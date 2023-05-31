@@ -122,12 +122,7 @@ const Sidebar = () => {
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
-      <div
-        className={` bg-black border-r-2 fixed border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 lg:transform lg:translate-x-0 border-red-400
-         ${
-          sidebarOpen ? "" : "transform -translate-x-full"
-        }`}
-      >
+      <div className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 ${sidebarOpen ? '' : 'transform -translate-x-full'}`}>
         <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
