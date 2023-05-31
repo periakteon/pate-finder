@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultImage from "../../../public/images/default.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,12 +11,16 @@ import {
   faSun,
   faMoon,
   faPlus,
+  faSignOut,
+  faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import PostModal from "../Post/postModal";
 import { atom, useAtom } from "jotai";
+import { toast } from "react-toastify";
+import { isLoggedInAtom } from "@/utils/store";
 
 export const isModalOpenAtom = atom(false);
 
@@ -34,6 +39,42 @@ const Sidebar = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const router = useRouter();
+
+  const logout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        toast.success("Başarıyla çıkış yapıldı!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setIsLoggedIn(false);
+        setTimeout(() => {
+          location.reload(); // 500 milisaniye sonra sayfayı yenile
+        }, 500);
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      toast.error("Bir hata oluştu!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (isLoggedIn) {
+      logout();
+    } else {
+      router.push("/login");
+    }
+  };
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -124,9 +165,9 @@ const Sidebar = () => {
       </div>
       <div
         className={` bg-black border-r-2 fixed border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 lg:transform lg:translate-x-0 border-red-400
-         ${sidebarOpen ? "" : "transform -translate-x-full"}`}
+        ${sidebarOpen ? "" : "transform -translate-x-full"}`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
+        <div className="p-2 overflow-y-auto max-h-screen pt-5 fixed h-screen bg-white dark:bg-black">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -307,7 +348,35 @@ const Sidebar = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex mx-auto bottom-0 fixed b">
+        <div className="flex flex-col mx-auto bottom-0 fixed">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+            onClick={handleButtonClick}
+          >
+            <button className="transition-all cursor-pointer">
+              {isLoggedIn === true ? (
+                <FontAwesomeIcon
+                  icon={faSignOut}
+                  className={`icon-style mr-2 ${
+                    theme === "light" ? "rotate-0" : "rotate-90"
+                  } transition-transform animate-spin-slow`}
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faSignIn}
+                  className={`icon-style mr-2 ${
+                    theme === "dark" ? "rotate-0" : "rotate-0"
+                  } transition-transform animate-spin-slow`}
+                />
+              )}
+            </button>
+            <span className="text-lg font-medium">
+              {isLoggedIn === true ? "Çıkış Yap" : "Giriş Yap"}
+            </span>
+          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
