@@ -85,7 +85,7 @@ const MyProfileHeaderComponent: React.FC = () => {
           )}
         </div>
       )}
-      <h1 className="text-2xl font-bold mt-4 transition-transform duration-300">
+      <h1 className="text-2xl text-white font-bold mt-4 transition-transform duration-300">
         {myProfile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
@@ -97,7 +97,7 @@ const MyProfileHeaderComponent: React.FC = () => {
           onClick={() => setIsHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300">
+            <h2 className="text-lg text-white font-bold transition-transform duration-300">
               Gönderiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
@@ -105,7 +105,7 @@ const MyProfileHeaderComponent: React.FC = () => {
             </p>
           </div>
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300">
+            <h2 className="text-lg text-white font-bold transition-transform duration-300">
               Takipçiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
@@ -113,7 +113,7 @@ const MyProfileHeaderComponent: React.FC = () => {
             </p>
           </div>
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300">
+            <h2 className="text-lg text-white font-bold transition-transform duration-300">
               Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
@@ -121,7 +121,7 @@ const MyProfileHeaderComponent: React.FC = () => {
             </p>
           </div>
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300">
+            <h2 className="text-lg text-white font-bold transition-transform duration-300">
               Pet
             </h2>
             <p className="text-gray-500 transition-transform duration-300">

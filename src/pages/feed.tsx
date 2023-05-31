@@ -78,7 +78,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={`flex justify-center ${mounted ? "flex" : "hidden"}`}>
+    <div className={`flex ${mounted ? "flex" : "hidden"}`}>
       <div className="flex flex-row">
         <Sidebar />
         <ul className="px-8">

@@ -123,10 +123,10 @@ const Sidebar = () => {
         </div>
       </div>
       <div
-        className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${
+        className={`bg-black border-r-2 border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] fixed left-0 lg:transform lg:translate-x-0 border-red-400
+         ${
           sidebarOpen ? "" : "transform -translate-x-full"
         }`}
-        style={{ position: "absolute", left: 0 }}
       >
         <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
@@ -204,7 +204,7 @@ const Sidebar = () => {
                         type="text"
                         id="searchInput"
                         placeholder="Ara..."
-                        className="w-full p-3 pr-10 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                        className="w-full p-3 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
                       />
                       <FontAwesomeIcon
                         icon={faMagnifyingGlass}
