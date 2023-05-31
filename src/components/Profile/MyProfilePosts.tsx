@@ -64,13 +64,15 @@ const MyProfilePosts: React.FC = () => {
               className="relative w-80"
               onClick={() => handleComment(post.id)}
             >
-              <Image
-                src={post.postImage}
-                alt="post image"
-                width={320}
-                height={320}
-                className="rounded-lg"
-              />
+              <div className="w-80 h-80">
+                <Image
+                  src={post.postImage}
+                  alt="post image"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                />
+              </div>
               <div className="absolute bottom-0 rounded-t-lg left-0 p-2 bg-black bg-opacity-50 w-18 justify-start">
                 <div className="flex flex-row text-green-600 hover:text-green-800">
                   <FontAwesomeIcon icon={faPaw} className="text-l mr-2 " />
