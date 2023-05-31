@@ -64,7 +64,7 @@ const AddPet = () => {
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8 w-96">
-          <h2 className="text-4xl font-bold mb-10 flex justify-center text-black">
+          <h2 className="text-4xl font-bold mb-10 flex justify-center text-rose-900">
             Evcil Hayvan Ekle
           </h2>
 
@@ -136,16 +136,17 @@ const AddPet = () => {
             </label>
             <div className="flex items-center justify-center">
               <button className="mr-2 ">
-                <FontAwesomeIcon icon={faImage} className="w-36 h-36 text-violet-300 flex self-center hover: from:text-violet-500" />
+                <FontAwesomeIcon icon={faImage} className="w-36 h-36 text-violet-300 flex self-center hover:text-violet-400" />
+
               </button>
             </div>
 
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-green-500 to-green-800 text-white w-52 rounded py-2 px-4 hover:opacity-75 mt-4"
+                className="bg-gradient-to-r from-rose-500 to-rose-600 text-white w-52 rounded-lg py-2 px-4 hover:opacity-75 mt-4"
               >
-                Evcil Hayvanı Ekle
+                Ekle
               </button>
             </div>
           </form>
