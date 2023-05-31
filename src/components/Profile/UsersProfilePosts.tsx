@@ -79,7 +79,7 @@ const UsersProfilePostsComponent: React.FC = () => {
 
   return (
     <div className="p-5 justify-center items-center">
-      <div className="flex flex-wrap justify-start ">
+      <div className="flex flex-wrap justify-center ">
         {profile.posts.map((post, id) => (
           <div key={id} className="basis-1/3 p-2">
             <button
