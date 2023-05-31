@@ -111,7 +111,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div>
+    <div className="">
       <div className="block absolute  lg:hidden">
         <div
           className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
@@ -123,7 +123,7 @@ const Sidebar = () => {
         </div>
       </div>
       <div
-        className={`bg-black border-r-2 border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] fixed left-0 lg:transform lg:translate-x-0 border-red-400
+        className={` bg-black border-r-2 fixed border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 lg:transform lg:translate-x-0 border-red-400
          ${sidebarOpen ? "" : "transform -translate-x-full"}`}
       >
         <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
