@@ -111,7 +111,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="">
+    <div className="bg-white">
       <div className="">
         <div
           className="block  lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"

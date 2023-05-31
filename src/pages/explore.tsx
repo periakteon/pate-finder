@@ -97,7 +97,7 @@ const IndexPage: React.FC = () => {
 
   return (
     <div className="flex md:flex-row text-black">
-      <div className="">
+      <div className="bg-white">
         <Sidebar />
       </div>
       <div className="w-full min-h-screen p-8">
