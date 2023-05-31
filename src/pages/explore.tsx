@@ -52,7 +52,6 @@ const IndexPage: React.FC = () => {
 
       const data = await response.json();
       const parsed = await exploreResponse.safeParseAsync(data);
-      console.log("data", data);
 
       if (!parsed.success) {
         throw new Error(parsed.error.toString());
