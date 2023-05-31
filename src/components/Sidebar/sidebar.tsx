@@ -122,9 +122,13 @@ const Sidebar = () => {
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
-      <div className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 ${sidebarOpen ? '' : 'transform -translate-x-full'}`}>
-
-        <div className="fixed p-2 overflow-y-auto max-h-screen pt-20 h-screen bg-white dark:bg-black">
+      <div
+        className={` bg-black border-r-2 fixed border-r-pink-200 md:flex lg:relative md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 lg:transform lg:translate-x-0 border-red-400
+         ${
+          sidebarOpen ? "" : "transform -translate-x-full"
+        }`}
+      >
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -305,7 +309,7 @@ const Sidebar = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex mx-auto bottom-0 fixed">
+        <div className="flex mx-auto bottom-0 fixed b">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
