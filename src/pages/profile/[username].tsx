@@ -9,6 +9,7 @@ import {
 import { z } from "zod";
 import UsersProfileHeaderComponent from "@/components/Profile/UsersProfileHeader";
 import UsersProfilePostsComponent from "@/components/Profile/UsersProfilePosts";
+import { testAtom } from "@/utils/store";
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
@@ -18,6 +19,9 @@ const ProfilePage = () => {
   const router = useRouter();
   const { username } = router.query;
   const [, setProfile] = useAtom(profileAtom);
+  const [test, setTest] = useAtom(testAtom);
+
+  console.log("test:", test);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +54,9 @@ const ProfilePage = () => {
         </div>
         <div className="flex flex-col items-center">
           <UsersProfileHeaderComponent />
+          <div>
+            <button onClick={() => setTest(false)}>TEST FALSE</button>
+          </div>
           <UsersProfilePostsComponent />
         </div>
       </div>

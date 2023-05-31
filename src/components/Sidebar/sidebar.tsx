@@ -42,6 +42,8 @@ const Sidebar = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
 
+  console.log(sidebarOpen);
+
   const logout = async () => {
     try {
       const response = await fetch("/api/auth/logout", {
