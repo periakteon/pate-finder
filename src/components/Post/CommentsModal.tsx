@@ -290,7 +290,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center bg-light-dropzone hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white rounded-lg"
               >
                 Yorumu Gönder
               </button>
