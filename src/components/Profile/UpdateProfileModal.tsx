@@ -142,8 +142,8 @@ const UpdateProfileModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-1/3 h-5/6 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll rounded-xl">
-        <div className="flex flex-col items-center justify-center w-full p-4 relative">
+      <div className="m-4 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll rounded-xl h-min">
+        <div className="flex flex-col items-center justify-center w-full p-4 relative h-min">
           <h2 className="text-xl font-semibold mb-4">Profilini Düzenle</h2>
           <button
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"

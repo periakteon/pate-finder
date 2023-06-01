@@ -61,7 +61,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
       </p>
       <div className="flex mt-4 pb-2">
         <div
-          className="flex text-center hover:cursor-pointer transition-transform duration-300"
+          className="flex text-center hover:cursor-pointer transition-transform duration-300 p-3"
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">

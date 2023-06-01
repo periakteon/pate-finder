@@ -257,7 +257,7 @@ const Sidebar: React.FC = () => {
                   </form>
                 )}
                 {/** arama sonuçları */}
-                <div className="max-h-60 overflow-y-auto bg-light-secondary dark:bg-slate-600  border-gray-300 rounded-lg mt-1">
+                <div className="max-h-60 overflow-y-auto w-48 bg-light-secondary dark:bg-slate-600  border-gray-300 rounded-lg mt-1">
                   {searchResults.map((user) => (
                     <Link href={`/profile/${user.username}`} key={user.id}>
                       <div className="p-2 flex text-black text-sm flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-light-primary dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
