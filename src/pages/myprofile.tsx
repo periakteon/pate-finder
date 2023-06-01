@@ -52,7 +52,7 @@ const MyProfile: React.FC = () => {
   return (
     <div className={`${mounted ? "block" : "hidden"} w-full h-full`}>
       <div className="flex">
-        <div className="bg-white">
+        <div className="">
           <Sidebar />
         </div>
         <div className="flex flex-col items-center">

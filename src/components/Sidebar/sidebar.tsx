@@ -111,10 +111,10 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-light-background dark:bg-dark-secondary">
       <div className="">
         <div
-          className="block  lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
+          className="block lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
@@ -124,10 +124,10 @@ const Sidebar = () => {
       </div>
 
       <div
-        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? "" : "transform -translate-x-full"
+        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-black border">
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r">
 
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
@@ -197,7 +197,7 @@ const Sidebar = () => {
                     onChange={handleSearchSubmit}
                     className="flex items-center"
                   >
-                    <label htmlFor="searchInput" className="relative">
+                    <label htmlFor="searchInput" className="relative" style={{ width: "21.5vmax", height: "60px" }}>
                       <input
                         ref={searchInputRef}
                         onChange={handleInputChange}
@@ -216,7 +216,7 @@ const Sidebar = () => {
                 {/** arama sonuçları */}
                 <div>
                   {searchResults.length > 0 && (
-                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
+                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1 w-48">
                       {searchResults.map((user) => (
                         <Link href={`/profile/${user.username}`} key={user.id}>
                           <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
@@ -232,7 +232,7 @@ const Sidebar = () => {
                               height={32}
                               alt="Avatar"
                             />
-                            <span className="ml-3 p-1 dark:text-white">
+                            <span className="ml-3 p-1 dark:text-white overflow-hidden">
                               {user.username}
                             </span>
                           </div>
@@ -256,13 +256,11 @@ const Sidebar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mb-2"
-                >
+                  className="mb-2" >
                   <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faPaw}
-                      className="text-2xl text-pink-600 mr-2 dark:text-white"
-                    />
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"/>
                     <span className="text-lg font-medium dark:text-white">
                       Keşfet
                     </span>
@@ -274,13 +272,11 @@ const Sidebar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mb-2"
-                >
+                  className="mb-2">
                   <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faUser}
-                      className="text-2xl text-pink-600 mr-2 dark:text-white"
-                    />
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"/>
                     <span className="text-lg font-medium dark:text-white">
                       Profil
                     </span>
@@ -291,25 +287,19 @@ const Sidebar = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-2"
-              >
+                className="mb-2">
                 <div
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
-                >
+                  className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                   <FontAwesomeIcon
                     icon={faPlus}
-                    className="text-2xl text-pink-600 mr-2 dark:text-white"
-                  />
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"/>
                   <button className="text-lg font-medium dark:text-white whitespace-nowrap">
                     Gönderi Ekle
                   </button>
                 </div>
               </motion.li>
-            </ul>
-          </nav>
-        </div>
-        <div className="flex mx-auto bottom-0 fixed b">
+              <div className="flex top-0">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -333,10 +323,14 @@ const Sidebar = () => {
                 />
               )}
             </button>
-            <span className="text-lg font-medium">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+            <span className="text-lg font-medium z-50 whitespace-nowrap">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
               }`}</span>
           </motion.div>
         </div>
+            </ul>
+          </nav>
+        </div>
+        
         <PostModal />
       </div>
     </div>
