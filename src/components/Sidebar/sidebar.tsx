@@ -111,10 +111,10 @@ const Sidebar = () => {
   }
 
   return (
-    <div>
-      <div className="block absolute  lg:hidden">
+    <div className="bg-white">
+      <div className="">
         <div
-          className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
+          className="block  lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
@@ -122,12 +122,13 @@ const Sidebar = () => {
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
+
       <div
-        className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? "" : "transform -translate-x-full"
+        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
-        style={{ position: "absolute", left: 0 }}
       >
         <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-black border">
+
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -203,7 +204,7 @@ const Sidebar = () => {
                         type="text"
                         id="searchInput"
                         placeholder="Ara..."
-                        className="w-full p-3 pr-10 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                        className="w-full p-3 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
                       />
                       <FontAwesomeIcon
                         icon={faMagnifyingGlass}
@@ -308,7 +309,7 @@ const Sidebar = () => {
             </ul>
           </nav>
         </div>
-        <div className="flex mx-auto bottom-0 fixed">
+        <div className="flex mx-auto bottom-0 fixed b">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

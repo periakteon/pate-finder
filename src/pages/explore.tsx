@@ -97,7 +97,7 @@ const IndexPage: React.FC = () => {
 
   return (
     <div className="flex md:flex-row text-black">
-      <div className="">
+      <div className="bg-white">
         <Sidebar />
       </div>
       <div className="w-full min-h-screen p-8">
@@ -133,7 +133,7 @@ const IndexPage: React.FC = () => {
                                 {user.username}
                               </h2>
                               <p>
-                                Created At: {formatCreatedAt(user.createdAt)}
+                                Kayıt Tarihi: {formatCreatedAt(user.createdAt)}
                               </p>
                             </div>
                           </Typography>
@@ -142,9 +142,20 @@ const IndexPage: React.FC = () => {
                             color="gray"
                             className="font-normal"
                           >
-                            <p className="mt-2">
-                              {user.pet ? `Pet: ${user.pet}` : "No pet"}
-                            </p>
+                            <span className="mt-2">
+                              {user.pet ? (
+                                <span className="font-bold text-2xl text-black dark:text-white">
+                                  Pet:
+                                </span>
+                              ) : (
+                                <span className="text-rose-600 font-bold">
+                                  Pet bulunamadı
+                                </span>
+                              )}
+                              <span className="font-bold text-2xl text-slate-300">
+                                {user.pet && ` ${user.pet.name}`}
+                              </span>
+                            </span>
                           </Typography>
                         </div>
                       </ListItem>

@@ -104,6 +104,16 @@ const Dropzone = () => {
           autoClose: 1800,
         });
       }
+
+      if (response.status === 429) {
+        return toast.error(
+          "Bir saatte en fazla 30 gönderi oluşturabilirsiniz.",
+          {
+            draggable: false,
+            autoClose: 1800,
+          },
+        );
+      }
     } catch (error) {
       toast.error("Gönderi oluşturulurken bir hata oluştu.", {
         draggable: false,

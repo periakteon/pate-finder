@@ -48,7 +48,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           />
         </div>
       )}
-      <h1 className="text-2xl font-bold mt-4 transition-transform duration-300">
+      <h1 className="text-2xl font-bold mt-4 text-white transition-transform duration-300">
         {profile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
@@ -60,22 +60,26 @@ const UsersProfileHeaderComponent: React.FC = () => {
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">
+
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Gönderiler
+
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.posts.length}
             </p>
           </div>
           <div className="mr-4">
+
             <h2 className="text-lg font-bold transition-transform duration-300">
               Takipçiler
+
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.followedBy.length}
             </p>
           </div>
           <div className="mr-4">
+
             <h2 className="text-lg font-bold transition-transform duration-300">
               Takip Edilenler
             </h2>
@@ -84,7 +88,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
             </p>
           </div>
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300">
+            <h2 className="text-lg text-white font-bold transition-transform duration-300">
               Pet
             </h2>
             <p className="text-gray-500 transition-transform duration-300">

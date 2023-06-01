@@ -26,7 +26,10 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
     return profile.followedBy.map((follower) => (
       <div key={follower.follower.username} className="flex items-center my-3">
         <div className="mr-2">
-          <Link href={`/profile/${follower.follower.username}`} onClick={() => setIsUserHeaderDetailsModalOpen(false)}>
+          <Link
+            href={`/profile/${follower.follower.username}`}
+            onClick={() => setIsUserHeaderDetailsModalOpen(false)}
+          >
             <Image
               src={follower.follower.profile_picture || "/images/default.jpeg"}
               alt="Profile Picture"
@@ -37,7 +40,10 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
           </Link>
         </div>
         <div>
-          <Link href={`/profile/${follower.follower.username}`} onClick={() => setIsUserHeaderDetailsModalOpen(false)}>
+          <Link
+            href={`/profile/${follower.follower.username}`}
+            onClick={() => setIsUserHeaderDetailsModalOpen(false)}
+          >
             <h3 className="">{follower.follower.username}</h3>
           </Link>
         </div>
@@ -49,7 +55,10 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
     return profile.following.map((followed) => (
       <div key={followed.following.username} className="flex items-center my-3">
         <div className="mr-2">
-          <Link href={`/profile/${followed.following.username}`} onClick={() => setIsUserHeaderDetailsModalOpen(false)}>
+          <Link
+            href={`/profile/${followed.following.username}`}
+            onClick={() => setIsUserHeaderDetailsModalOpen(false)}
+          >
             <Image
               src={followed.following.profile_picture || "/images/default.jpeg"}
               alt="Profile Picture"
@@ -60,7 +69,10 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
           </Link>
         </div>
         <div>
-          <Link href={`/profile/${followed.following.username}`} onClick={() => setIsUserHeaderDetailsModalOpen(false)}>
+          <Link
+            href={`/profile/${followed.following.username}`}
+            onClick={() => setIsUserHeaderDetailsModalOpen(false)}
+          >
             <h3>{followed.following.username}</h3>
           </Link>
         </div>

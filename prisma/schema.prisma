@@ -22,6 +22,7 @@ model User {
   country         String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+  postCount       Int      @default(0)
 
   followedBy Follow[] @relation("following")
   following  Follow[] @relation("follower")

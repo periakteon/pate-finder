@@ -179,7 +179,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </button>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 text-white">
             <Link
               onClick={() =>
                 setTimeout(() => {
@@ -206,7 +206,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4">{caption}</div>
+          <div className="text-xl text-justify my-4 text-white">{caption}</div>
           <button
             className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
             onClick={handleLikeButtonClick}
