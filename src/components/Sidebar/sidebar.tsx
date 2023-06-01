@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultImage from "../../../public/images/default.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,12 +11,16 @@ import {
   faSun,
   faMoon,
   faPlus,
+  faSignOut,
+  faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import PostModal from "../Post/postModal";
 import { atom, useAtom } from "jotai";
+import { toast } from "react-toastify";
+import { isLoggedInAtom } from "@/utils/store";
 
 export const isModalOpenAtom = atom(false);
 
@@ -25,7 +30,7 @@ type User = {
   profile_picture: string | null;
 };
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -34,6 +39,44 @@ const Sidebar = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const router = useRouter();
+
+  const logout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        toast.success("Başarıyla çıkış yapıldı!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setIsLoggedIn(false);
+        localStorage.setItem("isLoggedIn", JSON.stringify(false));
+        setTimeout(() => {
+          location.reload(); // 500 milisaniye sonra sayfayı yenile
+        }, 500);
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      toast.error("Bir hata oluştu!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      localStorage.setItem("isLoggedIn", JSON.stringify(false));
+      logout();
+    } else {
+      router.push("/login");
+    }
+  };
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -160,7 +203,7 @@ const Sidebar = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faHouse}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -179,7 +222,7 @@ const Sidebar = () => {
               >
                 {!searchMode ? (
                   <div
-                    className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                    className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                     onClick={handleSearchClick}
                   >
                     <label htmlFor="searchInput">
@@ -197,7 +240,7 @@ const Sidebar = () => {
                     onChange={handleSearchSubmit}
                     className="flex items-center"
                   >
-                    <label htmlFor="searchInput" className="relative" style={{ width: "21.5vmax", height: "60px" }}>
+                    <label htmlFor="searchInput" className="relative">
                       <input
                         ref={searchInputRef}
                         onChange={handleInputChange}
@@ -216,7 +259,7 @@ const Sidebar = () => {
                 {/** arama sonuçları */}
                 <div>
                   {searchResults.length > 0 && (
-                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1 w-48">
+                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
                       {searchResults.map((user) => (
                         <Link href={`/profile/${user.username}`} key={user.id}>
                           <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
@@ -232,7 +275,7 @@ const Sidebar = () => {
                               height={32}
                               alt="Avatar"
                             />
-                            <span className="ml-3 p-1 dark:text-white overflow-hidden">
+                            <span className="ml-3 p-1 dark:text-white">
                               {user.username}
                             </span>
                           </div>
@@ -256,11 +299,13 @@ const Sidebar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mb-2" >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  className="mb-2"
+                >
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faPaw}
-                      className="text-2xl text-pink-600 mr-2 dark:text-white"/>
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"
+                    />
                     <span className="text-lg font-medium dark:text-white">
                       Keşfet
                     </span>
@@ -272,11 +317,13 @@ const Sidebar = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mb-2">
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  className="mb-2"
+                >
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faUser}
-                      className="text-2xl text-pink-600 mr-2 dark:text-white"/>
+                      className="text-2xl text-pink-600 mr-2 dark:text-white"
+                    />
                     <span className="text-lg font-medium dark:text-white">
                       Profil
                     </span>
@@ -287,19 +334,55 @@ const Sidebar = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-2">
+                className="mb-2"
+              >
                 <div
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                >
                   <FontAwesomeIcon
                     icon={faPlus}
-                    className="text-2xl text-pink-600 mr-2 dark:text-white"/>
+                    className="text-2xl text-pink-600 mr-2 dark:text-white"
+                  />
                   <button className="text-lg font-medium dark:text-white whitespace-nowrap">
                     Gönderi Ekle
                   </button>
                 </div>
               </motion.li>
-              <div className="flex top-0">
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+                onClick={handleButtonClick}
+              >
+                <button className="transition-all cursor-pointer">
+                  {localStorage.getItem("isLoggedIn") === "true" ? (
+                    <FontAwesomeIcon
+                      icon={faSignOut}
+                      className={`icon-style mr-2 ${
+                        theme === "light" ? "rotate-0" : "rotate-90"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faSignIn}
+                      className={`icon-style mr-2 ${
+                        theme === "dark" ? "rotate-0" : "rotate-0"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  )}
+                </button>
+                <span className="text-lg font-medium">
+                  {localStorage.getItem("isLoggedIn") === "true"
+                    ? "Çıkış Yap"
+                    : "Giriş Yap"}
+                </span>
+              </motion.li>
+            </ul>
+          </nav>
+        </div>
+        <div className="flex flex-col mx-auto bottom-0 fixed">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -310,27 +393,26 @@ const Sidebar = () => {
               {resolvedTheme === "dark" ? (
                 <FontAwesomeIcon
                   icon={faSun}
-                  className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
-                    } transition-transform animate-spin-slow`}
+                  className={`icon-style mr-2 ${
+                    theme === "light" ? "rotate-0" : "rotate-90"
+                  } transition-transform animate-spin-slow`}
                   onClick={() => setTheme("light")}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faMoon}
-                  className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
-                    } transition-transform animate-spin-slow`}
+                  className={`icon-style mr-2 ${
+                    theme === "dark" ? "rotate-0" : "rotate-0"
+                  } transition-transform animate-spin-slow`}
                   onClick={() => setTheme("dark")}
                 />
               )}
             </button>
-            <span className="text-lg font-medium z-50 whitespace-nowrap">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-              }`}</span>
+            <span className="text-lg font-medium">{`${
+              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+            }`}</span>
           </motion.div>
         </div>
-            </ul>
-          </nav>
-        </div>
-        
         <PostModal />
       </div>
     </div>

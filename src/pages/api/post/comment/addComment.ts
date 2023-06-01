@@ -15,10 +15,10 @@ type ResponseType =
   | { success: true; message: string; comment?: CommentResponse }
   | { success: false; errors: string[] };
 
-async function addCommentHandler(
+const addCommentHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "POST") {
     return res
       .status(400)
@@ -71,6 +71,6 @@ async function addCommentHandler(
     console.log(error);
     return res.status(400).json({ success: false, errors: ["Comment error"] });
   }
-}
+};
 
 export default authMiddleware(addCommentHandler);

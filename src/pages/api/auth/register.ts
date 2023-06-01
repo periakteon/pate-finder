@@ -13,10 +13,10 @@ type PrismaErrorMeta = {
   [key: string]: string[];
 };
 
-export default async function handleRegister(
+const handleRegister = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "POST") {
     return res.status(405).json({ success: false, errors: ["Hatalı metod"] });
   }
@@ -71,4 +71,6 @@ export default async function handleRegister(
         .json({ success: false, errors: ["Internal Server Error"] });
     }
   }
-}
+};
+
+export default handleRegister;

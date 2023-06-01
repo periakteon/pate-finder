@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { Poppins } from "next/font/google";
 import type { AppProps } from "next/app";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";

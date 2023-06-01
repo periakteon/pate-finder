@@ -14,7 +14,7 @@ type UserProfileType = z.infer<typeof UserProfileSchema>;
 
 export const profileAtom = atom<UserProfileType | null>(null);
 
-const ProfilePage = () => {
+const ProfilePage: React.FC = () => {
   const router = useRouter();
   const { username } = router.query;
   const [, setProfile] = useAtom(profileAtom);

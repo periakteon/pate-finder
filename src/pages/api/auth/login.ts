@@ -11,10 +11,10 @@ const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof loginResponseSchema>;
 
-export default async function handleLogin(
+const handleLogin = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "POST") {
     return res
       .status(405)
@@ -80,4 +80,6 @@ export default async function handleLogin(
     console.log(error);
     res.status(500).json({ success: false, errors: ["Bir hata oluştu."] });
   }
-}
+};
+
+export default handleLogin;

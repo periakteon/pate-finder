@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function Home() {
+const Home: React.FC = () => {
   return (
     <main className="min-h-screen bg-purple-100 flex flex-col items-center p-24">
       <div className="m-7 text-6xl hover:bg-rose-500 hover:text-white hover:rounded-lg">
@@ -35,6 +35,6 @@ export function Home() {
       </div>
     </main>
   );
-}
+};
 
 export default Home;

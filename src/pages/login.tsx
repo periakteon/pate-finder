@@ -13,10 +13,12 @@ import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { loginRequestSchema, loginResponseSchema } from "@/utils/zodSchemas";
+import { useAtom } from "jotai";
+import { isLoggedInAtom } from "@/utils/store";
 
 type LoginRequestType = z.infer<typeof loginRequestSchema>;
 
-const Login = () => {
+const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequestType>({
     email: "",
     password: "",
@@ -24,6 +26,11 @@ const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get("nextUrl");
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (nextUrl) {
@@ -60,7 +67,8 @@ const Login = () => {
           draggable: false,
           autoClose: 1800,
         });
-
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", JSON.stringify(true));
         setTimeout(() => {
           router.push(nextUrl ?? "/");
         }, 2000);
