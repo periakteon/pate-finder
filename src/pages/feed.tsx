@@ -78,25 +78,17 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex md:flex-row text-black">
       <Sidebar />
       <div
-        className={`flex ${
+        className={`w-full min-h-screen md:p-8 justify-center ${
           mounted ? "flex" : "hidden"
-        } flex md:flex-row justify-center min-h-screen`}
-      >
-        <div className="flex flex-row">
-          <div className="w-full min-h-screen">
-            <div className="max-w-2xl mx-auto">
+        }`}>
               <ul className="px-2">
                 {posts.map((post, id) => (
                   <PostComponent key={id} post={post} />
                 ))}
               </ul>
-            </div>
-          </div>
-        </div>
-
         {showNoContentMessage && (
           <p className="text-center text-gray-400 font-bold my-5">
             Gösterilecek yeni içerik yok.
