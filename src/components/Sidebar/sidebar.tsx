@@ -127,7 +127,7 @@ const Sidebar = () => {
         className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r">
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[150]">
 
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
