@@ -135,6 +135,6 @@ const UploadComponent: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default UploadComponent;

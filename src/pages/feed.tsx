@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 type PostType = z.infer<typeof infinitePostType>;
 
-const HomePage: React.FC  = () => {
+const HomePage: React.FC = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -95,6 +95,6 @@ const HomePage: React.FC  = () => {
       )}
     </div>
   );
-}
+};
 
 export default HomePage;

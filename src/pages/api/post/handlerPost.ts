@@ -48,6 +48,6 @@ const handlePost = async (
   } catch (error) {
     res.status(500).json({ success: false, errors: ["Internal Server Error"] });
   }
-}
+};
 
 export default authMiddleware(rateLimitMiddleware(handlePost));

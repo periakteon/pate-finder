@@ -18,7 +18,7 @@ import { isLoggedInAtom } from "@/utils/store";
 
 type LoginRequestType = z.infer<typeof loginRequestSchema>;
 
-const Login: React.FC  = () => {
+const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginRequestType>({
     email: "",
     password: "",
@@ -27,6 +27,10 @@ const Login: React.FC  = () => {
   const searchParams = useSearchParams();
   const nextUrl = searchParams.get("nextUrl");
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
 
   useEffect(() => {
     if (nextUrl) {
@@ -64,6 +68,7 @@ const Login: React.FC  = () => {
           autoClose: 1800,
         });
         setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", JSON.stringify(true));
         setTimeout(() => {
           router.push(nextUrl ?? "/");
         }, 2000);

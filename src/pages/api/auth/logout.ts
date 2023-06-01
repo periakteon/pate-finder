@@ -14,6 +14,6 @@ const logoutHandler = (req: NextApiRequest, res: NextApiResponse) => {
 
   // Başarılı yanıt döndürme
   return res.status(200).json({ success: true, message: "Çıkış yapıldı" });
-}
+};
 
 export default logoutHandler;

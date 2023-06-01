@@ -87,6 +87,6 @@ const getPostsByFollowedUsers = async (
   return res
     .status(200)
     .json({ success: true, posts, message: "Feed başarıyla getirildi." });
-}
+};
 
 export default authMiddleware(getPostsByFollowedUsers);

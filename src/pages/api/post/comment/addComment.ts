@@ -71,6 +71,6 @@ const addCommentHandler = async (
     console.log(error);
     return res.status(400).json({ success: false, errors: ["Comment error"] });
   }
-}
+};
 
 export default authMiddleware(addCommentHandler);

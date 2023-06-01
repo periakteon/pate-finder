@@ -71,6 +71,6 @@ const handleRegister = async (
         .json({ success: false, errors: ["Internal Server Error"] });
     }
   }
-}
+};
 
 export default handleRegister;

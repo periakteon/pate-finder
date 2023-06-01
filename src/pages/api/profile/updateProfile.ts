@@ -108,7 +108,7 @@ const updateAndDeleteToken = async (
       errors: ["Kullanıcı güncellenirken bir hata oluştu."],
     });
   }
-}
+};
 
 const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "PUT") {
@@ -118,6 +118,6 @@ const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   await updateAndDeleteToken(req, res);
-}
+};
 
 export default authMiddleware(updateUser);

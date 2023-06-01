@@ -90,6 +90,6 @@ const rateLimitMiddleware = (handler: NextApiHandler) => {
 
     return handler(req, res);
   };
-}
+};
 
 export default rateLimitMiddleware;

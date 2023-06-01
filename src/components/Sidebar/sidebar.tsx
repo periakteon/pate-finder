@@ -42,8 +42,6 @@ const Sidebar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
 
-  console.log(sidebarOpen);
-
   const logout = async () => {
     try {
       const response = await fetch("/api/auth/logout", {
@@ -56,6 +54,7 @@ const Sidebar: React.FC = () => {
           autoClose: 1800,
         });
         setIsLoggedIn(false);
+        localStorage.setItem("isLoggedIn", JSON.stringify(false));
         setTimeout(() => {
           location.reload(); // 500 milisaniye sonra sayfayı yenile
         }, 500);
@@ -71,7 +70,8 @@ const Sidebar: React.FC = () => {
   };
 
   const handleButtonClick = () => {
-    if (isLoggedIn) {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      localStorage.setItem("isLoggedIn", JSON.stringify(false));
       logout();
     } else {
       router.push("/login");
@@ -347,38 +347,40 @@ const Sidebar: React.FC = () => {
                   </button>
                 </div>
               </motion.li>
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+                onClick={handleButtonClick}
+              >
+                <button className="transition-all cursor-pointer">
+                  {localStorage.getItem("isLoggedIn") === "true" ? (
+                    <FontAwesomeIcon
+                      icon={faSignOut}
+                      className={`icon-style mr-2 ${
+                        theme === "light" ? "rotate-0" : "rotate-90"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faSignIn}
+                      className={`icon-style mr-2 ${
+                        theme === "dark" ? "rotate-0" : "rotate-0"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  )}
+                </button>
+                <span className="text-lg font-medium">
+                  {localStorage.getItem("isLoggedIn") === "true"
+                    ? "Çıkış Yap"
+                    : "Giriş Yap"}
+                </span>
+              </motion.li>
             </ul>
           </nav>
         </div>
         <div className="flex flex-col mx-auto bottom-0 fixed">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
-            onClick={handleButtonClick}
-          >
-            <button className="transition-all cursor-pointer">
-              {isLoggedIn === true ? (
-                <FontAwesomeIcon
-                  icon={faSignOut}
-                  className={`icon-style mr-2 ${
-                    theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faSignIn}
-                  className={`icon-style mr-2 ${
-                    theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
-                />
-              )}
-            </button>
-            <span className="text-lg font-medium">
-              {isLoggedIn === true ? "Çıkış Yap" : "Giriş Yap"}
-            </span>
-          </motion.div>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

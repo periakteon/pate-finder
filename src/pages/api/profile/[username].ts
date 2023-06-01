@@ -131,6 +131,6 @@ const handler = async (
       .status(500)
       .json({ success: false, errors: ["Kullanıcı bulunamadı"] });
   }
-}
+};
 
 export default handler;
