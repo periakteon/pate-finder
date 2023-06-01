@@ -54,9 +54,6 @@ const ProfilePage = () => {
         </div>
         <div className="flex flex-col items-center">
           <UsersProfileHeaderComponent />
-          <div>
-            <button onClick={() => setTest(false)}>TEST FALSE</button>
-          </div>
           <UsersProfilePostsComponent />
         </div>
       </div>
