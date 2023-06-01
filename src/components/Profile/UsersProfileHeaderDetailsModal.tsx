@@ -146,7 +146,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="h-3/4 w-1/4 bg-light-secondary dark:bg-dark-dropzone rounded-md border-2 border-black flex overflow-y-scroll">
+      <div className="h-3/4 w-1/4 min-w-max bg-light-secondary dark:bg-dark-dropzone rounded-md border-2 border-black flex overflow-y-scroll">
         <button
           className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
           onClick={() => setIsUserHeaderDetailsModalOpen(false)}
