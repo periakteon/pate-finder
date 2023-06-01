@@ -171,8 +171,7 @@ const Sidebar: React.FC = () => {
           } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[500] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[150]">
-
+        <div className="p-4 max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[inherit]">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
