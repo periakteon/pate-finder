@@ -82,7 +82,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
 
   const renderPet = () => {
     if (!profile.pet) {
-      return <p className="text-white">Pet bilgisi mevcut değil.</p>;
+      return <p className="text-black dark:text-white">Pet bilgisi mevcut değil.</p>;
     }
 
     return (
