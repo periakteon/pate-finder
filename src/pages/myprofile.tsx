@@ -52,10 +52,10 @@ const MyProfile: React.FC = () => {
   return (
     <div className={`${mounted ? "block" : "hidden"} w-full h-full`}>
       <div className="flex">
-        <div className="">
+        <div className="fixed flex z-[120]">
           <Sidebar />
         </div>
-        <div className="flex flex-col items-center">
+        <div className="w-full min-h-screen p-8">
           <MyProfileHeaderComponent />
           <MyProfilePosts />
         </div>

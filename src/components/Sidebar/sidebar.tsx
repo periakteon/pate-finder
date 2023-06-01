@@ -170,7 +170,7 @@ const Sidebar: React.FC = () => {
         className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[150]">
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r">
 
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
@@ -203,7 +203,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faHouse}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -222,7 +222,7 @@ const Sidebar: React.FC = () => {
               >
                 {!searchMode ? (
                   <div
-                    className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                    className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                     onClick={handleSearchClick}
                   >
                     <label htmlFor="searchInput">
@@ -301,7 +301,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faPaw}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -319,7 +319,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faUser}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -338,7 +338,7 @@ const Sidebar: React.FC = () => {
               >
                 <div
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                  className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                 >
                   <FontAwesomeIcon
                     icon={faPlus}
@@ -353,7 +353,7 @@ const Sidebar: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+                className="flex items-center p-2 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
                 onClick={handleButtonClick}
               >
                 <button className="transition-all cursor-pointer">
@@ -384,7 +384,7 @@ const Sidebar: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+            className="flex items-center p-2 text-pink-600 dark:text-white rounded-lg"
           >
             <button className="transition-all cursor-pointer">
               {resolvedTheme === "dark" ? (

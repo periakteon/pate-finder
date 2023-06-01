@@ -154,10 +154,10 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
+      className="fixed inset-0 flex items-center justify-center overflow-auto  z-[100]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
-      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+      <div className="w-2/3 h-auto bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
         <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image

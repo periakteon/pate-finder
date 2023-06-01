@@ -56,10 +56,10 @@ const MyProfilePosts: React.FC = () => {
   };
 
   return (
-    <div className="p-5 justify-center items-center">
+    <div className="p-20 mx-10 justify-center items-center">
       <div className="flex flex-wrap justify-center p-2">
         {myProfile.posts.map((post, id) => (
-          <div key={id} className="basis-1/3 p-2 justify-center flex">
+          <div key={id} className="basis-1/2 p-2 max-w-sm justify-center flex">
             <button
               className="relative w-80"
               onClick={() => handleComment(post.id)}
