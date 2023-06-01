@@ -379,10 +379,7 @@ const Sidebar: React.FC = () => {
                     : "Giriş Yap"}
                 </span>
               </motion.li>
-            </ul>
-          </nav>
-        </div>
-        <div className="flex flex-col mx-auto bottom-0 fixed">
+              <div className="flex flex-col mx-auto bottom-0">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -408,11 +405,15 @@ const Sidebar: React.FC = () => {
                 />
               )}
             </button>
-            <span className="text-lg font-medium">{`${
+            <span className="text-lg font-medium whitespace-nowrap">{`${
               resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
             }`}</span>
           </motion.div>
         </div>
+            </ul>
+          </nav>
+        </div>
+        
         <PostModal />
       </div>
     </div>
