@@ -280,43 +280,40 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="h-full w-1/4 bg-dark-dropzone flex overflow-y-scroll">
+      <div className="h-3/4 border-2 border-black rounded-md w-1/4 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
         <button
           className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
           onClick={() => setIsHeaderDetailsModalOpen(false)}
         >
-          <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+          <span className="text-red-600 hover:text-red-900 dark:text-gray-500 dark:hover:text-gray-700 text-lg">
             <FontAwesomeIcon icon={faTimes} />
           </span>
         </button>
         <div className="w-full h-screen overflow-y-scroll">
-          <div className="min-w-screen flex justify-center mb-4">
+          <div className="min-w-screen flex justify-center mb-4 sticky top-0 bg-white dark:bg-dark-primary z-10">
             <button
-              className={`${
-                activeTab === "followers"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 rounded-tl-lg h-full flex-1`}
+              className={`${activeTab === "followers"
+                ? "bg-pink-400 dark:bg-blue-500 text-white"
+                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+                } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("followers")}
             >
               Takipçiler
             </button>
             <button
-              className={`${
-                activeTab === "following"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 h-full flex-1`}
+              className={`${activeTab === "following"
+                ? "bg-pink-400 dark:bg-blue-500 text-white"
+                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+                } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("following")}
             >
               Takip
             </button>
             <button
-              className={`${
-                activeTab === "pet"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 rounded-tr-lg h-full flex-1`}
+              className={`${activeTab === "pet"
+                ? "bg-pink-400 dark:bg-blue-500 text-white"
+                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+                } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("pet")}
             >
               Pet

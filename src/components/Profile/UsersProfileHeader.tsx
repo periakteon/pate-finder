@@ -54,9 +54,9 @@ const UsersProfileHeaderComponent: React.FC = () => {
       <p className="text-gray-500 transition-transform duration-300">
         {profile.bio}
       </p>
-      <div className=" pb-2">
+      <div className="flex mt-4 pb-2">
         <div
-          className="flex text-center"
+          className="flex text-center hover:cursor-pointer transition-transform duration-300"
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">

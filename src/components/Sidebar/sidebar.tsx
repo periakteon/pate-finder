@@ -167,11 +167,11 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div
-        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
+        className={`bg-black border-r-2 ${sidebarOpen ? "lg:relative" : "fixed"
+          } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
           }`}
       >
         <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[150]">
-
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -247,51 +247,42 @@ const Sidebar: React.FC = () => {
                         type="text"
                         id="searchInput"
                         placeholder="Ara..."
-                        className="w-full p-3 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                        className="w-full p-3 rounded-lg border-2 border-pink-600  dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
                       />
                       <FontAwesomeIcon
                         icon={faMagnifyingGlass}
-                        className="absolute right-3 top-4 text-pink-600 dark:text-white"
+                        className="absolute right-3 top-4  text-pink-600 dark:text-white"
                       />
                     </label>
                   </form>
                 )}
                 {/** arama sonuçları */}
-                <div>
-                  {searchResults.length > 0 && (
-                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
-                      {searchResults.map((user) => (
-                        <Link href={`/profile/${user.username}`} key={user.id}>
-                          <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
-                            <Image
-                              priority
-                              src={
-                                user.profile_picture
-                                  ? user.profile_picture
-                                  : defaultImage
-                              }
-                              className="rounded-full"
-                              width={32}
-                              height={32}
-                              alt="Avatar"
-                            />
-                            <span className="ml-3 p-1 dark:text-white">
-                              {user.username}
-                            </span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                  {searchResults.length === 0 &&
-                    searchMode &&
-                    searchInputRef.current &&
-                    searchInputRef.current.value !== "" && (
-                      <div className="text-gray-500 py-2">
-                        Böyle bir kullanıcı yok
+                <div className="max-h-60 overflow-y-auto bg-light-secondary dark:bg-slate-600  border-gray-300 rounded-lg mt-1">
+                  {searchResults.map((user) => (
+                    <Link href={`/profile/${user.username}`} key={user.id}>
+                      <div className="p-2 flex text-black text-sm flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-light-primary dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
+                        <Image
+                          priority
+                          src={
+                            user.profile_picture
+                              ? user.profile_picture
+                              : defaultImage
+                          }
+                          className="rounded-full"
+                          width={32}
+                          height={32}
+                          alt="Avatar"
+                        />
+                        <span className="ml-3 p-1 dark:text-white">
+                          {user.username.length > 13
+                            ? `${user.username.substring(0, 13)}...`
+                            : user.username}
+                        </span>
                       </div>
-                    )}
+                    </Link>
+                  ))}
                 </div>
+
                 {/** arama sonuçları */}
               </motion.li>
               <Link href="/explore">
@@ -360,16 +351,14 @@ const Sidebar: React.FC = () => {
                   {localStorage.getItem("isLoggedIn") === "true" ? (
                     <FontAwesomeIcon
                       icon={faSignOut}
-                      className={`icon-style mr-2 ${
-                        theme === "light" ? "rotate-0" : "rotate-90"
-                      } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                        } transition-transform animate-spin-slow`}
                     />
                   ) : (
                     <FontAwesomeIcon
                       icon={faSignIn}
-                      className={`icon-style mr-2 ${
-                        theme === "dark" ? "rotate-0" : "rotate-0"
-                      } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                        } transition-transform animate-spin-slow`}
                     />
                   )}
                 </button>
@@ -380,40 +369,37 @@ const Sidebar: React.FC = () => {
                 </span>
               </motion.li>
               <div className="flex flex-col mx-auto bottom-0">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
-          >
-            <button className="transition-all cursor-pointer">
-              {resolvedTheme === "dark" ? (
-                <FontAwesomeIcon
-                  icon={faSun}
-                  className={`icon-style mr-2 ${
-                    theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("light")}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faMoon}
-                  className={`icon-style mr-2 ${
-                    theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("dark")}
-                />
-              )}
-            </button>
-            <span className="text-lg font-medium whitespace-nowrap">{`${
-              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-            }`}</span>
-          </motion.div>
-        </div>
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+                >
+                  <button className="transition-all cursor-pointer">
+                    {resolvedTheme === "dark" ? (
+                      <FontAwesomeIcon
+                        icon={faSun}
+                        className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                          } transition-transform animate-spin-slow`}
+                        onClick={() => setTheme("light")}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faMoon}
+                        className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                          } transition-transform animate-spin-slow`}
+                        onClick={() => setTheme("dark")}
+                      />
+                    )}
+                  </button>
+                  <span className="text-lg font-medium whitespace-nowrap">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+                    }`}</span>
+                </motion.div>
+              </div>
             </ul>
           </nav>
         </div>
-        
+
         <PostModal />
       </div>
     </div>

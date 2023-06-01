@@ -77,7 +77,7 @@ const MyProfileHeaderComponent: React.FC = () => {
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <button
                 onClick={() => setIsUpdateProfileModalOpen(true)}
-                className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse"
+                className="bg-white rounded-full text-sm dark:text-dark-background px-4 py-2 animate-pulse"
               >
                 Profilini Düzenle
               </button>
@@ -93,7 +93,7 @@ const MyProfileHeaderComponent: React.FC = () => {
       </p>
       <div className="flex mt-4 pb-2">
         <div
-          className="flex text-center"
+          className="flex text-center hover:cursor-pointer transition-transform duration-300"
           onClick={() => setIsHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">
