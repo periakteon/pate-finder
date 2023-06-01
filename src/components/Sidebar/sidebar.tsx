@@ -122,8 +122,13 @@ const Sidebar = () => {
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
-      <div className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] left-0 ${sidebarOpen ? '' : 'transform -translate-x-full'}`}>
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
+
+      <div
+        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${sidebarOpen ? "" : "transform -translate-x-full"
+          }`}
+      >
+        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-black border">
+
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -132,7 +137,7 @@ const Sidebar = () => {
                   src={
                     isDarkTheme
                       ? "/logo/png/logo-no-background.png"
-                      : "/logo/png/logo-no-background-pink.png"
+                      : "/logo/png/logo-no-background-pink-2.png"
                   }
                   width={125}
                   height={125}
@@ -155,7 +160,7 @@ const Sidebar = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faHouse}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -174,7 +179,7 @@ const Sidebar = () => {
               >
                 {!searchMode ? (
                   <div
-                    className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                    className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                     onClick={handleSearchClick}
                   >
                     <label htmlFor="searchInput">
@@ -253,7 +258,7 @@ const Sidebar = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faPaw}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -271,7 +276,7 @@ const Sidebar = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faUser}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -290,7 +295,7 @@ const Sidebar = () => {
               >
                 <div
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                  className="flex items-center p-4 text-pink-600 hover:bg-pink-100 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                 >
                   <FontAwesomeIcon
                     icon={faPlus}
@@ -315,24 +320,21 @@ const Sidebar = () => {
               {resolvedTheme === "dark" ? (
                 <FontAwesomeIcon
                   icon={faSun}
-                  className={`icon-style mr-2 ${
-                    theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
+                  className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                    } transition-transform animate-spin-slow`}
                   onClick={() => setTheme("light")}
                 />
               ) : (
                 <FontAwesomeIcon
                   icon={faMoon}
-                  className={`icon-style mr-2 ${
-                    theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
+                  className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                    } transition-transform animate-spin-slow`}
                   onClick={() => setTheme("dark")}
                 />
               )}
             </button>
-            <span className="text-lg font-medium">{`${
-              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-            }`}</span>
+            <span className="text-lg font-medium">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+              }`}</span>
           </motion.div>
         </div>
         <PostModal />

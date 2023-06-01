@@ -138,7 +138,7 @@ const Dropzone = () => {
 
   return (
     <>
-      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
+      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-light-background dark:bg-dark-background border">
         <button
           className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
           onClick={() => setIsModalOpen(false)}
@@ -149,11 +149,10 @@ const Dropzone = () => {
         </button>
         <div
           {...getRootProps()}
-          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
-            isDragActive || isDragging
-              ? "border-blue-500 hover:border-blue-500"
-              : "border-gray-400 hover:border-blue-500"
-          }`}
+          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-light-dropzone dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${isDragActive || isDragging
+            ? "border-blue-500 hover:border-blue-500"
+            : "border-gray-400 hover:border-blue-500"
+            }`}
           onDragEnter={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
         >
@@ -191,9 +190,8 @@ const Dropzone = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
-            characterCount > 280 ? "border-rose-500" : "border-slate-500"
-          }`}
+          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-light-dropzone dark:bg-dark-dropzone rounded-lg resize-none ${characterCount > 280 ? "border-rose-500" : "border-slate-500"
+            }`}
         />
         <div className="text-right w-3/5 text-gray-400 flex justify-end">
           <span
@@ -207,7 +205,7 @@ const Dropzone = () => {
           <button
             onClick={handleSubmit}
             disabled={uploading}
-            className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
+            className="w-3/5 mt-4 py-2 px-4 bg-light-dropzone hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white rounded-lg"
           >
             Gönder
           </button>
