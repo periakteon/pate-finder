@@ -315,11 +315,11 @@ const UsersProfilePostModal: React.FC = () => {
                   }
                 }}
                 placeholder="Yorumunuzu buraya girin"
-                className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded"
+                className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded bg-slate-800"
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-600 rounded hover:bg-blue-500"
               >
                 Yorumu Gönder
               </button>

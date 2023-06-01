@@ -33,8 +33,9 @@ const UsersProfileHeaderComponent: React.FC = () => {
 
   return (
     <div
-      className={`${isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
-        } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      className={`${
+        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+      } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div
@@ -55,7 +56,9 @@ const UsersProfileHeaderComponent: React.FC = () => {
         className={
           "bg-light-dropzone hover:bg-pink-300 dark:bg-dark-border dark:text-slate-300 dark:hover:bg-dark-hover px-4 py-2 rounded-md mt-2"
         }
-      >Takip Et</button>
+      >
+        Takip Et
+      </button>
       <p className="text-gray-500 transition-transform duration-300">
         {profile.bio}
       </p>

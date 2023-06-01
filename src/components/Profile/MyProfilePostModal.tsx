@@ -174,7 +174,7 @@ const MyProfilePostModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-light-primary dark:bg-dark-secondary border-r-2 border-r-slate-700">
+      <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -207,8 +207,8 @@ const MyProfilePostModal: React.FC = () => {
               <div className="flex justify-start items-center space-x-2">
                 {author.profile_picture && (
                   <Image
-                    className="rounded-full"
-                    src={
+                  className="rounded-full border-2 border-pink-300 dark:border-slate-500"
+                  src={
                       author.profile_picture === null
                         ? "/images/default.jpeg"
                         : author.profile_picture
@@ -218,25 +218,29 @@ const MyProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-                <div className="flex font-bold text-xl">{author.username}</div>
-              </div>
+<div className="font-bold text-xl text-pink-500 dark:text-slate-400">
+                  {author.username}
+                </div>              </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4">{caption}</div>
+          <div className="text-xl text-justify my-4 text-slate-600 dark:text-slate-400">
+            {caption}
+          </div>
           <button
             className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
             onClick={handleLikeButtonClick}
           >
             <FontAwesomeIcon
               icon={liked ? faHeartCrack : faPaw}
-              className="text-2xl mr-2"
+              className="text-2xl mr-2 text-slate-600 dark:text-slate-400"
             />
-            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
-          </button>
+            <span className="font-bold text-pink-600 dark:text-slate-400">
+              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+            </span>          </button>
           <div className="text-gray-500 flex justify-start mt-2">
             {formatFullDate(createdAt)}
           </div>
-          <hr className="my-4 dark:border-dark-border" />
+          <hr className="my-4 border-slate-500 dark:border-dark-border" />
 
           {commentList.length > 0 && commentList ? (
             commentList.map((comment) => (
@@ -274,10 +278,12 @@ const MyProfilePostModal: React.FC = () => {
                         }
                         href={`/profile/${comment.user.username}`}
                       >
-                        {comment.user.username}
+                        <span className="text-slate-600">
+                          {comment.user.username}
+                        </span>
                       </Link>
                     </div>
-                    <div>{comment.text}</div>
+                    <div className="text-slate-600">{comment.text}</div>
                     <div className="mt-auto text-sm text-gray-500">
                       {formatCreatedAt(comment.createdAt)}
                     </div>
@@ -303,12 +309,12 @@ const MyProfilePostModal: React.FC = () => {
                     handleCommentSubmit(e);
                   }
                 }}
-                placeholder="Yorumunuzu buraya girin"
+                placeholder="Yorumunuzu buraya giriniz."
                 className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded"
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center bg-pink-400 hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white hover:text-white font-bold rounded-lg"
               >
                 Yorumu Gönder
               </button>

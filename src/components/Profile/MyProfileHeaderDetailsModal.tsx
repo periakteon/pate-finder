@@ -92,7 +92,10 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
 
   const renderFollowers = () => {
     return myProfile.followedBy.map((follower) => (
-      <div key={follower.follower.username} className="flex items-center my-3 dark:text-white">
+      <div
+        key={follower.follower.username}
+        className="flex items-center my-3 dark:text-white"
+      >
         <div className="mr-2">
           <Link
             href={`/profile/${follower.follower.username}`}
@@ -121,7 +124,10 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
 
   const renderFollowing = () => {
     return myProfile.following.map((followed) => (
-      <div key={followed.following.username} className="flex items-center my-3 dark:text-white">
+      <div
+        key={followed.following.username}
+        className="flex items-center my-3 dark:text-white"
+      >
         <div className="mr-2">
           <Link
             href={`/profile/${followed.following.username}`}
@@ -150,7 +156,9 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
 
   const renderPet = () => {
     if (!myProfile.pet) {
-      return <p className="text-black dark:text-white">Pet bilgisi mevcut değil.</p>;
+      return (
+        <p className="text-black dark:text-white">Pet bilgisi mevcut değil.</p>
+      );
     }
 
     return (
@@ -292,28 +300,31 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
         <div className="w-full h-screen overflow-y-scroll">
           <div className="min-w-screen flex justify-center mb-4 sticky top-0 bg-white dark:bg-dark-primary z-10">
             <button
-              className={`${activeTab === "followers"
-                ? "bg-pink-400 dark:bg-blue-500 text-white"
-                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
-                } px-4 py-2 h-full flex-1`}
+              className={`${
+                activeTab === "followers"
+                  ? "bg-pink-400 dark:bg-blue-500 text-white"
+                  : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+              } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("followers")}
             >
               Takipçiler
             </button>
             <button
-              className={`${activeTab === "following"
-                ? "bg-pink-400 dark:bg-blue-500 text-white"
-                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
-                } px-4 py-2 h-full flex-1`}
+              className={`${
+                activeTab === "following"
+                  ? "bg-pink-400 dark:bg-blue-500 text-white"
+                  : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+              } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("following")}
             >
               Takip
             </button>
             <button
-              className={`${activeTab === "pet"
-                ? "bg-pink-400 dark:bg-blue-500 text-white"
-                : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
-                } px-4 py-2 h-full flex-1`}
+              className={`${
+                activeTab === "pet"
+                  ? "bg-pink-400 dark:bg-blue-500 text-white"
+                  : "bg-light-dropzone dark:bg-dark-border dark:text-slate-300"
+              } px-4 py-2 h-full flex-1`}
               onClick={() => setActiveTab("pet")}
             >
               Pet

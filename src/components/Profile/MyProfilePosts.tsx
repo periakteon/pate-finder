@@ -59,7 +59,7 @@ const MyProfilePosts: React.FC = () => {
     <div className="justify-center items-center">
       <div className="flex flex-wrap justify-center p-2">
         {myProfile.posts.map((post, id) => (
-          <div key={id} className="basis-1/2 p-2 max-w-sm justify-center flex">
+          <div key={id} className="p-2">
             <button
               className="relative w-80"
               onClick={() => handleComment(post.id)}
@@ -70,7 +70,7 @@ const MyProfilePosts: React.FC = () => {
                   alt="post image"
                   layout="fill"
                   objectFit="cover"
-                  className="rounded-lg"
+                  className="flex object-cover rounded-lg hover:opacity-90 transition duration-300 ease-in-out hover:scale-95"
                 />
               </div>
               <div className="absolute bottom-0 rounded-t-lg left-0 p-2 bg-black bg-opacity-50 w-18 justify-start">

@@ -58,7 +58,7 @@ const MyProfileHeaderComponent: React.FC = () => {
         isScrolled
           ? "h-30 border-b-2 border-b-light-border dark:border-b-dark-border"
           : ""
-      } flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      } border-b-2 border-b-light-border dark:border-b-dark-border flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 z-[50]`}
     >
       {!isScrolled && (
         <div

@@ -78,21 +78,23 @@ const UsersProfilePostsComponent: React.FC = () => {
   };
 
   return (
-    <div className="p-5 justify-center items-center">
-      <div className="flex flex-wrap justify-center ">
+    <div className="justify-center items-center">
+      <div className="flex flex-wrap justify-center p-2">
         {profile.posts.map((post, id) => (
           <div key={id} className="p-2">
             <button
               className="relative w-80"
               onClick={() => handleComment(post.id)}
             >
-              <Image
-                src={post.postImage}
-                alt="post image"
-                width={320}
-                height={320}
-                className="rounded-lg"
-              />
+              <div className="w-80 h-80">
+                <Image
+                  src={post.postImage}
+                  alt="post image"
+                  width={320}
+                  height={320}
+                  className="flex object-cover rounded-lg hover:opacity-90 transition duration-300 ease-in-out hover:scale-95"
+                />
+              </div>
               <div className="absolute bottom-0 rounded-t-lg left-0 p-2 bg-black bg-opacity-50 w-18 justify-start">
                 <div className="flex flex-row text-green-600 hover:text-green-800">
                   <FontAwesomeIcon icon={faPaw} className="text-l mr-2 " />
