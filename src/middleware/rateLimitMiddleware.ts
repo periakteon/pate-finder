@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const MAX_REQUESTS_PER_HOUR = 30;
+const MAX_REQUESTS_PER_HOUR = 10;
 const REQUEST_WINDOW_DURATION = 60 * 60 * 1000; // 1 saat milisaniye cinsinden
 
 type RequestCount = {
