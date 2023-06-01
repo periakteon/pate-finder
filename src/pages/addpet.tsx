@@ -136,8 +136,10 @@ const AddPet = () => {
             </label>
             <div className="flex items-center justify-center">
               <button className="mr-2 ">
-                <FontAwesomeIcon icon={faImage} className="w-36 h-36 text-violet-300 flex self-center hover:text-violet-400" />
-
+                <FontAwesomeIcon
+                  icon={faImage}
+                  className="w-36 h-36 text-violet-300 flex self-center hover:text-violet-400"
+                />
               </button>
             </div>
 

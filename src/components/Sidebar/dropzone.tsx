@@ -149,10 +149,11 @@ const Dropzone: React.FC = () => {
         </button>
         <div
           {...getRootProps()}
-          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-light-dropzone dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${isDragActive || isDragging
-            ? "border-blue-500 hover:border-blue-500"
-            : "border-gray-400 hover:border-blue-500"
-            }`}
+          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-light-dropzone dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
+            isDragActive || isDragging
+              ? "border-blue-500 hover:border-blue-500"
+              : "border-gray-400 hover:border-blue-500"
+          }`}
           onDragEnter={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
         >
@@ -190,8 +191,9 @@ const Dropzone: React.FC = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-light-dropzone dark:bg-dark-dropzone rounded-lg resize-none ${characterCount > 280 ? "border-rose-500" : "border-slate-500"
-            }`}
+          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-light-dropzone dark:bg-dark-dropzone rounded-lg resize-none ${
+            characterCount > 280 ? "border-rose-500" : "border-slate-500"
+          }`}
         />
         <div className="text-right w-3/5 text-gray-400 flex justify-end">
           <span
