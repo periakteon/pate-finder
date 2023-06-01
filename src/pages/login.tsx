@@ -18,7 +18,7 @@ import { isLoggedInAtom } from "@/utils/store";
 
 type LoginRequestType = z.infer<typeof loginRequestSchema>;
 
-const Login = () => {
+const Login: React.FC  = () => {
   const [formData, setFormData] = useState<LoginRequestType>({
     email: "",
     password: "",

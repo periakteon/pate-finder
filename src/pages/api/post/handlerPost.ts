@@ -11,10 +11,10 @@ type ResponseType = // Discriminated Union
     | { success: true; message: string; post?: Post }
     | { success: false; errors: string[] };
 
-async function handlePost(
+const handlePost = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "POST") {
     return res
       .status(405)

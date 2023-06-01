@@ -14,10 +14,10 @@ const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof UpdateProfileResponseSchema>;
 
-async function updateAndDeleteToken(
+const updateAndDeleteToken = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   try {
     const userId = req.userId;
     const parsed = await UpdateProfileRequestSchema.safeParseAsync(req.body);
@@ -110,7 +110,7 @@ async function updateAndDeleteToken(
   }
 }
 
-async function updateUser(req: NextApiRequest, res: NextApiResponse) {
+const updateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "PUT") {
     return res
       .status(405)

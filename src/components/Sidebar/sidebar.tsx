@@ -30,7 +30,7 @@ type User = {
   profile_picture: string | null;
 };
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);

@@ -10,10 +10,10 @@ const prisma = new PrismaClient();
 
 type ResponseType = z.infer<typeof UserProfileResponseSchema>;
 
-export default async function handler(
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "GET") {
     return res
       .status(405)
@@ -130,7 +130,7 @@ export default async function handler(
     return res
       .status(500)
       .json({ success: false, errors: ["Kullanıcı bulunamadı"] });
-  } finally {
-    await prisma.$disconnect();
   }
 }
+
+export default handler;

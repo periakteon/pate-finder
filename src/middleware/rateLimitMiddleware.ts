@@ -13,7 +13,7 @@ type RequestCount = {
 
 const requestCounts = new Map<string, RequestCount>();
 
-export default function rateLimitMiddleware(handler: NextApiHandler) {
+const rateLimitMiddleware = (handler: NextApiHandler) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const userId = req.userId?.toString();
     const ip =
@@ -91,3 +91,5 @@ export default function rateLimitMiddleware(handler: NextApiHandler) {
     return handler(req, res);
   };
 }
+
+export default rateLimitMiddleware;

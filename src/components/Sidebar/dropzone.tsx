@@ -21,7 +21,7 @@ const captionAtom = atom<string>("");
 const countAtom = atom<number>(0);
 const selectedFileURLAtom = atom<string>("");
 
-const Dropzone = () => {
+const Dropzone: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [files, setFiles] = useAtom(filesAtom);
   const [selectedFileURL, setSelectedFileURL] = useAtom(selectedFileURLAtom);

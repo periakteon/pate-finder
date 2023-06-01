@@ -10,7 +10,7 @@ const override: CSSProperties = {
   borderColor: "black",
 };
 
-export default function UploadComponent() {
+const UploadComponent: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [height, setHeight] = useState<number | undefined>();
   const [width, setWidth] = useState<number | undefined>();
@@ -136,3 +136,5 @@ export default function UploadComponent() {
     </div>
   );
 }
+
+export default UploadComponent;

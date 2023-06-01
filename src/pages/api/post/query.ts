@@ -13,10 +13,10 @@ type infiniteScrollResponseSchema = z.infer<
   typeof infiniteScrollResponseSchema
 >;
 
-export async function getPostsByFollowedUsers(
+const getPostsByFollowedUsers = async (
   req: NextApiRequest,
   res: NextApiResponse<infiniteScrollResponseSchema>,
-) {
+) => {
   if (req.method !== "GET") {
     return res
       .status(405)

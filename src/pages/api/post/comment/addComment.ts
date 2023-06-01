@@ -15,10 +15,10 @@ type ResponseType =
   | { success: true; message: string; comment?: CommentResponse }
   | { success: false; errors: string[] };
 
-async function addCommentHandler(
+const addCommentHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
-) {
+) => {
   if (req.method !== "POST") {
     return res
       .status(400)
