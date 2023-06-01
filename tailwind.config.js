@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      zIndex: {
+        1000: "1000",
+      },
+      inset: {
+        "-16": "-4rem", // Örnek bir negatif değer
+      },
       colors: {
         // TODO: Tema renkleri ayarla
         // dark theme

@@ -33,8 +33,9 @@ const UsersProfileHeaderComponent: React.FC = () => {
 
   return (
     <div
-      className={`${isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
-        } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      className={`${
+        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+      } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div

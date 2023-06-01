@@ -157,7 +157,7 @@ const Sidebar: React.FC = () => {
     <div className="bg-light-background dark:bg-dark-secondary">
       <div className="">
         <div
-          className="block lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
+          className="block lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[1000]"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
@@ -167,11 +167,13 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div
-        className={`bg-black border-r-2 ${sidebarOpen ? 'lg:relative' : 'fixed'} border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
-          }`}
+        className={`bg-black border-r-2 ${
+          sidebarOpen ? "lg:relative" : "fixed bottom-0"
+        } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[500] lg:-translate-x-0 ${
+          sidebarOpen ? "" : "transform -translate-x-full"
+        }`}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r">
-
+        <div className="p-4 max-h-screen pt-20 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[inherit]">
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -193,7 +195,6 @@ const Sidebar: React.FC = () => {
               </div>
             </Link>
           </div>
-
           <nav>
             <ul>
               <Link href="/feed">
@@ -203,7 +204,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faHouse}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -222,7 +223,7 @@ const Sidebar: React.FC = () => {
               >
                 {!searchMode ? (
                   <div
-                    className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                    className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                     onClick={handleSearchClick}
                   >
                     <label htmlFor="searchInput">
@@ -301,7 +302,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faPaw}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -319,7 +320,7 @@ const Sidebar: React.FC = () => {
                   transition={{ duration: 0.3 }}
                   className="mb-2"
                 >
-                  <div className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
+                  <div className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors">
                     <FontAwesomeIcon
                       icon={faUser}
                       className="text-2xl text-pink-600 mr-2 dark:text-white"
@@ -338,7 +339,7 @@ const Sidebar: React.FC = () => {
               >
                 <div
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center p-2 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
+                  className="flex items-center p-4 text-pink-600 hover:bg-pink-200 dark:hover:bg-dark-hover rounded-lg cursor-pointer transition-colors"
                 >
                   <FontAwesomeIcon
                     icon={faPlus}
@@ -353,7 +354,7 @@ const Sidebar: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex items-center p-2 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+                className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
                 onClick={handleButtonClick}
               >
                 <button className="transition-all cursor-pointer">
@@ -379,41 +380,39 @@ const Sidebar: React.FC = () => {
                     : "Giriş Yap"}
                 </span>
               </motion.li>
-              <div className="flex flex-col mx-auto bottom-0">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center p-2 text-pink-600 dark:text-white rounded-lg"
-          >
-            <button className="transition-all cursor-pointer">
-              {resolvedTheme === "dark" ? (
-                <FontAwesomeIcon
-                  icon={faSun}
-                  className={`icon-style mr-2 ${
-                    theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("light")}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faMoon}
-                  className={`icon-style mr-2 ${
-                    theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("dark")}
-                />
-              )}
-            </button>
-            <span className="text-lg font-medium whitespace-nowrap">{`${
-              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-            }`}</span>
-          </motion.div>
-        </div>
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-2 text-pink-600 dark:text-white rounded-lg pt-20"
+              >
+                <button className="transition-all cursor-pointer">
+                  {resolvedTheme === "dark" ? (
+                    <FontAwesomeIcon
+                      icon={faSun}
+                      className={`icon-style mr-2 ${
+                        theme === "light" ? "rotate-0" : "rotate-90"
+                      } transition-transform animate-spin-slow`}
+                      onClick={() => setTheme("light")}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faMoon}
+                      className={`icon-style mr-2 ${
+                        theme === "dark" ? "rotate-0" : "rotate-0"
+                      } transition-transform animate-spin-slow`}
+                      onClick={() => setTheme("dark")}
+                    />
+                  )}
+                </button>
+                <span className="text-lg font-medium whitespace-nowrap">{`${
+                  resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+                }`}</span>
+              </motion.div>
             </ul>
           </nav>
         </div>
-        
+
         <PostModal />
       </div>
     </div>

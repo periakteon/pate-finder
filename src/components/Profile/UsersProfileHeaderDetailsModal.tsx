@@ -24,7 +24,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
 
   const renderFollowers = () => {
     return profile.followedBy.map((follower) => (
-      <div key={follower.follower.username} className="flex items-center my-3">
+      <div key={follower.follower.username} className="flex items-center my-3 dark:text-white">
         <div className="mr-2">
           <Link
             href={`/profile/${follower.follower.username}`}
@@ -53,7 +53,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
 
   const renderFollowing = () => {
     return profile.following.map((followed) => (
-      <div key={followed.following.username} className="flex items-center my-3">
+      <div key={followed.following.username} className="flex items-center my-3 dark:text-white">
         <div className="mr-2">
           <Link
             href={`/profile/${followed.following.username}`}
@@ -82,7 +82,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
 
   const renderPet = () => {
     if (!profile.pet) {
-      return <p>Pet bilgisi mevcut değil.</p>;
+      return <p className="text-white">Pet bilgisi mevcut değil.</p>;
     }
 
     return (
@@ -146,7 +146,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="h-full w-1/4 bg-dark-dropzone flex overflow-y-scroll">
+      <div className="h-full w-96 dark:bg-dark-dropzone flex overflow-y-scroll max-h-96 rounded-xl">
         <button
           className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
           onClick={() => setIsUserHeaderDetailsModalOpen(false)}
@@ -156,40 +156,41 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
           </span>
         </button>
         <div className="w-full h-screen overflow-y-scroll">
-          <div className="min-w-screen flex justify-center mb-4">
-            <button
-              className={`${
-                activeTab === "followers"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 rounded-tl-lg h-full flex-1`}
-              onClick={() => setActiveTab("followers")}
-            >
-              Takipçiler
-            </button>
-            <button
-              className={`${
-                activeTab === "following"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 h-full flex-1`}
-              onClick={() => setActiveTab("following")}
-            >
-              Takip
-            </button>
-            <button
-              className={`${
-                activeTab === "pet"
-                  ? "bg-blue-500 text-white"
-                  : "bg-dark-border text-slate-300"
-              } px-4 py-2 rounded-tr-lg h-full flex-1`}
-              onClick={() => setActiveTab("pet")}
-            >
-              Pet
-            </button>
-          </div>
-          <div className="p-4">{renderTabContent()}</div>
-        </div>
+        <div className="min-w-screen flex justify-center sticky top-0 bg-white z-10">
+    <button
+      className={`${
+        activeTab === "followers"
+          ? "bg-blue-500 text-white"
+          : "bg-dark-border text-slate-300"
+      } px-4 py-2 rounded-tl-lg h-full flex-1`}
+      onClick={() => setActiveTab("followers")}
+    >
+      Takipçiler
+    </button>
+    <button
+      className={`${
+        activeTab === "following"
+          ? "bg-blue-500 text-white"
+          : "bg-dark-border text-slate-300"
+      } px-4 py-2 h-full flex-1`}
+      onClick={() => setActiveTab("following")}
+    >
+      Takip
+    </button>
+    <button
+      className={`${
+        activeTab === "pet"
+          ? "bg-blue-500 text-white"
+          : "bg-dark-border text-slate-300"
+      } px-4 py-2 rounded-tr-lg h-full flex-1`}
+      onClick={() => setActiveTab("pet")}
+    >
+      Pet
+    </button>
+  </div>
+  <div className="p-4">{renderTabContent()}</div>
+</div>
+
       </div>
     </Modal>
   );

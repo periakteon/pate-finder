@@ -298,7 +298,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           </form>
         </div>
       </div>
-    </Modal >
+    </Modal>
   );
 };
 

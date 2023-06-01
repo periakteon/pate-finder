@@ -93,7 +93,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
+      <div className="bg-white rounded-lg shadow-md p-2 md:p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
         <div className="flex items-center mb-4">
           <Link href={`/profile/${post.author.username}`}>
             <div className="w-12 h-12 mr-4">

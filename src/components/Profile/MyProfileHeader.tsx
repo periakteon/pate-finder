@@ -54,15 +54,17 @@ const MyProfileHeaderComponent: React.FC = () => {
 
   return (
     <div
-      className={`${isScrolled
-        ? "h-30 border-b-2 border-b-light-border dark:border-b-dark-border"
-        : ""
-        } flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      className={`${
+        isScrolled
+          ? "h-30 border-b-2 border-b-light-border dark:border-b-dark-border"
+          : ""
+      } flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div
-          className={`relative rounded-full overflow-hidden ${editProfile ? "scale-95" : ""
-            } transition-transform duration-300`}
+          className={`relative rounded-full overflow-hidden ${
+            editProfile ? "scale-95" : ""
+          } transition-transform duration-300`}
           onMouseOver={() => setEditProfile(true)}
           onMouseOut={() => setEditProfile(false)}
         >

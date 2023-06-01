@@ -55,7 +55,7 @@ const MyProfile: React.FC = () => {
         <div className="fixed flex z-[120]">
           <Sidebar />
         </div>
-        <div className="w-full min-h-screen p-8">
+        <div className="md:w-full md:min-h-screen md:p-8 lg:ms-14 xl:ms-16 2xl:ms-40">
           <MyProfileHeaderComponent />
           <MyProfilePosts />
         </div>

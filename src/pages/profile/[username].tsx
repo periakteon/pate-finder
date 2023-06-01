@@ -43,17 +43,17 @@ const ProfilePage: React.FC = () => {
   }, [username, setProfile]);
 
   return (
-    <>
+    <div className={` w-full h-full`}>
       <div className="flex">
-        <div className="">
+        <div className="fixed flex z-[120]">
           <Sidebar />
         </div>
-        <div className="flex flex-col items-center">
+        <div className="md:w-full md:min-h-screen md:p-8 lg:ms-14 xl:ms-16 2xl:ms-40">
           <UsersProfileHeaderComponent />
           <UsersProfilePostsComponent />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
