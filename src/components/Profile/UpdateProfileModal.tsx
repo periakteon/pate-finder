@@ -142,7 +142,7 @@ const UpdateProfileModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-1/3 h-5/6 bg-dark-dropzone flex overflow-y-scroll rounded-xl">
+      <div className="w-1/3 h-5/6 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll rounded-xl">
         <div className="flex flex-col items-center justify-center w-full p-4 relative">
           <h2 className="text-xl font-semibold mb-4">Profilini Düzenle</h2>
           <button
@@ -242,7 +242,7 @@ const UpdateProfileModal: React.FC = () => {
               ) : (
                 <button
                   type="button"
-                  className="px-4 py-2 rounded-md bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors duration-200"
+                  className="px-4 py-2 rounded-md bg-pink-300 hover:bg-pink-500 dark:bg-blue-500 text-white font-medium dark:hover:bg-blue-600 transition-colors duration-200"
                   onClick={handleUpdateProfile}
                   disabled={uploading}
                 >

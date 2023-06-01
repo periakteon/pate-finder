@@ -184,8 +184,8 @@ const UsersProfilePostModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-auto bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
+      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+        <div className="w-2/3 sticky top-0 bg-light-primary dark:bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
