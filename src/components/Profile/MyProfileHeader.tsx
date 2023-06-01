@@ -55,8 +55,10 @@ const MyProfileHeaderComponent: React.FC = () => {
   return (
     <div
       className={`${
-        isScrolled ? "h-30 border-b-2 border-b-dark-border" : ""
-      } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+        isScrolled
+          ? "h-30 border-b-2 border-b-light-border dark:border-b-dark-border"
+          : ""
+      } border-b-2 border-b-light-border dark:border-b-dark-border flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 z-[50]`}
     >
       {!isScrolled && (
         <div
@@ -77,7 +79,7 @@ const MyProfileHeaderComponent: React.FC = () => {
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <button
                 onClick={() => setIsUpdateProfileModalOpen(true)}
-                className="bg-white rounded-full text-sm text-dark-background px-4 py-2 animate-pulse"
+                className="bg-white rounded-full text-sm dark:text-dark-background px-4 py-2 animate-pulse"
               >
                 Profilini Düzenle
               </button>
@@ -93,7 +95,7 @@ const MyProfileHeaderComponent: React.FC = () => {
       </p>
       <div className="flex mt-4 pb-2">
         <div
-          className="flex text-center"
+          className="flex text-center hover:cursor-pointer transition-transform duration-300 p-3"
           onClick={() => setIsHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">

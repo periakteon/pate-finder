@@ -21,7 +21,7 @@ const captionAtom = atom<string>("");
 const countAtom = atom<number>(0);
 const selectedFileURLAtom = atom<string>("");
 
-const Dropzone = () => {
+const Dropzone: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [files, setFiles] = useAtom(filesAtom);
   const [selectedFileURL, setSelectedFileURL] = useAtom(selectedFileURLAtom);
@@ -104,6 +104,16 @@ const Dropzone = () => {
           autoClose: 1800,
         });
       }
+
+      if (response.status === 429) {
+        return toast.error(
+          "Bir saatte en fazla 30 gönderi oluşturabilirsiniz.",
+          {
+            draggable: false,
+            autoClose: 1800,
+          },
+        );
+      }
     } catch (error) {
       toast.error("Gönderi oluşturulurken bir hata oluştu.", {
         draggable: false,
@@ -128,21 +138,21 @@ const Dropzone = () => {
 
   return (
     <>
-      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-dark-background border">
+      <div className="container mx-auto w-fit flex flex-col rounded-lg items-center py-8 bg-light-background dark:bg-dark-background border">
         <button
           className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
           onClick={() => setIsModalOpen(false)}
         >
-          <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+          <span className="h-6 w-6 text-red-600 hover:text-red-900 dark:text-gray-500 dark:hover:text-gray-700 text-lg">
             <FontAwesomeIcon icon={faTimes} />
           </span>
         </button>
         <div
           {...getRootProps()}
-          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
+          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-light-dropzoneBorder dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
             isDragActive || isDragging
-              ? "border-blue-500 hover:border-blue-500"
-              : "border-gray-400 hover:border-blue-500"
+              ? "border-gray-400 hover:border-blue-500"
+              : "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
           }`}
           onDragEnter={() => setIsDragging(true)}
           onDragLeave={() => setIsDragging(false)}
@@ -152,9 +162,9 @@ const Dropzone = () => {
             <>
               <FontAwesomeIcon
                 icon={faFileUpload}
-                className="text-gray-400 text-4xl mb-4"
+                className="text-white dark:text-gray-400 text-4xl mb-4"
               />
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-400 dark:text-gray-600">
                 Dosyalarınızı buraya sürükleyin veya seçmek için tıklayın.
               </p>
             </>
@@ -181,7 +191,7 @@ const Dropzone = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-gray-200 bg-dark-dropzone rounded-lg resize-none ${
+          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-pink-300 dark:border-gray-200 bg-light-dropzoneBorder dark:bg-dark-dropzone rounded-lg resize-none ${
             characterCount > 280 ? "border-rose-500" : "border-slate-500"
           }`}
         />
@@ -197,7 +207,7 @@ const Dropzone = () => {
           <button
             onClick={handleSubmit}
             disabled={uploading}
-            className="w-3/5 mt-4 py-2 px-4 bg-slate-800 hover:bg-slate-500 text-white rounded-lg"
+            className="w-3/5 mt-4 py-2 px-4 bg-light-dropzone hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white rounded-lg"
           >
             Gönder
           </button>

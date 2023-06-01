@@ -154,11 +154,11 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
-      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
+      className="fixed inset-0 flex items-center justify-center overflow-auto z-[1001]"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[1001]"
     >
-      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
+      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll z-[151]">
+        <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -191,7 +191,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <div className="flex items-center space-x-2">
                 {author.profile_picture && (
                   <Image
-                    className="rounded-full"
+                    className="rounded-full border-2 border-pink-300 dark:border-slate-500"
                     src={
                       author.profile_picture === null
                         ? "/images/default.jpeg"
@@ -202,23 +202,31 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
                     height={64}
                   />
                 )}
-                <div className="font-bold text-xl">{author.username}</div>
+                <div className="font-bold text-xl text-pink-500 dark:text-slate-400">
+                  {author.username}
+                </div>
               </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4">{caption}</div>
+          <div className="text-xl text-justify my-4 text-slate-600 dark:text-slate-400">
+            {caption}
+          </div>
           <button
             className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
             onClick={handleLikeButtonClick}
           >
             <FontAwesomeIcon
               icon={liked ? faHeartCrack : faPaw}
-              className="text-2xl mr-2"
+              className="text-2xl mr-2 text-pink-600 dark:text-slate-400"
             />
-            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+            <span className="font-bold text-pink-600 dark:text-slate-400">
+              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+            </span>
           </button>
-          <div className="text-gray-500">{formatFullDate(createdAt)}</div>
-          <hr className="my-4 dark:border-dark-border" />
+          <div className="text-gray-500 dark:text-gray-400">
+            {formatFullDate(createdAt)}
+          </div>
+          <hr className="my-4 border-slate-500 dark:border-dark-border" />
 
           {commentList.length > 0 && commentList ? (
             commentList.map((comment) => (
@@ -256,17 +264,21 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
                         }
                         href={`/profile/${comment.user.username}`}
                       >
-                        {comment.user.username}
+                        <span className="text-slate-600 dark:text-slate-400">
+                          {comment.user.username}
+                        </span>
                       </Link>
                     </div>
-                    <div>{comment.text}</div>
+                    <div className="text-slate-600 dark:text-gray-400">
+                      {comment.text}
+                    </div>
                     <div className="mt-auto text-sm text-gray-500">
                       {formatCreatedAt(comment.createdAt)}
                     </div>
                   </div>
                 </div>
                 <hr
-                  className="my-4 dark:border-dark-border"
+                  className="my-4 border-slate-500 dark:border-dark-border"
                   key={`hr-${comment.id}`}
                 />
               </React.Fragment>
@@ -290,7 +302,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center bg-pink-400 hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white hover:text-white font-bold rounded-lg"
               >
                 Yorumu Gönder
               </button>

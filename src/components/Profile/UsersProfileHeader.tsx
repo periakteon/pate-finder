@@ -35,7 +35,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
     <div
       className={`${
         isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
-      } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div
@@ -52,17 +52,24 @@ const UsersProfileHeaderComponent: React.FC = () => {
       <h1 className="text-2xl font-bold mt-4 transition-transform duration-300">
         {profile.username}
       </h1>
+      <button
+        className={
+          "bg-light-dropzone hover:bg-pink-300 dark:bg-dark-border dark:text-slate-300 dark:hover:bg-dark-hover px-4 py-2 rounded-md mt-2"
+        }
+      >
+        Takip Et
+      </button>
       <p className="text-gray-500 transition-transform duration-300">
         {profile.bio}
       </p>
-      <div className=" pb-2">
+      <div className="flex mt-4 pb-2">
         <div
-          className="flex text-center"
+          className="flex text-center hover:cursor-pointer transition-transform duration-300 p-3"
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Posts
+              Gönderiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.posts.length}
@@ -70,7 +77,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Followers
+              Takipçiler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.followedBy.length}
@@ -78,7 +85,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </div>
           <div className="mr-4">
             <h2 className="text-lg font-bold transition-transform duration-300">
-              Following
+              Takip Edilenler
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.following.length}

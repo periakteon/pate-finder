@@ -97,12 +97,12 @@ const IndexPage: React.FC = () => {
 
   return (
     <div className="flex md:flex-row text-black">
-      <div className="">
+      <div className="bg-white dark:bg-dark-secondary fixed z-50">
         <Sidebar />
       </div>
-      <div className="w-full min-h-screen p-8">
-        <div className="max-w-2xl mx-auto ps-5">
-          <h1 className="text-4xl text-center font-bold mb-4 dark:text-white py-10">
+      <div className="w-full min-h-screen md:p-8">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-4xl text-center font-bold mb-4 dark:text-white py-10 mt-10">
             Kullanıcıları Keşfet
           </h1>
           <div className="space-y-4">
@@ -133,7 +133,7 @@ const IndexPage: React.FC = () => {
                                 {user.username}
                               </h2>
                               <p>
-                                Created At: {formatCreatedAt(user.createdAt)}
+                                Kayıt Tarihi: {formatCreatedAt(user.createdAt)}
                               </p>
                             </div>
                           </Typography>
@@ -142,9 +142,20 @@ const IndexPage: React.FC = () => {
                             color="gray"
                             className="font-normal"
                           >
-                            <p className="mt-2">
-                              {user.pet ? `Pet: ${user.pet}` : "No pet"}
-                            </p>
+                            <span className="mt-2">
+                              {user.pet ? (
+                                <span className="font-bold text-2xl text-black dark:text-white">
+                                  Pet:
+                                </span>
+                              ) : (
+                                <span className="text-rose-600 font-bold">
+                                  Pet bulunamadı
+                                </span>
+                              )}
+                              <span className="font-bold text-2xl text-slate-300">
+                                {user.pet && ` ${user.pet.name}`}
+                              </span>
+                            </span>
                           </Typography>
                         </div>
                       </ListItem>

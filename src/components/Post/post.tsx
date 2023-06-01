@@ -93,7 +93,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow-md p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
+      <div className="bg-white rounded-lg shadow-md p-2 md:p-6 my-8 border border-gray-200 max-w-[600px] dark:bg-dark-secondary dark:border-gray-500">
         <div className="flex items-center mb-4">
           <Link href={`/profile/${post.author.username}`}>
             <div className="w-12 h-12 mr-4">
@@ -119,7 +119,9 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
             </div>
           </Link>
           <Link href={`/profile/${post.author.username}`}>
-            <div className="font-semibold text-xl">{post.author.username}</div>
+            <div className="font-semibold text-xl text-gray-500 hover:text-gray-400 dark:hover:text-gray-400 dark:text-gray-300 ">
+              {post.author.username}
+            </div>
           </Link>
           <div
             className="text-gray-400 text-sm ml-auto"
@@ -131,7 +133,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
               : formatCreatedAt(post.createdAt, () => setFullDate(true))}
           </div>
         </div>
-        <h2 className="text-lg font-semibold mb-2 whitespace-normal text-justify">
+        <h2 className="text-lg mb-2 whitespace-normal text-justify text-gray-500 dark:text-gray-300 ">
           {post.caption}
         </h2>
         <div
@@ -140,7 +142,7 @@ const PostComponent: React.FC<PostProps> = ({ post }) => {
         >
           <Image
             priority
-            className="flex  object-cover rounded-lg"
+            className="flex object-cover rounded-lg hover:opacity-90 transition duration-300 ease-in-out hover:scale-95"
             src={post.postImage}
             alt="image"
             width={600}

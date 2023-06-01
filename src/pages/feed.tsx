@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 type PostType = z.infer<typeof infinitePostType>;
 
-function HomePage() {
+const HomePage: React.FC = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -78,23 +78,26 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={`flex justify-center ${mounted ? "flex" : "hidden"}`}>
-      <div className="flex flex-row">
-        <Sidebar />
-        <ul className="px-8">
+    <div className="flex md:flex-row text-black">
+      <Sidebar />
+      <div
+        className={`w-full min-h-screen md:p-8 justify-center ${
+          mounted ? "flex" : "hidden"
+        }`}
+      >
+        <ul className="px-2">
           {posts.map((post, id) => (
             <PostComponent key={id} post={post} />
           ))}
         </ul>
+        {showNoContentMessage && (
+          <p className="text-center text-gray-400 font-bold my-5">
+            Gösterilecek yeni içerik yok.
+          </p>
+        )}
       </div>
-
-      {showNoContentMessage && (
-        <p className="text-center text-gray-400 font-bold my-5">
-          Gösterilecek yeni içerik yok.
-        </p>
-      )}
     </div>
   );
-}
+};
 
 export default HomePage;

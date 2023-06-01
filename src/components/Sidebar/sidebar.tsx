@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import defaultImage from "../../../public/images/default.jpeg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,12 +11,16 @@ import {
   faSun,
   faMoon,
   faPlus,
+  faSignOut,
+  faSignIn,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 import PostModal from "../Post/postModal";
 import { atom, useAtom } from "jotai";
+import { toast } from "react-toastify";
+import { isLoggedInAtom } from "@/utils/store";
 
 export const isModalOpenAtom = atom(false);
 
@@ -25,7 +30,7 @@ type User = {
   profile_picture: string | null;
 };
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const [mounted, setMounted] = useState<boolean>(false);
   const [searchMode, setSearchMode] = useState<boolean>(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -34,6 +39,44 @@ const Sidebar = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const router = useRouter();
+
+  const logout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        toast.success("Başarıyla çıkış yapıldı!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setIsLoggedIn(false);
+        localStorage.setItem("isLoggedIn", JSON.stringify(false));
+        setTimeout(() => {
+          location.reload(); // 500 milisaniye sonra sayfayı yenile
+        }, 500);
+      } else {
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      toast.error("Bir hata oluştu!", {
+        draggable: false,
+        autoClose: 1800,
+      });
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (localStorage.getItem("isLoggedIn") === "true") {
+      localStorage.setItem("isLoggedIn", JSON.stringify(false));
+      logout();
+    } else {
+      router.push("/login");
+    }
+  };
 
   const handleSearchClick = () => {
     setSearchMode(true);
@@ -111,10 +154,10 @@ const Sidebar = () => {
   }
 
   return (
-    <div>
-      <div className="block absolute  lg:hidden">
+    <div className="bg-light-background dark:bg-dark-secondary">
+      <div className="">
         <div
-          className="space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[300]"
+          className="block lg:hidden space-y-1 p-3 m-5 cursor-pointer fixed dark:bg-white bg-pink-600 rounded-md bg-opacity-50 z-[1000]"
           onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
@@ -122,13 +165,16 @@ const Sidebar = () => {
           <div className="bg-white dark:bg-black w-6 h-1 rounded-full"></div>
         </div>
       </div>
+
       <div
-        className={`bg-black border-r-2 border-r-pink-200 md:flex md:flex-col md:rounded-md md:justify-between md:sticky md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[150] ${
+        className={`bg-black border-r-2 ${
+          sidebarOpen ? "lg:relative" : "fixed bottom-0"
+        } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[500] lg:-translate-x-0 ${
           sidebarOpen ? "" : "transform -translate-x-full"
         }`}
-        style={{ position: "absolute", left: 0 }}
       >
-        <div className="p-2 overflow-y-auto max-h-screen pt-20 fixed h-screen bg-white dark:bg-black">
+        <div className="p-4 max-h-screen pt-20 lg:pt-8 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[inherit]">
+          {" "}
           <div className="text-3xl font-bold text-center mb-6 flex items-center justify-center">
             <Link href="/feed">
               <div className="flex-shrink-0 w-125 h-125 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
@@ -137,7 +183,7 @@ const Sidebar = () => {
                   src={
                     isDarkTheme
                       ? "/logo/png/logo-no-background.png"
-                      : "/logo/png/logo-no-background-pink.png"
+                      : "/logo/png/logo-no-background-pink-2.png"
                   }
                   width={125}
                   height={125}
@@ -150,7 +196,6 @@ const Sidebar = () => {
               </div>
             </Link>
           </div>
-
           <nav>
             <ul>
               <Link href="/feed">
@@ -204,51 +249,42 @@ const Sidebar = () => {
                         type="text"
                         id="searchInput"
                         placeholder="Ara..."
-                        className="w-full p-3 pr-10 rounded-lg border-2 border-pink-600 dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                        className="w-full p-3 rounded-lg border-2 border-pink-600  dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
                       />
                       <FontAwesomeIcon
                         icon={faMagnifyingGlass}
-                        className="absolute right-3 top-4 text-pink-600 dark:text-white"
+                        className="absolute right-3 top-4  text-pink-600 dark:text-white"
                       />
                     </label>
                   </form>
                 )}
                 {/** arama sonuçları */}
-                <div>
-                  {searchResults.length > 0 && (
-                    <div className="max-h-60 overflow-y-auto border-b dark:bg-slate-600 bg-slate-100 border-gray-300 rounded-lg mt-1">
-                      {searchResults.map((user) => (
-                        <Link href={`/profile/${user.username}`} key={user.id}>
-                          <div className="p-2 flex text-black flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-slate-300 dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
-                            <Image
-                              priority
-                              src={
-                                user.profile_picture
-                                  ? user.profile_picture
-                                  : defaultImage
-                              }
-                              className="rounded-full"
-                              width={32}
-                              height={32}
-                              alt="Avatar"
-                            />
-                            <span className="ml-3 p-1 dark:text-white">
-                              {user.username}
-                            </span>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                  {searchResults.length === 0 &&
-                    searchMode &&
-                    searchInputRef.current &&
-                    searchInputRef.current.value !== "" && (
-                      <div className="text-gray-500 py-2">
-                        Böyle bir kullanıcı yok
+                <div className="max-h-60 overflow-y-auto w-48 bg-light-secondary dark:bg-slate-600  border-gray-300 rounded-lg mt-1">
+                  {searchResults.map((user) => (
+                    <Link href={`/profile/${user.username}`} key={user.id}>
+                      <div className="p-2 flex text-black text-sm flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-light-primary dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
+                        <Image
+                          priority
+                          src={
+                            user.profile_picture
+                              ? user.profile_picture
+                              : defaultImage
+                          }
+                          className="rounded-full"
+                          width={32}
+                          height={32}
+                          alt="Avatar"
+                        />
+                        <span className="ml-3 p-1 dark:text-white">
+                          {user.username.length > 13
+                            ? `${user.username.substring(0, 13)}...`
+                            : user.username}
+                        </span>
                       </div>
-                    )}
+                    </Link>
+                  ))}
                 </div>
+
                 {/** arama sonuçları */}
               </motion.li>
               <Link href="/explore">
@@ -306,40 +342,71 @@ const Sidebar = () => {
                   </button>
                 </div>
               </motion.li>
+              <motion.li
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg cursor-pointer hover:bg-pink-200 dark:hover:bg-dark-hover"
+                onClick={handleButtonClick}
+              >
+                <button className="transition-all cursor-pointer">
+                  {localStorage.getItem("isLoggedIn") === "true" ? (
+                    <FontAwesomeIcon
+                      icon={faSignOut}
+                      className={`icon-style mr-2 ${
+                        theme === "light" ? "rotate-0" : "rotate-90"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faSignIn}
+                      className={`icon-style mr-2 ${
+                        theme === "dark" ? "rotate-0" : "rotate-0"
+                      } transition-transform animate-spin-slow`}
+                    />
+                  )}
+                </button>
+                <span className="text-lg font-medium">
+                  {localStorage.getItem("isLoggedIn") === "true"
+                    ? "Çıkış Yap"
+                    : "Giriş Yap"}
+                </span>
+              </motion.li>
+              <div className="flex flex-col mx-auto bottom-0">
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+                >
+                  <button className="transition-all cursor-pointer">
+                    {resolvedTheme === "dark" ? (
+                      <FontAwesomeIcon
+                        icon={faSun}
+                        className={`icon-style mr-2 ${
+                          theme === "light" ? "rotate-0" : "rotate-90"
+                        } transition-transform animate-spin-slow`}
+                        onClick={() => setTheme("light")}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faMoon}
+                        className={`icon-style mr-2 ${
+                          theme === "dark" ? "rotate-0" : "rotate-0"
+                        } transition-transform animate-spin-slow`}
+                        onClick={() => setTheme("dark")}
+                      />
+                    )}
+                  </button>
+                  <span className="text-lg font-medium whitespace-nowrap">{`${
+                    resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+                  }`}</span>
+                </motion.div>
+              </div>
             </ul>
           </nav>
         </div>
-        <div className="flex mx-auto bottom-0 fixed">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
-          >
-            <button className="transition-all cursor-pointer">
-              {resolvedTheme === "dark" ? (
-                <FontAwesomeIcon
-                  icon={faSun}
-                  className={`icon-style mr-2 ${
-                    theme === "light" ? "rotate-0" : "rotate-90"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("light")}
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faMoon}
-                  className={`icon-style mr-2 ${
-                    theme === "dark" ? "rotate-0" : "rotate-0"
-                  } transition-transform animate-spin-slow`}
-                  onClick={() => setTheme("dark")}
-                />
-              )}
-            </button>
-            <span className="text-lg font-medium">{`${
-              resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-            }`}</span>
-          </motion.div>
-        </div>
+
         <PostModal />
       </div>
     </div>
