@@ -157,8 +157,8 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
-      <div className="w-2/3 h-full bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-dark-secondary border-r-2 border-r-slate-700">
+      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+        <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -179,7 +179,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </button>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 text-white">
             <Link
               onClick={() =>
                 setTimeout(() => {
@@ -206,7 +206,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4">{caption}</div>
+          <div className="text-xl text-justify my-4 text-white">{caption}</div>
           <button
             className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
             onClick={handleLikeButtonClick}
