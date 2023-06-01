@@ -154,10 +154,10 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto  z-[100]"
+      className="fixed inset-0 flex items-center justify-center overflow-auto z-50"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-49"
     >
-      <div className="w-2/3 h-auto bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
         <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
@@ -179,7 +179,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </button>
-          <div className="flex items-center space-x-4 text-white">
+          <div className="flex items-center space-x-4">
             <Link
               onClick={() =>
                 setTimeout(() => {
@@ -206,7 +206,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4 text-white">{caption}</div>
+          <div className="text-xl text-justify my-4">{caption}</div>
           <button
             className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
             onClick={handleLikeButtonClick}
@@ -290,7 +290,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-500 rounded hover:bg-blue-600"
+                className="w-full px-4 py-2 mb-6 items-center justify-center bg-light-dropzone hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white rounded-lg"
               >
                 Yorumu Gönder
               </button>
@@ -298,7 +298,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
           </form>
         </div>
       </div>
-    </Modal>
+    </Modal >
   );
 };
 

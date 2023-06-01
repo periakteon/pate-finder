@@ -33,9 +33,8 @@ const UsersProfileHeaderComponent: React.FC = () => {
 
   return (
     <div
-      className={`${
-        isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
-      } flex flex-col items-center w-full sticky top-0 bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
+      className={`${isScrolled ? "h-30 transform scale-100 transition-all duration-300" : ""
+        } flex flex-col items-center w-full sticky top-0  bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 z-[100]`}
     >
       {!isScrolled && (
         <div
@@ -49,7 +48,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           />
         </div>
       )}
-      <h1 className="text-2xl font-bold mt-4 text-white transition-transform duration-300">
+      <h1 className="text-2xl font-bold mt-4 transition-transform duration-300">
         {profile.username}
       </h1>
       <p className="text-gray-500 transition-transform duration-300">
@@ -61,7 +60,9 @@ const UsersProfileHeaderComponent: React.FC = () => {
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}
         >
           <div className="mr-4">
-            <h2 className="text-lg font-bold transition-transform duration-300"></h2>
+            <h2 className="text-lg font-bold transition-transform duration-300">
+              Gönderiler
+            </h2>
             <p className="text-gray-500 transition-transform duration-300">
               {profile.posts.length}
             </p>
@@ -83,7 +84,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
             </p>
           </div>
           <div className="mr-4">
-            <h2 className="text-lg text-white font-bold transition-transform duration-300">
+            <h2 className="text-lg font-bold transition-transform duration-300">
               Pet
             </h2>
             <p className="text-gray-500 transition-transform duration-300">
