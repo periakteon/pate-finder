@@ -59,18 +59,18 @@ const ProfilePage: React.FC = () => {
           <Sidebar />
         </div>
         <div className="md:w-full md:min-h-screen md:p-8 lg:ms-14 xl:ms-16 2xl:ms-40">
-        {loading && (
+          {loading && (
             <div className="flex justify-center items-center w-full h-full">
               <div>
-              <BeatLoader
-              cssOverride={override}
-              size={15}
-              color={"pink"}
-              loading={loading}
-            />
+                <BeatLoader
+                  cssOverride={override}
+                  size={15}
+                  color={"pink"}
+                  loading={loading}
+                />
               </div>
-              </div>
-              )}
+            </div>
+          )}
           <UsersProfileHeaderComponent />
           <UsersProfilePostsComponent />
         </div>

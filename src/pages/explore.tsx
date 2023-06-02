@@ -111,18 +111,18 @@ const IndexPage: React.FC = () => {
         <Sidebar />
       </div>
       <div className="w-full min-h-screen md:p-8">
-      {loading && (
-            <div className="flex justify-center items-center w-full h-full">
-              <div>
+        {loading && (
+          <div className="flex justify-center items-center w-full h-full">
+            <div>
               <BeatLoader
-              cssOverride={override}
-              size={15}
-              color={"pink"}
-              loading={loading}
-            />
-              </div>
-              </div>
-              )}
+                cssOverride={override}
+                size={15}
+                color={"pink"}
+                loading={loading}
+              />
+            </div>
+          </div>
+        )}
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl text-pink-700 text-center font-bold mb-4 dark:text-white py-10 mt-10">
             Kullanıcıları Keşfet
@@ -142,7 +142,7 @@ const IndexPage: React.FC = () => {
                             <Image
                               src={user.profile_picture || defaultImage}
                               alt="Profile Picture"
-                              className="w-16 h-16 md:w-32 md:h-32 rounded-full"
+                              className="w-16 h-16 md:w-32 md:h-32 rounded-full aspect-square object-cover "
                               width={64}
                               height={64}
                             />

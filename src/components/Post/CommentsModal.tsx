@@ -157,7 +157,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[1001]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[1001]"
     >
-      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll z-[151]">
+      <div className="w-2/3 h-min bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll z-[151]">
         <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
@@ -191,7 +191,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
               <div className="flex items-center space-x-2">
                 {author.profile_picture && (
                   <Image
-                    className="rounded-full border-2 border-pink-300 dark:border-slate-500"
+                    className="rounded-full border-2 border-pink-300 dark:border-slate-500 aspect-square object-cover "
                     src={
                       author.profile_picture === null
                         ? "/images/default.jpeg"

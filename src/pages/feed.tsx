@@ -96,17 +96,17 @@ const HomePage: React.FC = () => {
         }`}
       >
         {loading && (
-            <div className="flex justify-center items-center w-full h-full">
-              <div>
+          <div className="flex justify-center items-center w-full h-full">
+            <div>
               <BeatLoader
-              cssOverride={override}
-              size={15}
-              color={"pink"}
-              loading={loading}
-            />
-              </div>
-              </div>
-              )}
+                cssOverride={override}
+                size={15}
+                color={"pink"}
+                loading={loading}
+              />
+            </div>
+          </div>
+        )}
         <ul className="px-2">
           {posts.map((post, id) => (
             <PostComponent key={id} post={post} />

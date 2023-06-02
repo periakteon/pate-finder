@@ -69,15 +69,15 @@ const MyProfile: React.FC = () => {
           {loading && (
             <div className="flex justify-center items-center w-full h-full">
               <div>
-              <BeatLoader
-              cssOverride={override}
-              size={15}
-              color={"pink"}
-              loading={loading}
-            />
+                <BeatLoader
+                  cssOverride={override}
+                  size={15}
+                  color={"pink"}
+                  loading={loading}
+                />
               </div>
-              </div>
-              )}
+            </div>
+          )}
           <MyProfileHeaderComponent />
           <MyProfilePosts />
         </div>
