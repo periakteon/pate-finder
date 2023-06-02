@@ -58,7 +58,7 @@ const MyProfileHeaderComponent: React.FC = () => {
         isScrolled
           ? "h-30 border-b-2 border-b-light-border dark:border-b-dark-border"
           : ""
-      } border-b-2 border-b-light-border dark:border-b-dark-border flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 z-[50]`}
+      } border-b-2 border-b-light-border dark:border-b-dark-border flex flex-col items-center w-full sticky top-0 bg-light-primary dark:bg-dark-background backdrop-blur-sm bg-opacity-80 dark:bg-opacity-80 z-[50] mt-5`}
     >
       {!isScrolled && (
         <div
@@ -73,7 +73,9 @@ const MyProfileHeaderComponent: React.FC = () => {
             width={175}
             height={175}
             alt="profile picture"
-            className={`filter ${editProfile ? "opacity-50" : ""}`}
+            className={`rounded-full border-4 border-pink-500 dark:border-dark-border filter aspect-square object-cover ${
+              editProfile ? "opacity-50" : ""
+            }`}
           />
           {editProfile && (
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

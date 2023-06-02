@@ -175,7 +175,6 @@ const Login: React.FC = () => {
               )}
             </div>
 
-            <div className="p-8" />
             <div className="flex items-center justify-around pb-2">
               <button className="h-12 w-12">
                 <FontAwesomeIcon

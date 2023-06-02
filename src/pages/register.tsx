@@ -31,6 +31,13 @@ const Register: React.FC = () => {
       alert("Lütfen hüküm ve koşulları kabul edin.");
       return;
     }
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Girilen parolalar eşleşmiyor.", {
+        draggable: false,
+        autoClose: 3000,
+      });
+      return;
+    }
     const response = await fetch("/api/auth/register", {
       method: "POST",
       headers: {

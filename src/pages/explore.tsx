@@ -1,7 +1,7 @@
 import Sidebar from "@/components/Sidebar/sidebar";
 import Image from "next/image";
 import defaultImage from "../../public/images/default.jpeg";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import { exploreResponse } from "@/utils/zodSchemas";
 import { toast } from "react-toastify";
 import {
@@ -12,6 +12,13 @@ import {
   Card,
   Typography,
 } from "@material-tailwind/react";
+import { BeatLoader } from "react-spinners";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "black",
+};
 
 type UserData = {
   id: number;
@@ -30,6 +37,7 @@ type UserData = {
 const IndexPage: React.FC = () => {
   const [data, setData] = useState<UserData[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // NICE TO HAVE: use date-fns
   const formatCreatedAt = (createdAt: string | null) => {
@@ -70,6 +78,8 @@ const IndexPage: React.FC = () => {
         draggable: false,
         autoClose: 2000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,12 +111,24 @@ const IndexPage: React.FC = () => {
         <Sidebar />
       </div>
       <div className="w-full min-h-screen md:p-8">
+        {loading && (
+          <div className="flex justify-center items-center w-full h-full">
+            <div>
+              <BeatLoader
+                cssOverride={override}
+                size={15}
+                color={"pink"}
+                loading={loading}
+              />
+            </div>
+          </div>
+        )}
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl text-center font-bold mb-4 dark:text-white py-10 mt-10">
+          <h1 className="text-4xl text-pink-700 text-center font-bold mb-4 dark:text-white py-10 mt-10">
             Kullanıcıları Keşfet
           </h1>
           <div className="space-y-4">
-            <Card className="dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
+            <Card className="border border-pink-500 text-gray-700 dark:bg-dark-secondary dark:border dark:border-gray-500 dark:text-white m-4 rounded shadow">
               {data.map((user, id) => (
                 <div
                   key={id}
@@ -120,7 +142,7 @@ const IndexPage: React.FC = () => {
                             <Image
                               src={user.profile_picture || defaultImage}
                               alt="Profile Picture"
-                              className="w-16 h-16 md:w-32 md:h-32 rounded-full"
+                              className="w-16 h-16 md:w-32 md:h-32 rounded-full aspect-square object-cover "
                               width={64}
                               height={64}
                             />

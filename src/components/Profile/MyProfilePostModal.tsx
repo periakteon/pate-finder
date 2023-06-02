@@ -173,15 +173,15 @@ const MyProfilePostModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-      <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
+      <div className="w-1/2 h-1/2 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+        <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
               src={postImage}
               alt="Post Image"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               objectPosition="center"
             />
           </div>
@@ -207,8 +207,8 @@ const MyProfilePostModal: React.FC = () => {
               <div className="flex justify-start items-center space-x-2">
                 {author.profile_picture && (
                   <Image
-                  className="rounded-full border-2 border-pink-300 dark:border-slate-500"
-                  src={
+                    className="rounded-full border-2 border-pink-300 dark:border-slate-500 aspect-square object-cover "
+                    src={
                       author.profile_picture === null
                         ? "/images/default.jpeg"
                         : author.profile_picture
@@ -218,9 +218,10 @@ const MyProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-<div className="font-bold text-xl text-pink-500 dark:text-slate-400">
+                <div className="font-bold text-xl text-pink-500 dark:text-slate-400">
                   {author.username}
-                </div>              </div>
+                </div>{" "}
+              </div>
             </Link>
           </div>
           <div className="text-xl text-justify my-4 text-slate-600 dark:text-slate-400">
@@ -236,7 +237,8 @@ const MyProfilePostModal: React.FC = () => {
             />
             <span className="font-bold text-pink-600 dark:text-slate-400">
               {liked ? "Beğenmekten Vazgeç" : "Beğen"}
-            </span>          </button>
+            </span>{" "}
+          </button>
           <div className="text-gray-500 flex justify-start mt-2">
             {formatFullDate(createdAt)}
           </div>
@@ -262,7 +264,7 @@ const MyProfilePostModal: React.FC = () => {
                             : "/images/default.jpeg"
                         }
                         alt="Profile Picture"
-                        className="rounded-full"
+                        className="rounded-full aspect-square object-cover "
                         width={48}
                         height={48}
                       />

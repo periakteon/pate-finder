@@ -151,7 +151,7 @@ const Dropzone: React.FC = () => {
           {...getRootProps()}
           className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-light-dropzoneBorder dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
             isDragActive || isDragging
-              ? "border-gray-400 hover:border-blue-500"
+              ? "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
               : "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
           }`}
           onDragEnter={() => setIsDragging(true)}
@@ -162,9 +162,9 @@ const Dropzone: React.FC = () => {
             <>
               <FontAwesomeIcon
                 icon={faFileUpload}
-                className="text-white dark:text-gray-400 text-4xl mb-4"
+                className="text-pink-500 dark:text-gray-300 text-4xl mb-4"
               />
-              <p className="text-sm text-gray-400 dark:text-gray-600">
+              <p className="text-sm text-center text-pink-500 font-bold dark:text-gray-400">
                 Dosyalarınızı buraya sürükleyin veya seçmek için tıklayın.
               </p>
             </>
@@ -191,7 +191,7 @@ const Dropzone: React.FC = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`text-white w-3/5 h-32 mt-4 p-2 border-2 border-pink-300 dark:border-gray-200 bg-light-dropzoneBorder dark:bg-dark-dropzone rounded-lg resize-none ${
+          className={`text-gray-800 w-3/5 h-32 mt-4 p-2 border-2 border-pink-400 dark:border-gray-200 bg-light-dropzoneBorder dark:bg-dark-dropzone rounded-lg resize-none ${
             characterCount > 280 ? "border-rose-500" : "border-slate-500"
           }`}
         />
@@ -207,7 +207,7 @@ const Dropzone: React.FC = () => {
           <button
             onClick={handleSubmit}
             disabled={uploading}
-            className="w-3/5 mt-4 py-2 px-4 bg-light-dropzone hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white rounded-lg"
+            className="w-3/5 mt-4 py-2 px-4 bg-pink-400 hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-600 text-white rounded-lg"
           >
             Gönder
           </button>
