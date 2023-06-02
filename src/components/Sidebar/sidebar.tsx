@@ -74,7 +74,7 @@ const Sidebar: React.FC = () => {
       localStorage.setItem("isLoggedIn", JSON.stringify(false));
       logout();
     } else {
-      router.push("/login");
+      router.push("/");
     }
   };
 
@@ -167,11 +167,9 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div
-        className={`bg-black border-r-2 ${
-          sidebarOpen ? "lg:relative" : "fixed bottom-0"
-        } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[500] lg:-translate-x-0 ${
-          sidebarOpen ? "" : "transform -translate-x-full"
-        }`}
+        className={`bg-black border-r-2 ${sidebarOpen ? "lg:relative" : "fixed bottom-0"
+          } border-r-pink-200 md:flex lg:sticky md:flex-col md:rounded-md md:justify-between md:top-0 dark:bg-dark-secondary dark:border-r-2 dark:border-r-dark-border w-48 transition-transform duration-300 z-[500] lg:-translate-x-0 ${sidebarOpen ? "" : "transform -translate-x-full"
+          }`}
       >
         <div className="p-4 max-h-screen pt-20 lg:pt-8 fixed h-screen bg-light-background dark:bg-dark-secondary border-r z-[inherit]">
           {" "}
@@ -353,16 +351,14 @@ const Sidebar: React.FC = () => {
                   {localStorage.getItem("isLoggedIn") === "true" ? (
                     <FontAwesomeIcon
                       icon={faSignOut}
-                      className={`icon-style mr-2 ${
-                        theme === "light" ? "rotate-0" : ""
-                      } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                        } transition-transform animate-spin-slow`}
                     />
                   ) : (
                     <FontAwesomeIcon
                       icon={faSignIn}
-                      className={`icon-style mr-2 ${
-                        theme === "dark" ? "rotate-0" : "rotate-0"
-                      } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                        } transition-transform animate-spin-slow`}
                     />
                   )}
                 </button>
@@ -382,24 +378,21 @@ const Sidebar: React.FC = () => {
                     {resolvedTheme === "dark" ? (
                       <FontAwesomeIcon
                         icon={faSun}
-                        className={`icon-style mr-2 ${
-                          theme === "light" ? "rotate-0" : "rotate-90"
-                        } transition-transform animate-spin-slow`}
+                        className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
+                          } transition-transform animate-spin-slow`}
                         onClick={() => setTheme("light")}
                       />
                     ) : (
                       <FontAwesomeIcon
                         icon={faMoon}
-                        className={`icon-style mr-2 ${
-                          theme === "dark" ? "rotate-0" : "rotate-0"
-                        } transition-transform animate-spin-slow`}
+                        className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
+                          } transition-transform animate-spin-slow`}
                         onClick={() => setTheme("dark")}
                       />
                     )}
                   </button>
-                  <span className="text-lg font-medium whitespace-nowrap">{`${
-                    resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
-                  }`}</span>
+                  <span className="text-lg font-medium whitespace-nowrap">{`${resolvedTheme === "dark" ? "Aydınlık Mod" : "Karanlık Mod"
+                    }`}</span>
                 </motion.div>
               </div>
             </ul>

@@ -269,7 +269,7 @@ const UsersProfilePostModal: React.FC = () => {
                             : "/images/default.jpeg"
                         }
                         alt="Profile Picture"
-                        className="rounded-full  aspect-square object-cover "
+                        className="rounded-full aspect-square object-cover "
                         width={48}
                         height={48}
                       />

@@ -1,4 +1,4 @@
-const AUTH_PAGES = ["/login", "/register"];
+const AUTH_PAGES = ["/", "/register"];
 
 /**
  * öncelikle middleware'deki request'ten gelen "url"yi parametre olarak verip gelen url'i AUTH_PAGES içerisindeki url'ler ile karşılaştırıyoruz
