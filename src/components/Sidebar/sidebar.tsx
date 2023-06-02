@@ -377,7 +377,8 @@ const Sidebar: React.FC = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg">
+                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
+                >
                   <button className="transition-all cursor-pointer">
                     {resolvedTheme === "dark" ? (
                       <FontAwesomeIcon

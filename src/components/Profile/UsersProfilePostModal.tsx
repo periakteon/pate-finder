@@ -229,7 +229,9 @@ const UsersProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-                <div className="flex font-bold text-xl">{author.username}</div>
+                <div className="flex font-bold text-xl dark:text-white">
+                  {author.username}
+                </div>
               </div>
             </Link>
           </div>
@@ -240,9 +242,11 @@ const UsersProfilePostModal: React.FC = () => {
           >
             <FontAwesomeIcon
               icon={liked ? faHeartCrack : faPaw}
-              className="text-2xl mr-2"
+              className="text-2xl mr-2 text-pink-600 dark:text-slate-400"
             />
-            {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+            <span className="font-bold text-pink-600 dark:text-slate-400">
+              {liked ? "Beğenmekten Vazgeç" : "Beğen"}
+            </span>{" "}
           </button>
           <div className="text-gray-500 flex justify-start mt-2">
             {formatFullDate(createdAt)}
@@ -269,7 +273,7 @@ const UsersProfilePostModal: React.FC = () => {
                             : "/images/default.jpeg"
                         }
                         alt="Profile Picture"
-                        className="rounded-full  aspect-square object-cover "
+                        className="rounded-full aspect-square object-cover "
                         width={48}
                         height={48}
                       />
@@ -288,7 +292,9 @@ const UsersProfilePostModal: React.FC = () => {
                         {comment.user.username}
                       </Link>
                     </div>
-                    <div>{comment.text}</div>
+                    <div className="text-black dark:text-gray-300">
+                      {comment.text}
+                    </div>
                     <div className="mt-auto text-sm text-gray-500">
                       {formatCreatedAt(comment.createdAt)}
                     </div>
@@ -319,7 +325,7 @@ const UsersProfilePostModal: React.FC = () => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full px-4 py-2 mb-6 items-center justify-center text-white bg-blue-600 rounded hover:bg-blue-500"
+                className="w-full px-4 py-2 mb-6 items-center justify-center bg-pink-400 hover:bg-pink-300 dark:bg-slate-800 dark:hover:bg-slate-500 text-white hover:text-white font-bold rounded-lg"
               >
                 Yorumu Gönder
               </button>

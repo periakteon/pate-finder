@@ -174,7 +174,7 @@ const MyProfilePostModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-      <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
+        <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -191,7 +191,7 @@ const MyProfilePostModal: React.FC = () => {
             className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
             onClick={closeModal}
           >
-            <span className="h-6 w-6 text-gray-500 hover:text-gray-700">
+            <span className="h-6 w-6 text-2xl text-pink-600 hover:text-pink-700 dark:text-gray-300 hover:dark:text-gray-500">
               <FontAwesomeIcon icon={faTimes} />
             </span>
           </button>
@@ -218,22 +218,22 @@ const MyProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-                <div className="font-bold text-xl text-pink-500 dark:text-slate-400">
+                <div className="font-bold text-xl text-pink-500 dark:text-gray-200">
                   {author.username}
                 </div>{" "}
               </div>
             </Link>
           </div>
-          <div className="text-xl text-justify my-4 text-slate-600 dark:text-slate-400">
+          <div className="text-xl text-justify my-4 text-slate-600 dark:text-gray-300">
             {caption}
           </div>
           <button
-            className="flex items-center dark:text-slate-300 dark:hover:text-slate-500"
+            className="flex items-center dark:text-slate-300 dark:hover:text-gray-400"
             onClick={handleLikeButtonClick}
           >
             <FontAwesomeIcon
               icon={liked ? faHeartCrack : faPaw}
-              className="text-2xl mr-2 text-slate-600 dark:text-slate-400"
+              className="text-2xl mr-2 text-pink-600 dark:text-slate-400"
             />
             <span className="font-bold text-pink-600 dark:text-slate-400">
               {liked ? "Beğenmekten Vazgeç" : "Beğen"}
@@ -280,19 +280,21 @@ const MyProfilePostModal: React.FC = () => {
                         }
                         href={`/profile/${comment.user.username}`}
                       >
-                        <span className="text-slate-600">
+                        <span className="text-pink-600 dark:text-white">
                           {comment.user.username}
                         </span>
                       </Link>
                     </div>
-                    <div className="text-slate-600">{comment.text}</div>
+                    <div className="text-black dark:text-gray-300">
+                      {comment.text}
+                    </div>
                     <div className="mt-auto text-sm text-gray-500">
                       {formatCreatedAt(comment.createdAt)}
                     </div>
                   </div>
                 </div>
                 <hr
-                  className="my-4 dark:border-dark-border"
+                  className="my-4 border-slate-500 dark:border-dark-border"
                   key={`hr-${comment.id}`}
                 />
               </React.Fragment>
