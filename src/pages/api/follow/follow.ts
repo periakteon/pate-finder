@@ -29,15 +29,23 @@ const handleFollowRequest = async (
   }
 
   const followerId = req.userId;
-  const { followingId } = parsed.data;
-
-  if (followerId === followingId) {
-    return res
-      .status(400)
-      .json({ success: false, error: ["Kendinizi takip edemezsiniz!"] });
-  }
+  const { email } = parsed.data;
 
   try {
+    const following = await prisma.user.findUnique({ where: { email } });
+
+    if (!following) {
+      return res
+        .status(404)
+        .json({ success: false, error: ["Kullanıcı bulunamadı"] });
+    }
+
+    if (followerId === following.id) {
+      return res
+        .status(400)
+        .json({ success: false, error: ["Kendinizi takip edemezsiniz!"] });
+    }
+
     await prisma.follow.create({
       data: {
         follower: {
@@ -47,7 +55,7 @@ const handleFollowRequest = async (
         },
         following: {
           connect: {
-            id: Number(followingId),
+            id: following.id,
           },
         },
       },

@@ -20,12 +20,40 @@ const override: CSSProperties = {
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
 export const profileAtom = atom<UserProfileType | null>(null);
+export const isFollowingAtom = atom<boolean>(false);
 
 const ProfilePage: React.FC = () => {
   const router = useRouter();
   const { username } = router.query;
-  const [, setProfile] = useAtom(profileAtom);
+  const [profile, setProfile] = useAtom(profileAtom);
+  const [, setIsFollowing] = useAtom(isFollowingAtom);
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (profile) {
+        try {
+          const response = await fetch("/api/follow/check", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: profile.email }),
+          });
+          const data = await response.json();
+          if (data.success === true){
+            setIsFollowing(true);
+          } else {
+            setIsFollowing(false);
+          }
+        } catch (error) {
+          console.error("API error:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [profile, setIsFollowing]);
 
   useEffect(() => {
     const fetchData = async () => {

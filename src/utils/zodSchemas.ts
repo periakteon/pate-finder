@@ -19,13 +19,24 @@ export const followFollowResponse = z.discriminatedUnion("success", [
   }),
 ]);
 
+export const followGetResponse = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    message: z.string(),
+  }),
+  z.object({
+    success: z.literal(false),
+    message: z.array(z.string()),
+  }),
+]);
+
 export const followRequestSchema = z.object({
-  followingId: z.number({
-    required_error: "Takip edilecek kullanıcı id'si zorunludur.",
-    invalid_type_error:
-      "Takip edilecek kullanıcı id'si sayı tipinde olmalıdır.",
+  email: z.string({
+    required_error: "E-mail adresi zorunludur.",
+    invalid_type_error: "E-mail adresi string tipinde olmalıdır.",
   }),
 });
+
 
 /**
  * Unfollow API Schemas
@@ -42,10 +53,10 @@ export const unfollowResponse = z.discriminatedUnion("success", [
 ]);
 
 export const unfollowRequestSchema = z.object({
-  followingId: z.number({
-    required_error: "Takipten çıkılacak kullanıcı ID'si zorunludur.",
+  email: z.string({
+    required_error: "Takipten çıkılacak kullanıcı e-postası zorunludur.",
     invalid_type_error:
-      "Takipten çıkılacak kullanıcı ID'si sayı tipinde olmalıdır.",
+      "Takipten çıkılacak kullanıcı e-postası e-posta tipinde olmalıdır.",
   }),
 });
 

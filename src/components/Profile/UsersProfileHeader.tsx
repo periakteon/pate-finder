@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { profileAtom } from "@/pages/profile/[username]";
+import { isFollowingAtom, profileAtom } from "@/pages/profile/[username]";
 import { atom, useAtom } from "jotai";
 import UsersProfileHeaderDetailsModal from "./UsersProfileHeaderDetailsModal";
+import { toast } from "react-toastify";
 
 export const isUserHeaderDetailsModalOpenAtom = atom<boolean>(false);
 
 const UsersProfileHeaderComponent: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [profile] = useAtom(profileAtom);
+  const [isFollowing, setIsFollowing] = useAtom(isFollowingAtom);
   const [isUserHeaderDetailsModalOpen, setIsUserHeaderDetailsModalOpen] =
     useAtom(isUserHeaderDetailsModalOpenAtom);
 
@@ -30,6 +32,61 @@ const UsersProfileHeaderComponent: React.FC = () => {
   if (!profile) {
     return null;
   }
+
+  const handleFollow = async () => {
+    try {
+      const response = await fetch("/api/follow/follow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: profile.email,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Başarıyla takip edildi!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setIsFollowing(true);
+      } else {
+        console.error("Follow request failed");
+      }
+    } catch (error) {
+      console.error("Follow request failed:", error);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    try {
+      const response = await fetch("/api/follow/unfollow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: profile.email,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("data:", data)
+
+      if (response.ok) {
+        toast.success("Başarıyla takipten çıkıldı!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+        setIsFollowing(false);
+      } else {
+        console.error("Unfollow request failed");
+      }
+    } catch (error) {
+      console.error("Unfollow request failed:", error);
+    }
+  };
 
   return (
     <div
@@ -61,13 +118,25 @@ const UsersProfileHeaderComponent: React.FC = () => {
         <p className="text-gray-500 transition-transform duration-300">
           {profile.bio}
         </p>
-        <button
-          className={
-            "bg-light-dropzone hover:bg-pink-300 dark:bg-dark-border dark:text-slate-300 dark:hover:bg-dark-hover px-4 py-2 rounded-md mt-2"
-          }
-        >
-          Takip Et
-        </button>
+        {isFollowing ? (
+          <button
+            className={
+              "bg-light-dropzone hover:bg-pink-300 dark:bg-dark-border dark:text-slate-300 dark:hover:bg-dark-hover px-4 py-2 rounded-md mt-2"
+            }
+            onClick={handleUnfollow}
+          >
+            Takibi Bırak
+          </button>
+        ) : (
+          <button
+            className={
+              "bg-light-dropzone hover:bg-pink-300 dark:bg-dark-border dark:text-slate-300 dark:hover:bg-dark-hover px-4 py-2 rounded-md mt-2"
+            }
+            onClick={handleFollow}
+          >
+            Takip Et
+          </button>
+        )}
       </div>
       <div className="flex mt-4">
         <div
@@ -113,7 +182,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
                 />
               ) : (
                 "0"
-              )}{" "}
+              )}
             </p>
           </div>
         </div>
