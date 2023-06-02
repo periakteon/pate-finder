@@ -90,8 +90,8 @@ const UsersProfilePostsComponent: React.FC = () => {
                 <Image
                   src={post.postImage}
                   alt="post image"
-                  width={320}
-                  height={320}
+                  layout="fill"
+                  objectFit="cover"
                   className="flex object-cover rounded-lg hover:opacity-90 transition duration-300 ease-in-out hover:scale-95"
                 />
               </div>

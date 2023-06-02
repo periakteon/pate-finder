@@ -218,7 +218,7 @@ const UsersProfilePostModal: React.FC = () => {
               <div className="flex justify-start items-center space-x-2">
                 {author.profile_picture && (
                   <Image
-                    className="rounded-full"
+                    className="rounded-full border-2 border-pink-300 dark:border-slate-500  aspect-square object-cover "
                     src={
                       author.profile_picture === null
                         ? "/images/default.jpeg"
