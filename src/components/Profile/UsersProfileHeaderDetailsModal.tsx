@@ -38,7 +38,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
               alt="Profile Picture"
               width={64}
               height={64}
-              className="rounded-full"
+              className="rounded-full  aspect-square object-cover "
             />
           </Link>
         </div>
@@ -70,7 +70,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
               alt="Profile Picture"
               width={64}
               height={64}
-              className="rounded-full"
+              className="rounded-full  aspect-square object-cover "
             />
           </Link>
         </div>

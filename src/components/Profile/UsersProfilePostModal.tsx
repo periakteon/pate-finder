@@ -269,7 +269,7 @@ const UsersProfilePostModal: React.FC = () => {
                             : "/images/default.jpeg"
                         }
                         alt="Profile Picture"
-                        className="rounded-full"
+                        className="rounded-full  aspect-square object-cover "
                         width={48}
                         height={48}
                       />
@@ -315,7 +315,7 @@ const UsersProfilePostModal: React.FC = () => {
                   }
                 }}
                 placeholder="Yorumunuzu buraya girin"
-                className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded bg-slate-800"
+                className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded bg-white dark:bg-slate-800"
               ></textarea>
               <button
                 type="submit"
