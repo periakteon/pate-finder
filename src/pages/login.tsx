@@ -175,30 +175,6 @@ const Login: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center justify-around pb-2">
-              <button className="h-12 w-12">
-                <FontAwesomeIcon
-                  icon={faFacebookSquare}
-                  className="w-8 h-8"
-                  color="#3B5998"
-                />
-              </button>
-              <button className="h-12 w-12">
-                <FontAwesomeIcon
-                  icon={faSquareTwitter}
-                  className="w-8 h-8"
-                  color="#1DA1F2"
-                />
-              </button>
-              <button className="h-12 w-12">
-                <FontAwesomeIcon
-                  icon={faGoogle}
-                  className="w-7 h-7"
-                  color="#DB4437"
-                />
-              </button>
-            </div>
-
             <div className="flex flex-col items-center justify-center space-y-4">
               <button
                 type="submit"
