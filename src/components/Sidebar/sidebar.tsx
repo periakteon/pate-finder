@@ -270,7 +270,7 @@ const Sidebar: React.FC = () => {
                               ? user.profile_picture
                               : defaultImage
                           }
-                          className="rounded-full"
+                          className="rounded-full aspect-square object-cover "
                           width={32}
                           height={32}
                           alt="Avatar"
@@ -354,7 +354,7 @@ const Sidebar: React.FC = () => {
                     <FontAwesomeIcon
                       icon={faSignOut}
                       className={`icon-style mr-2 ${
-                        theme === "light" ? "rotate-0" : "rotate-90"
+                        theme === "light" ? "rotate-0" : ""
                       } transition-transform animate-spin-slow`}
                     />
                   ) : (
@@ -377,8 +377,7 @@ const Sidebar: React.FC = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg"
-                >
+                  className="flex items-center p-4 text-pink-600 dark:text-white rounded-lg">
                   <button className="transition-all cursor-pointer">
                     {resolvedTheme === "dark" ? (
                       <FontAwesomeIcon
