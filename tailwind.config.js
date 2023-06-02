@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '128': '55rem',
+      },
+      height: {
+        '128': '55rem',
+      },
       zIndex: {
         1000: "1000",
       },
