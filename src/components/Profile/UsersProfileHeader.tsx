@@ -48,7 +48,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
             width={175}
             height={175}
             alt="profile picture"
-            className="rounded-full border-4 border-pink-500 dark:border-dark-border"
+            className="rounded-full border-4 border-pink-500 dark:border-dark-border  filter aspect-square object-cover "
           />
         </div>
       )}

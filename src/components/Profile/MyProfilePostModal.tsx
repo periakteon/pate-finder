@@ -173,7 +173,7 @@ const MyProfilePostModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-min bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+      <div className="w-1/2 h-1/2 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
         <div className="w-2/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
@@ -181,7 +181,7 @@ const MyProfilePostModal: React.FC = () => {
               src={postImage}
               alt="Post Image"
               layout="fill"
-              objectFit="contain"
+              objectFit="cover"
               objectPosition="center"
             />
           </div>
@@ -264,7 +264,7 @@ const MyProfilePostModal: React.FC = () => {
                             : "/images/default.jpeg"
                         }
                         alt="Profile Picture"
-                        className="rounded-full"
+                        className="rounded-full aspect-square object-cover "
                         width={48}
                         height={48}
                       />
