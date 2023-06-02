@@ -249,7 +249,7 @@ const Sidebar: React.FC = () => {
                         type="text"
                         id="searchInput"
                         placeholder="Ara..."
-                        className="w-full p-3 rounded-lg border-2 border-pink-600  dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
+                        className="w-full p-3 rounded-lg border-2 bg-pink-50 border-pink-600  dark:border-white dark:bg-dark-searchBar  dark:text-white transition-all"
                       />
                       <FontAwesomeIcon
                         icon={faMagnifyingGlass}
@@ -262,7 +262,7 @@ const Sidebar: React.FC = () => {
                 <div className="max-h-60 overflow-y-auto w-48 bg-light-secondary dark:bg-slate-600  border-gray-300 rounded-lg mt-1">
                   {searchResults.map((user) => (
                     <Link href={`/profile/${user.username}`} key={user.id}>
-                      <div className="p-2 flex text-black text-sm flex-row hover:bg-slate-200 dark:hover:bg-slate-400 bg-light-primary dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
+                      <div className="p-2 flex text-black text-sm flex-row hover:bg-pink-200 dark:hover:bg-slate-400 bg-light-primary dark:bg-slate-700 rounded-lg m-1 dark:hover:text-black">
                         <Image
                           priority
                           src={

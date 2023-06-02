@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, CSSProperties } from "react";
 import { useRouter } from "next/router";
 import { atom, useAtom } from "jotai";
 import Sidebar from "@/components/Sidebar/sidebar";
@@ -9,6 +9,13 @@ import {
 import { z } from "zod";
 import UsersProfileHeaderComponent from "@/components/Profile/UsersProfileHeader";
 import UsersProfilePostsComponent from "@/components/Profile/UsersProfilePosts";
+import { BeatLoader } from "react-spinners";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "black",
+};
 
 type UserProfileType = z.infer<typeof UserProfileSchema>;
 
@@ -18,6 +25,7 @@ const ProfilePage: React.FC = () => {
   const router = useRouter();
   const { username } = router.query;
   const [, setProfile] = useAtom(profileAtom);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +45,8 @@ const ProfilePage: React.FC = () => {
         }
       } catch (error) {
         console.log("Fetch error");
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -49,6 +59,18 @@ const ProfilePage: React.FC = () => {
           <Sidebar />
         </div>
         <div className="md:w-full md:min-h-screen md:p-8 lg:ms-14 xl:ms-16 2xl:ms-40">
+        {loading && (
+            <div className="flex justify-center items-center w-full h-full">
+              <div>
+              <BeatLoader
+              cssOverride={override}
+              size={15}
+              color={"pink"}
+              loading={loading}
+            />
+              </div>
+              </div>
+              )}
           <UsersProfileHeaderComponent />
           <UsersProfilePostsComponent />
         </div>

@@ -1,5 +1,5 @@
 import Sidebar from "@/components/Sidebar/sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, CSSProperties } from "react";
 import PostComponent from "@/components/Post/post";
 import {
   infinitePostType,
@@ -7,6 +7,13 @@ import {
 } from "../utils/zodSchemas";
 import { z } from "zod";
 import { toast } from "react-toastify";
+import { BeatLoader } from "react-spinners";
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "black",
+};
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 type PostType = z.infer<typeof infinitePostType>;
@@ -19,7 +26,8 @@ const HomePage: React.FC = () => {
   const [showNoContentMessage, setShowNoContentMessage] =
     useState<boolean>(false);
   // hydration hatasını çözmek için
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadPosts = async (pageNumber: number, pageSize: number) => {
@@ -49,6 +57,8 @@ const HomePage: React.FC = () => {
           draggable: false,
           autoClose: 2000,
         });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -85,6 +95,18 @@ const HomePage: React.FC = () => {
           mounted ? "flex" : "hidden"
         }`}
       >
+        {loading && (
+            <div className="flex justify-center items-center w-full h-full">
+              <div>
+              <BeatLoader
+              cssOverride={override}
+              size={15}
+              color={"pink"}
+              loading={loading}
+            />
+              </div>
+              </div>
+              )}
         <ul className="px-2">
           {posts.map((post, id) => (
             <PostComponent key={id} post={post} />
