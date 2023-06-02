@@ -29,17 +29,29 @@ const handleUnfollowRequest = async (
   }
 
   const followerId = req.userId;
-  const { followingId } = parsed.data;
+  const { email } = parsed.data;
 
-  await prisma.follow.delete({
-    where: {
-      followerId_followingId: {
-        followerId: Number(followerId),
-        followingId: Number(followingId),
+  try {
+    const following = await prisma.user.findUnique({ where: { email } });
+
+    if (!following) {
+      return res
+        .status(404)
+        .json({ success: false, errors: ["Kullanıcı bulunamadı"] });
+    }
+
+    await prisma.follow.delete({
+      where: {
+        followerId_followingId: {
+          followerId: Number(followerId),
+          followingId: following.id,
+        },
       },
-    },
-  });
-  return res.status(200).json({ success: true, message: "Takipten çıkıldı." });
+    });
+    return res.status(200).json({ success: true, message: "Takipten çıkıldı." });
+  } catch (error) {
+    return res.status(500).json({ success: false, errors: ["Internal Server Error"] });
+  }
 };
 
 export default authMiddleware(handleUnfollowRequest);
