@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
@@ -104,7 +104,7 @@ const Register: React.FC = () => {
   const { showCheckboxError, handleCheckboxChange } = useCheckboxValidation();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-red-400 to-purple-600 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+    <main className="min-h-screen bg-gradient-to-br from-light-dropzone  to-pink-400 flex flex-col items-end justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}
@@ -112,11 +112,11 @@ const Register: React.FC = () => {
         alt="logo"
         className="flex self-start absolute top-0 left-0 mt-5 ml-5"
       />
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div className="absolute py-3 sm:mx-auto z-10">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-rose-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="backdrop-blur-sm bg-white/80 rounded-md p-8">
           <form onSubmit={handleSubmit}>
-            <h2 className="text-4xl font-bold mb-10 flex justify-center">
+            <h2 className="text-4xl mb-12 flex justify-center text-purple-900">
               Kayıt Ol
             </h2>
             <div className={`relative ${showUsernameError ? "mb-2" : "mb-7"}`}>
@@ -132,17 +132,16 @@ const Register: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
+                className="peer bg-white p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
                 required
               />
               <label
                 htmlFor="username"
-                className={`absolute transition-all ${
-                  formData.username.length === 0 && !formData.username
+                className={`absolute transition-all ${formData.username.length === 0 && !formData.username
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Kullanıcı Adı
               </label>
@@ -166,17 +165,16 @@ const Register: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
+                className="peer p-3 bg-white h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
                 required
               />
               <label
                 htmlFor="email"
-                className={`absolute transition-all ${
-                  formData.email.length === 0 && !formData.email
+                className={`absolute transition-all ${formData.email.length === 0 && !formData.email
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Email
               </label>
@@ -198,17 +196,16 @@ const Register: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
+                className="peer bg-white p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
                 required
               />
               <label
                 htmlFor="password"
-                className={`absolute transition-all ${
-                  formData.password.length === 0 && !formData.password
+                className={`absolute transition-all ${formData.password.length === 0 && !formData.password
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Parola
               </label>
@@ -218,9 +215,8 @@ const Register: React.FC = () => {
             )}
 
             <div
-              className={`relative ${
-                showConfirmPasswordError ? "mb-2" : "mb-7"
-              }`}
+              className={`relative ${showConfirmPasswordError ? "mb-2" : "mb-7"
+                }`}
             >
               <input
                 type="password"
@@ -234,18 +230,17 @@ const Register: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className="peer p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
+                className="peer bg-white p-3 h-10 w-full border-b-2 border-gray-300 text-gray-900 placeholder-transparent focus-within:outline-none focus-within:border-rose-600"
                 placeholder=""
                 required
               />
               <label
                 htmlFor="confirmPassword"
-                className={`absolute transition-all ${
-                  formData.confirmPassword.length === 0 &&
-                  !formData.confirmPassword
+                className={`absolute transition-all ${formData.confirmPassword.length === 0 &&
+                    !formData.confirmPassword
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                }`}
+                  }`}
               >
                 Parola
               </label>
@@ -296,7 +291,7 @@ const Register: React.FC = () => {
             </div>
             <div className="p-2 flex flex-col items-center mt-4">
               <div className="text-sm  text-gray-500">Hesabınız var mı?</div>
-              <Link href="/login">
+              <Link href="/">
                 <div className="text-rose-500 hover:text-purple-500 text-md duration-300 ease-in-out">
                   Giriş Yap
                 </div>
@@ -305,6 +300,14 @@ const Register: React.FC = () => {
           </form>
         </div>
       </div>
+      <Image
+        src="/logo/png/logo-without-layout-white.png"
+        alt="Pate Logo"
+        layout="fill"
+        objectFit="contain"
+        objectPosition="center"
+        className="opacity-20"
+      />
     </main>
   );
 };
