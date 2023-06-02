@@ -184,8 +184,8 @@ const UsersProfilePostModal: React.FC = () => {
       className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
-      <div className="w-2/3 h-full bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-2/3 sticky top-0 bg-light-primary dark:bg-dark-secondary border-r-2 border-r-slate-700">
+      <div className=" bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
+        <div className="w-48 md:w-128 md:h-128  sticky top-0 bg-light-primary dark:bg-dark-secondary border-r-2 border-r-slate-700">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -197,7 +197,7 @@ const UsersProfilePostModal: React.FC = () => {
             />
           </div>
         </div>
-        <div className="w-2/5 flex flex-col justify-start p-4">
+        <div className="w-3/5 flex flex-col justify-start p-4">
           <button
             className="absolute top-4 right-4 bg-transparent rounded-full p-2 hover:bg-gray-200 transition duration-300 focus:outline-none"
             onClick={closeModal}
@@ -320,7 +320,7 @@ const UsersProfilePostModal: React.FC = () => {
                     handleCommentSubmit(e);
                   }
                 }}
-                placeholder="Yorumunuzu buraya girin"
+                placeholder="Yorumunuzu buraya giriniz."
                 className="w-full h-20 px-4 py-2 mb-4 border border-gray-300 rounded bg-white dark:bg-slate-800"
               ></textarea>
               <button

@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '128': '55rem',
+      },
+      height: {
+        '128': '55rem',
+      },
       zIndex: {
         1000: "1000",
       },
@@ -41,6 +47,7 @@ module.exports = {
           hover: "#c4c4c4",
           searchBar: "#e2e2e2",
           border: "#d3d3d3",
+          text: "#7E1717",
           gray: {
             100: "#f7fafc",
             900: "#1a202c",

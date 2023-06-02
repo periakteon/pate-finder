@@ -86,7 +86,7 @@ const authMiddleware: NextMiddleware = async (request) => {
     console.log(
       "Geçersiz token bilgisi. Redirect koduna girildi ve logine yönlendirildi!",
     );
-    return NextResponse.redirect(new URL(`/login?${searchParams}`, url));
+    return NextResponse.redirect(new URL(`/?${searchParams}`, url));
   }
   console.log("Middleware sona geldi! Sorunsuz devam edebilirsiniz.");
   return NextResponse.next();
@@ -94,7 +94,7 @@ const authMiddleware: NextMiddleware = async (request) => {
 
 // hangi sayfalarda kontrol yapmak istediğimizi belirtiyoruz
 export const config = {
-  matcher: ["/myprofile", "/feed", "/login", "/register"],
+  matcher: ["/myprofile", "/feed", "/", "/register"],
 };
 
 export default authMiddleware;
