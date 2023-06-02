@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [, setIsModalOpen] = useAtom(isModalOpenAtom);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
   const router = useRouter();
 
