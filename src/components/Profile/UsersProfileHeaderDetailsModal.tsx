@@ -151,7 +151,7 @@ const UsersProfileHeaderDetailsModal: React.FC = () => {
       onRequestClose={() => setIsUserHeaderDetailsModalOpen(false)}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
+      className="fixed inset-0 flex items-start justify-center overflow-auto z-[150] pt-20"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="h-3/4 border-2 border-pink-400 dark:border-slate-700 rounded-md w-1/4 min-w-max bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">

@@ -181,7 +181,7 @@ const UsersProfilePostModal: React.FC = () => {
       onRequestClose={closeModal}
       shouldCloseOnOverlayClick={true}
       contentLabel="Comments Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
+      className="fixed inset-0 flex items-start justify-center overflow-auto z-[150] pt-20"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="h-2/3 justify-center items-center bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll rounded-xl bg-opacity-80">
