@@ -351,14 +351,12 @@ const Sidebar: React.FC = () => {
                   {localStorage.getItem("isLoggedIn") === "true" ? (
                     <FontAwesomeIcon
                       icon={faSignOut}
-                      className={`icon-style mr-2 ${theme === "light" ? "rotate-0" : "rotate-90"
-                        } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2`}
                     />
                   ) : (
                     <FontAwesomeIcon
                       icon={faSignIn}
-                      className={`icon-style mr-2 ${theme === "dark" ? "rotate-0" : "rotate-0"
-                        } transition-transform animate-spin-slow`}
+                      className={`icon-style mr-2`}
                     />
                   )}
                 </button>
