@@ -95,7 +95,7 @@ const Home: React.FC = () => {
     }
   };
   return (
-    <main className="min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-end justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
+    <main className="min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col md:items-end justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white items-center">
 
       <Image
         src="/logo/png/logo-no-background.png"
@@ -105,7 +105,7 @@ const Home: React.FC = () => {
         className="absolute flex self-start top-0 left-0 mt-5 ml-5"
       />
       <div className="absolute py-3 sm:mx-auto z-10">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 shadow-lg transform sm:-rotate-3 sm:rounded-xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 shadow-lg transform -rotate-3 rounded-xl items-center"></div>
         <div className=" backdrop-blur-sm w-80 hover:max-h-screen bg-white/80 rounded-md p-8 m-1">
           <form onSubmit={onSubmit}>
             <h2 className="text-4xl mb-12 flex justify-center text-purple-900">
