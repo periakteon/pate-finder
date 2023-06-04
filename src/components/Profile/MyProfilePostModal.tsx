@@ -163,6 +163,10 @@ const MyProfilePostModal: React.FC = () => {
       const data = await response.json();
 
       if (data.success) {
+        toast.error("Gönderi başarıyla silindi!", {
+          draggable: false,
+          autoClose: 1800,
+        });
         closeModal();
       } else {
         toast.error("Gönderi silinirken bir hata oluştu!", {
@@ -203,7 +207,7 @@ const MyProfilePostModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className=" bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-        <div className="w-48 md:w-128 md:h-128 sticky top-24 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
+      <div className="w-48 md:w-128 md:h-3/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
