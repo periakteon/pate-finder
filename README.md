@@ -24,7 +24,7 @@
 - **Edit Your Profile**: Users can edit their profile information, such as their username, email, password, bio and profile picture. (When email or username is already taken, the user is notified. Besides, when email or password is changed, the user is logged out.)
 
 ![Edit Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/editprofile.png)
-![Edit Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/profile%20edit.png)
+![Edit Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/profile-edit.png)
 
 - **Create a Post**: Users can create a post by uploading a photo and writing a caption. (When the user tries to create a post without uploading a photo, the user is notified.) In this post page, there is a preview of the image that user selected. Users can select a photo by dragging and dropping or by clicking on the dropzone.
 
@@ -33,7 +33,7 @@
 
 - **Post Modal**: When a user clicks on a post, a modal window opens. In this modal window, users can see the post in detail, like it, and leave comments.
 
-![Post Modal](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/post%20modal.png)
+![Post Modal](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/post-modal.png)
 
 - **Scrolling User Profile**: When a user clicks on a username, the user is directed to the user's profile page. In this page, users can see the user's posts, follow the user, and see the user's information. While scrolling, the user can see the user's details in the navbar.
 
@@ -66,6 +66,8 @@
 
 ![Add Pet](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/add-pet-in-profile.png)
 ![Add Pet](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/add-pet.png)
+
+All of these screenshots are taken in the light mode. There is also a dark mode in this application.
 
 ***
 # Installation
