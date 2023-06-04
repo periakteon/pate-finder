@@ -3,6 +3,7 @@
 **Pate Finder** is a social media application designed for users who want to share their pets. On this platform, users can share photos and information about their cute pets, discover other users' pets, and interact with them.
 
 Check out to see and try out the deployed/working version of the application: https://pate-finder.vercel.app/
+The production of this application is executed in Vercel and PlanetScale is used for database queries. In addition, AWS S3 Bucket is used for file uploads.
 
 ***
 
