@@ -8,7 +8,7 @@ import { BeatLoader } from "react-spinners";
 import { useS3Upload } from "next-s3-upload";
 import { useDropzone } from "react-dropzone";
 import { faFileUpload, faTimes } from "@fortawesome/free-solid-svg-icons";
-import type { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import type { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { PrismaClient } from "@prisma/client";
 import { verifyJwtToken } from "@/utils/verifyJwtToken";
@@ -40,7 +40,8 @@ const PetSchema = z.object({
       invalid_type_error: "Lütfen geçerli bir fotoğraf yükleyiniz.",
       required_error: "Lütfen bir fotoğraf ekleyiniz.",
     })
-    .url().nullable(),
+    .url()
+    .nullable(),
   type: z.string({
     invalid_type_error: "Lütfen geçerli bir tür giriniz.",
     required_error: "Lütfen bir tür giriniz.",
@@ -135,7 +136,6 @@ const AddPet = () => {
           autoClose: 1800,
         });
       }
-
     } catch (error) {
       toast.error("Pet eklenirken bir hata oluştu.", {
         draggable: false,
@@ -229,46 +229,46 @@ const AddPet = () => {
               Evcil Hayvan Fotoğrafı:
             </label>
             <div
-          {...getRootProps()}
-          className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-pink-100 dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
-            isDragActive || isDragging
-              ? "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
-              : "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
-          }`}
-          onDragEnter={() => setIsDragging(true)}
-          onDragLeave={() => setIsDragging(false)}
-        >
-          <input {...getInputProps()} />
-          {!files.length ? (
-            <>
-              <FontAwesomeIcon
-                icon={faFileUpload}
-                className="text-pink-500 dark:text-gray-300 text-4xl mb-4"
-              />
-              <p className="text-sm text-center text-pink-500 font-bold dark:text-gray-400">
-                Dosyalarınızı buraya sürükleyin veya seçmek için tıklayın.
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="relative">
-                <Image
-                  src={URL.createObjectURL(files[0])}
-                  alt="Preview"
-                  className="image-wrapper mt-2 max-h-80 object-contain"
-                  width={600}
-                  height={400}
-                />
-                <div
-                  className="absolute top-0 right-0 cursor-pointer bg-gray-800 hover:bg-white rounded-full text-white p-1"
-                  onClick={() => setFiles([])}
-                >
-                  <FontAwesomeIcon icon={faTimes} />
-                </div>
-              </div>
-            </>
-          )}
-        </div>
+              {...getRootProps()}
+              className={`w-3/5 mx-auto flex flex-col justify-center items-center bg-pink-100 dark:bg-dark-dropzone border-4 border-dashed rounded-lg p-8 ${
+                isDragActive || isDragging
+                  ? "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
+                  : "border-pink-300 hover:border-pink-500 dark:border-gray-400 dark:hover:border-blue-500"
+              }`}
+              onDragEnter={() => setIsDragging(true)}
+              onDragLeave={() => setIsDragging(false)}
+            >
+              <input {...getInputProps()} />
+              {!files.length ? (
+                <>
+                  <FontAwesomeIcon
+                    icon={faFileUpload}
+                    className="text-pink-500 dark:text-gray-300 text-4xl mb-4"
+                  />
+                  <p className="text-sm text-center text-pink-500 font-bold dark:text-gray-400">
+                    Dosyalarınızı buraya sürükleyin veya seçmek için tıklayın.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="relative">
+                    <Image
+                      src={URL.createObjectURL(files[0])}
+                      alt="Preview"
+                      className="image-wrapper mt-2 max-h-80 object-contain"
+                      width={600}
+                      height={400}
+                    />
+                    <div
+                      className="absolute top-0 right-0 cursor-pointer bg-gray-800 hover:bg-white rounded-full text-white p-1"
+                      onClick={() => setFiles([])}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             <div className="flex justify-center">
               <button
@@ -280,15 +280,15 @@ const AddPet = () => {
             </div>
 
             {uploading && (
-          <div className="flex items-center justify-center mb-4">
-            <BeatLoader
-              cssOverride={override}
-              size={15}
-              color={"pink"}
-              loading={uploading}
-            />
-          </div>
-        )}
+              <div className="flex items-center justify-center mb-4">
+                <BeatLoader
+                  cssOverride={override}
+                  size={15}
+                  color={"pink"}
+                  loading={uploading}
+                />
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -297,7 +297,9 @@ const AddPet = () => {
 };
 
 // Pet ekleme sayfasına sadece giriş yapmış kullanıcılar erişebilsin ve eğer kullanıcı zaten pet eklemişse tekrar pet ekleyemesin diye.
-export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext,
+) => {
   const { req } = ctx;
   const cookies = cookie.parse(req.headers.cookie || "");
   const token = cookies.token;

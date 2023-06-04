@@ -5,7 +5,7 @@
 Check out to see and try out the deployed/working version of the application: https://pate-finder.vercel.app/
 The production of this application is executed in Vercel and PlanetScale is used for database queries. In addition, AWS S3 Bucket is used for file uploads.
 
-***
+---
 
 # Features
 
@@ -14,7 +14,7 @@ The production of this application is executed in Vercel and PlanetScale is used
 - **Interaction:** Users can interact with other users, leave comments, and follow each other.
 - **Customization:** Users can update their profile information.
 
-***
+---
 
 # Screenshots
 
@@ -56,7 +56,7 @@ The production of this application is executed in Vercel and PlanetScale is used
 
 ![Explore Users](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/explore-users.png)
 
-- **Feed**: Users can see the posts of the users they follow in the feed page. This page is protected, so users need to log in to see this page. This feed has an infinite scroll feature. Also, users can like and comment on the posts in this page. When a user clicks on a post, the user is directed to the post modal. When a user clicks on a username, the user is directed to the user's profile page. When a user clicks on a comment, the user is directed to the user's profile page. 
+- **Feed**: Users can see the posts of the users they follow in the feed page. This page is protected, so users need to log in to see this page. This feed has an infinite scroll feature. Also, users can like and comment on the posts in this page. When a user clicks on a post, the user is directed to the post modal. When a user clicks on a username, the user is directed to the user's profile page. When a user clicks on a comment, the user is directed to the user's profile page.
 
 ![Infinite Feed](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/infinite-feed.png)
 ![Post Modal](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/feed-post-detail.png)
@@ -72,7 +72,8 @@ The production of this application is executed in Vercel and PlanetScale is used
 
 All of these screenshots are taken in the light mode. There is also a dark mode in this application.
 
-***
+---
+
 # Installation
 
 1. Clone the repository to your computer:
@@ -93,7 +94,7 @@ cd pate-finder
 npm install
 ```
 
-4. Create a ```.env``` file based on the ```.env_example``` file, and customize it with your own information.
+4. Create a `.env` file based on the `.env_example` file, and customize it with your own information.
 
 5. Run the application:
 
@@ -103,9 +104,9 @@ npm run dev
 
 The application will run by default at http://localhost:3000.
 
-There are also scripts in the ```script``` folder where you can test the application.
+There are also scripts in the `script` folder where you can test the application.
 
-***
+---
 
 ## Technologies
 

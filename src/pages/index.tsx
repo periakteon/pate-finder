@@ -96,7 +96,6 @@ const Home: React.FC = () => {
   };
   return (
     <main className="min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col md:items-end justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white items-center">
-
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}

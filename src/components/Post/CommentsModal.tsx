@@ -158,7 +158,7 @@ const CommentsModal: React.FC<{ post: PostType }> = ({ post }) => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[1001]"
     >
       <div className=" bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-      <div className="w-48 md:w-128 md:h-3/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
+        <div className="w-48 md:w-128 md:h-3/3 sticky top-0 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
