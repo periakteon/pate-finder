@@ -70,7 +70,11 @@ const Home: React.FC = () => {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", JSON.stringify(true));
         setTimeout(() => {
-          router.push(nextUrl ?? "/");
+          if (nextUrl) {
+            router.push(nextUrl);
+          } else {
+            router.push("/myprofile");
+          }
         }, 2000);
       }
     } catch (error: any) {
