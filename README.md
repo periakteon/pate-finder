@@ -13,6 +13,61 @@
 
 ***
 
+# Screenshots
+
+- **Home Page**: Since all routes except login and register page are protected, users need to log in. For this reason, Homepage contains login and register screens.
+
+![Home Page with Login](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/index%3Alogin.png)
+![Home Page with Register](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/index%3Aregister.png)
+![When Login is Successful](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/login%20success.png)
+
+- **Edit Your Profile**: Users can edit their profile information, such as their username, email, password, bio and profile picture. (When email or username is already taken, the user is notified. Besides, when email or password is changed, the user is logged out.)
+
+![Edit Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/editprofile.png)
+![Edit Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/profile%20edit.png)
+
+- **Create a Post**: Users can create a post by uploading a photo and writing a caption. (When the user tries to create a post without uploading a photo, the user is notified.) In this post page, there is a preview of the image that user selected. Users can select a photo by dragging and dropping or by clicking on the dropzone.
+
+![Create a Post](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/create-new-post.png)
+![Dropzone](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/dropzone-post.png)
+
+- **Post Modal**: When a user clicks on a post, a modal window opens. In this modal window, users can see the post in detail, like it, and leave comments.
+
+![Post Modal](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/post%20modal.png)
+
+- **Scrolling User Profile**: When a user clicks on a username, the user is directed to the user's profile page. In this page, users can see the user's posts, follow the user, and see the user's information. While scrolling, the user can see the user's details in the navbar.
+
+![Scrolling User Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/profile-while-scrolling.png)
+
+- **Profile Detail**: When a user clicks on the details (the place where posts, followers, followings and pet section are located), the user is directed to the profile detail page. In this page, users can see the user's followers, followings and pet. Users can edit their pet information by clicking on the edit button.
+
+![Profile Detail](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/user-detail.png)
+![Pet Detail](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/pet-detail.png)
+![Pet Edit](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/pet-detail-edit.png)
+
+- **Search Bar and Search Results**: Users can search for other users by typing their username in the search bar. This search bar has an autocomplete feature. When a user clicks on a search result, the user is directed to the user's profile page.
+
+![Search Bar](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/auto-complete-search.png)
+
+- **Explore Users**: Users can explore other users on the platform. In this page, users can see other users' profile.
+
+![Explore Users](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/explore-users.png)
+
+- **Feed**: Users can see the posts of the users they follow in the feed page. This page is protected, so users need to log in to see this page. This feed has an infinite scroll feature. Also, users can like and comment on the posts in this page. When a user clicks on a post, the user is directed to the post modal. When a user clicks on a username, the user is directed to the user's profile page. When a user clicks on a comment, the user is directed to the user's profile page. 
+
+![Infinite Feed](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/infinite-feed.png)
+![Post Modal](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/feed-post-detail.png)
+
+- **User Profile**: Users can see the other users' profile. In this page, users can see the user's posts, follow/unfollow the user, and see the user's information. When a user clicks on a post, the user is directed to the post modal.
+
+![User Profile](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/users-profile.png)
+
+- **Add Pet**: If the user does not have a pet, the user can add a pet by clicking on the add pet button. In this page, users can add their pet's information.
+
+![Add Pet](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/add-pet-in-profile.png)
+![Add Pet](https://raw.githubusercontent.com/periakteon/pate-finder/main/showcase/add-pet.png)
+
+***
 # Installation
 
 1. Clone the repository to your computer:
