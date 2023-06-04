@@ -2,6 +2,8 @@
 
 **Pate Finder** is a social media application designed for users who want to share their pets. On this platform, users can share photos and information about their cute pets, discover other users' pets, and interact with them.
 
+Check out to see and try out the deployed/working version of the application: https://pate-finder.vercel.app/
+
 ***
 
 # Features
@@ -133,7 +135,3 @@ In this project, the following technologies are used:
 ## Contributing
 
 If you would like to contribute to this project, please open a pull request. We welcome all kinds of contributions!
-
-
-Check out to see and try out the deployed/working version of the application: https://pate-finder.vercel.app/
-
