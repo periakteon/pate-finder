@@ -70,6 +70,8 @@ const AddPet = () => {
     bio: "",
   });
 
+  console.log("selected file url", selectedFileURL);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const updatedPet = { ...pet, [name]: value };
@@ -122,11 +124,10 @@ const AddPet = () => {
           age: pet.age,
           type: pet.type,
           bio: pet.bio,
-          pet_photo: "http://image.com/512.jpg"
+          pet_photo: url,
         }),
       });
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         toast.success("Pet başarıyla eklendi!", {

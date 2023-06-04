@@ -229,7 +229,7 @@ const UsersProfilePostModal: React.FC = () => {
                     height={64}
                   />
                 )}
-                <div className="flex font-bold text-xl dark:text-white">
+                <div className="font-bold text-xl text-pink-500 dark:text-gray-200">
                   {author.username}
                 </div>
               </div>
@@ -289,7 +289,9 @@ const UsersProfilePostModal: React.FC = () => {
                         }
                         href={`/profile/${comment.user.username}`}
                       >
-                        {comment.user.username}
+                        <span className="text-pink-600 dark:text-white">
+                          {comment.user.username}
+                        </span>
                       </Link>
                     </div>
                     <div className="text-black dark:text-gray-300">

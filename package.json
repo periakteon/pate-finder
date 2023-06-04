@@ -34,7 +34,6 @@
     "react-modal": "^3.16.1",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.2",
-    "universal-cookie": "^4.0.4",
     "zod": "^3.21.4"
   },
   "devDependencies": {

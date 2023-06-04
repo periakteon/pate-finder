@@ -1,38 +1,82 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pate Finder
 
-## Getting Started
+**Pate Finder** is a social media application designed for users who want to share their pets. On this platform, users can share photos and information about their cute pets, discover other users' pets, and interact with them.
 
-First, run the development server:
+***
+
+# Features
+
+- **Pet Sharing:** Users can share photos and information about their own pets with other users.
+- **Exploring:** Users can explore other pets on the platform, like them, and leave comments.
+- **Interaction:** Users can interact with other users, leave comments, and follow each other.
+- **Customization:** Users can update their profile information.
+
+***
+
+# Installation
+
+1. Clone the repository to your computer:
+
+```bash
+git clone https://github.com/periakteon/pate-finder.git
+```
+
+2. Navigate to the project folder:
+
+```bash
+cd pate-finder
+```
+
+3. Install the required dependencies:
+
+```bash
+npm install
+```
+
+4. Create a ```.env``` file based on the ```.env_example``` file, and customize it with your own information.
+
+5. Run the application:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will run by default at http://localhost:3000.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+There are also scripts in the ```script``` folder where you can test the application.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+***
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+In this project, the following technologies are used:
 
-## Learn More
+- [React](https://react.dev): A popular JavaScript library used for building user interfaces.
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js](https://nextjs.org): A React-based framework that provides features like Server-Side Rendering (SSR) and file-based routing.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [TypeScript](https://www.typescriptlang.org): A programming language (actually, it is a superset of JavaScript) that adds a strong type system to JavaScript.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [Prisma](https://www.prisma.io): A modern ORM (Object-Relational Mapping) tool that simplifies database operations.
 
-## Deploy on Vercel
+- [Zod](https://zod.dev): A powerful schema validation library for TypeScript used for data validation and schema generation.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [Jotai](https://jotai.org): A library used for state management in React applications. It is simpler and faster compared to other state management solutions like Redux.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [Material Tailwind](https://material-tailwind.com): A UI kit that follows Google's Material Design guidelines. It is used to create fast and beautiful interfaces.
+
+- [Font Awesome](https://fontawesome.com): A library used for customizable icons and symbols. It is preferred for using icons in the application.
+
+- [React Dropzone](https://react-dropzone.js.org): A React component that enables users to upload files by dragging and dropping.
+
+- [React Modal](https://reactcommunity.org/react-modal): A React component used to create modal windows. It provides interactive and focused dialogues.
+
+- [React Toastify](https://fkhadra.github.io/react-toastify): A package used to display notifications to the user. It can create notifications for successful operations, errors, or other important messages.
+
+## Contributing
+
+If you would like to contribute to this project, please open a pull request. We welcome all kinds of contributions!
+
+
+Check out to see and try out the deployed/working version of the application: https://pate-finder.vercel.app/
+
