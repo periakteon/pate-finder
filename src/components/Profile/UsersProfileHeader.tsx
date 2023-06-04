@@ -41,7 +41,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: profile.email,
+          email: profile.email,
         }),
       });
 
@@ -72,7 +72,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
       });
 
       const data = await response.json();
-      console.log("data:", data)
+      console.log("data:", data);
 
       if (response.ok) {
         toast.success("Başarıyla takipten çıkıldı!", {
@@ -138,7 +138,7 @@ const UsersProfileHeaderComponent: React.FC = () => {
           </button>
         )}
       </div>
-      <div className="flex mt-4">
+      <div className="flex my-4">
         <div
           className="flex text-center hover:cursor-pointer transition-transform duration-300 px-3"
           onClick={() => setIsUserHeaderDetailsModalOpen(true)}

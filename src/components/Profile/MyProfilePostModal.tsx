@@ -15,6 +15,7 @@ import {
   faPaw,
   faHeartCrack,
   faTimes,
+  faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 Modal.setAppElement("#__next");
@@ -38,12 +39,15 @@ const MyProfilePostModal: React.FC = () => {
   const [selectedProfilePostId, setSelectedProfilePostId] = useAtom(
     selectedProfilePostIdAtom,
   );
-  const [selectedProfilePost] = useAtom(selectedProfilePostAtom);
+  const [selectedProfilePost, setSelectedProfilePost] = useAtom(
+    selectedProfilePostAtom,
+  );
   const { id, caption, postImage, createdAt, author, comments } =
     selectedProfilePost || {};
   const [commentList, setCommentList] = useState<Comment[]>(comments || []);
   const [newComment, setNewComment] = useState<any>("");
   const [liked, setLiked] = useState<boolean>(false);
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
   const closeModal = () => {
     setIsProfilePostModalOpen(false);
@@ -146,6 +150,31 @@ const MyProfilePostModal: React.FC = () => {
     }
   };
 
+  const handleDeletePost = async () => {
+    try {
+      const response = await fetch("/api/post/deletePost", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postId: id }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        closeModal();
+      } else {
+        toast.error("Gönderi silinirken bir hata oluştu!", {
+          draggable: false,
+          autoClose: 1800,
+        });
+      }
+    } catch (error) {
+      console.error("Bir hata oluştu:", error);
+    }
+  };
+
   useEffect(() => {
     const checkLikeStatus = async () => {
       try {
@@ -174,7 +203,7 @@ const MyProfilePostModal: React.FC = () => {
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className=" bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll">
-      <div className="w-48 md:w-128 md:h-128 sticky top-24 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
+        <div className="w-48 md:w-128 md:h-128 sticky top-24 bg-light-secondary dark:bg-dark-secondary border-r border-r-slate-400 dark:border-r-slate-600">
           <div className="aspect-w-2 aspect-h-3">
             <Image
               priority
@@ -223,6 +252,35 @@ const MyProfilePostModal: React.FC = () => {
                 </div>{" "}
               </div>
             </Link>
+            <button
+              className="text-red-500 dark:text-red-400 hover:underline focus:outline-none"
+              onClick={() => setShowConfirmModal(true)}
+            >
+              Gönderiyi Sil
+            </button>
+            {showConfirmModal && (
+              <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white dark:bg-dark-border p-4 rounded-lg">
+                  <p className="text-lg text-gray-800 dark:text-white mb-4">
+                    Gönderiyi silmek istediğinize emin misiniz?
+                  </p>
+                  <div className="flex justify-end">
+                    <button
+                      className="bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm py-2 px-4 rounded-lg mr-2 focus:outline-none"
+                      onClick={() => setShowConfirmModal(false)}
+                    >
+                      İptal
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-600 text-white font-bold text-sm py-2 px-4 rounded-lg focus:outline-none"
+                      onClick={handleDeletePost}
+                    >
+                      Sil
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="text-xl text-justify my-4 text-slate-600 dark:text-gray-300">
             {caption}

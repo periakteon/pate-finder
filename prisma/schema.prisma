@@ -57,7 +57,7 @@ model Post {
   updatedAt DateTime @updatedAt
 
   author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId Int // Kullanıcının kimlik numarasını tutar
+  authorId Int
 
   comments Comment[]
   likes    Like[]

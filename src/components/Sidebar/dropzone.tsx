@@ -191,7 +191,7 @@ const Dropzone: React.FC = () => {
         <textarea
           value={caption}
           onChange={handleChangeCaption}
-          className={`text-gray-800 w-3/5 h-32 mt-4 p-2 border-2 border-pink-400 dark:border-gray-200 bg-light-dropzoneBorder dark:bg-dark-dropzone rounded-lg resize-none ${
+          className={`text-gray-800 dark:text-white w-3/5 h-32 mt-4 p-2 border-2 border-pink-400 dark:border-gray-200 bg-light-dropzoneBorder dark:bg-dark-dropzone rounded-lg resize-none ${
             characterCount > 280 ? "border-rose-500" : "border-slate-500"
           }`}
         />

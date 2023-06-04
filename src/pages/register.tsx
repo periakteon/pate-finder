@@ -138,10 +138,11 @@ const Register: React.FC = () => {
               />
               <label
                 htmlFor="username"
-                className={`absolute transition-all ${formData.username.length === 0 && !formData.username
+                className={`absolute transition-all ${
+                  formData.username.length === 0 && !formData.username
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Kullanıcı Adı
               </label>
@@ -171,10 +172,11 @@ const Register: React.FC = () => {
               />
               <label
                 htmlFor="email"
-                className={`absolute transition-all ${formData.email.length === 0 && !formData.email
+                className={`absolute transition-all ${
+                  formData.email.length === 0 && !formData.email
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Email
               </label>
@@ -202,10 +204,11 @@ const Register: React.FC = () => {
               />
               <label
                 htmlFor="password"
-                className={`absolute transition-all ${formData.password.length === 0 && !formData.password
+                className={`absolute transition-all ${
+                  formData.password.length === 0 && !formData.password
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Parola
               </label>
@@ -215,8 +218,9 @@ const Register: React.FC = () => {
             )}
 
             <div
-              className={`relative ${showConfirmPasswordError ? "mb-2" : "mb-7"
-                }`}
+              className={`relative ${
+                showConfirmPasswordError ? "mb-2" : "mb-7"
+              }`}
             >
               <input
                 type="password"
@@ -236,11 +240,12 @@ const Register: React.FC = () => {
               />
               <label
                 htmlFor="confirmPassword"
-                className={`absolute transition-all ${formData.confirmPassword.length === 0 &&
-                    !formData.confirmPassword
+                className={`absolute transition-all ${
+                  formData.confirmPassword.length === 0 &&
+                  !formData.confirmPassword
                     ? "left-2 top-2 text-gray-400 peer-focus-within:left-0 peer-focus-within:-top-6 peer-focus-within:text-gray-700 peer-focus-within:text-md peer-focus-within:text-bold"
                     : "left-0 -top-6 text-gray-900 text-md "
-                  }`}
+                }`}
               >
                 Parola
               </label>

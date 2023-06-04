@@ -5,7 +5,7 @@ import { myProfileAtom } from "@/pages/myprofile";
 import { isHeaderDetailsModalOpenAtom } from "./MyProfileHeader";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faEdit, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { handlerPetRequestSchema } from "@/utils/zodSchemas";
 import { z } from "zod";
@@ -157,7 +157,20 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
   const renderPet = () => {
     if (!myProfile.pet) {
       return (
-        <p className="text-black dark:text-white">Pet bilgisi mevcut değil.</p>
+        <>
+          <p className="text-black dark:text-white">
+            Pet bilgisi mevcut değil.
+          </p>
+          <Link href="/addpet">
+            <button
+              className="flex items-center mt-2 text-blue-500 dark:text-blue-400 focus:outline-none"
+              onClick={() => setIsEditing(true)}
+            >
+              <FontAwesomeIcon icon={faPlus} className="mr-1" />
+              Pet Ekle!
+            </button>
+          </Link>
+        </>
       );
     }
 
@@ -255,7 +268,7 @@ const MyProfileHeaderDetailsModal: React.FC = () => {
           </p>
           {isEditing && (
             <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg mt-4"
+              className="px-4 py-2 bg-pink-500 hover:bg-pink-400 dark:bg-blue-500 dark:hover:bg-blue-400 text-white rounded-lg mt-4"
               onClick={handleSaveChanges}
             >
               Kaydet

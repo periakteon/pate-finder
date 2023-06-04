@@ -41,7 +41,7 @@ const ProfilePage: React.FC = () => {
             body: JSON.stringify({ email: profile.email }),
           });
           const data = await response.json();
-          if (data.success === true){
+          if (data.success === true) {
             setIsFollowing(true);
           } else {
             setIsFollowing(false);

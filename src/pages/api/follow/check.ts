@@ -23,7 +23,7 @@ const handleCheckFollowRequest = async (
   if (!parsed.success) {
     const errorMap = parsed.error.flatten().fieldErrors;
     const errorMessages = Object.values(errorMap).flatMap(
-      (errors) => errors ?? []
+      (errors) => errors ?? [],
     );
 
     return res.status(400).json({ success: false, message: errorMessages });
@@ -56,7 +56,9 @@ const handleCheckFollowRequest = async (
       return res.status(200).json({ success: true, message: "Takip ediliyor" });
     }
 
-    return res.status(200).json({ success: false, message: ["Takip edilmiyor"] });
+    return res
+      .status(200)
+      .json({ success: false, message: ["Takip edilmiyor"] });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
@@ -65,7 +67,9 @@ const handleCheckFollowRequest = async (
           .json({ success: true, message: "Zaten takip ediyorsunuz!" });
       }
 
-      res.status(500).json({ success: false, message: [JSON.stringify(error)] });
+      res
+        .status(500)
+        .json({ success: false, message: [JSON.stringify(error)] });
     }
   }
 };

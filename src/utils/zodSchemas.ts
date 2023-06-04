@@ -37,7 +37,6 @@ export const followRequestSchema = z.object({
   }),
 });
 
-
 /**
  * Unfollow API Schemas
  */
@@ -602,6 +601,24 @@ export const UpdateProfileResponseSchema = z.discriminatedUnion("success", [
   z.object({
     success: z.literal(true),
     updatedUser: UpdatedUserSchema,
+  }),
+  z.object({
+    success: z.literal(false),
+    errors: z.array(z.string()),
+  }),
+]);
+
+export const deleteRequestSchema = z.object({
+  postId: z.number({
+    required_error: "Post ID'si gereklidir.",
+    invalid_type_error: "Post ID'si string tipinde olmalıdır.",
+  }),
+});
+
+export const deleteResponseSchema = z.discriminatedUnion("success", [
+  z.object({
+    success: z.literal(true),
+    message: z.string(),
   }),
   z.object({
     success: z.literal(false),

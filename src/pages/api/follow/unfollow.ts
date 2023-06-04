@@ -48,9 +48,13 @@ const handleUnfollowRequest = async (
         },
       },
     });
-    return res.status(200).json({ success: true, message: "Takipten çıkıldı." });
+    return res
+      .status(200)
+      .json({ success: true, message: "Takipten çıkıldı." });
   } catch (error) {
-    return res.status(500).json({ success: false, errors: ["Internal Server Error"] });
+    return res
+      .status(500)
+      .json({ success: false, errors: ["Internal Server Error"] });
   }
 };
 

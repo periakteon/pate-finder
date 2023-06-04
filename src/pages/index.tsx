@@ -96,7 +96,6 @@ const Home: React.FC = () => {
   };
   return (
     <main className="min-h-screen bg-gradient-to-br from-cyan-400 to-purple-400 flex flex-col items-end justify-center px-4 sm:px-6 lg:px-8 selection:bg-rose-500 selection:text-white">
-
       <Image
         src="/logo/png/logo-no-background.png"
         width={125}
@@ -130,8 +129,9 @@ const Home: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className={`peer p-3 h-10 w-full text-sm border-b-2 ${showEmailError ? "border-red-500" : "border-gray-300"
-                  } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
+                className={`peer p-3 h-10 w-full text-sm border-b-2 ${
+                  showEmailError ? "border-red-500" : "border-gray-300"
+                } text-gray-600 bg-white focus-within:outline-none focus-within:border-rose-600`}
                 placeholder="example@mail.com"
                 required
               />
@@ -161,8 +161,9 @@ const Home: React.FC = () => {
                   }));
                 }}
                 onBlur={handleBlur}
-                className={`peer p-3 h-10 text-sm bg-white w-full border-b-2 ${showPasswordError ? "border-red-500" : "border-gray-300"
-                  } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}
+                className={`peer p-3 h-10 text-sm bg-white w-full border-b-2 ${
+                  showPasswordError ? "border-red-500" : "border-gray-300"
+                } text-gray-600  focus-within:outline-none focus-within:border-rose-600`}
                 placeholder="*********"
                 required
               />
@@ -192,7 +193,6 @@ const Home: React.FC = () => {
             </div>
           </form>
         </div>
-
       </div>
       <Image
         src="/logo/png/logo-without-layout-white.png"
@@ -202,7 +202,6 @@ const Home: React.FC = () => {
         objectPosition="center"
         className="opacity-20"
       />
-
     </main>
   );
 };

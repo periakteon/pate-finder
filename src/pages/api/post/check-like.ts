@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Like, PrismaClient } from "@prisma/client";
 import { checkLikeRequest } from "@/utils/zodSchemas";
+import authMiddleware from "../../../middleware/authMiddleware";
 
 const prisma = new PrismaClient();
 
@@ -50,4 +51,4 @@ const handleCheckLikeRequest = async (
   }
 };
 
-export default handleCheckLikeRequest;
+export default authMiddleware(handleCheckLikeRequest);
