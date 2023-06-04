@@ -139,7 +139,7 @@ const UpdateProfileModal: React.FC = () => {
       onRequestClose={() => setIsUpdateProfileModalOpen(false)}
       shouldCloseOnOverlayClick={true}
       contentLabel="Update Profile Modal"
-      className="fixed inset-0 flex items-center justify-center overflow-auto z-[150]"
+      className="fixed inset-0 flex items-start justify-center overflow-auto z-[150] pt-20"
       overlayClassName="fixed inset-0 bg-black bg-opacity-50 z-[151]"
     >
       <div className="m-4 bg-light-secondary dark:bg-dark-dropzone flex overflow-y-scroll rounded-xl h-min">
